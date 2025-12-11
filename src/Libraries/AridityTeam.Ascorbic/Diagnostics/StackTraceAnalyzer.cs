@@ -114,7 +114,7 @@ public static class StackTraceAnalyzer
         var frames = stackTrace.GetFrames();
         
         if (frames == null)
-            return new List<MethodCallInfo>();
+            return [];
 
         return frames
             .Select(frame =>

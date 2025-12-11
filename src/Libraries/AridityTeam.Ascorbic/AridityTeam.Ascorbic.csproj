@@ -37,7 +37,7 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Replaced all of the utilities from 0.0.2 with the Cereon ones
+			- Replaced all of the utilities from 0.0.1 with the Cereon ones
 			- Moved the contents of the "Diagnostics" and "Git" projects into the "Core" project
 			- Renamed from "AridityTeam.Platform.Core" to "AridityTeam.Ascorbic"
 			- New Validation utilities provided by Microsoft Visual Studio's validation routine library (https://github.com/microsoft/vs-validation)

@@ -41,6 +41,7 @@
 			- Moved the contents of the "Diagnostics" and "Git" projects into the "Core" project
 			- Renamed from "AridityTeam.Platform.Core" to "AridityTeam.Ascorbic"
 			- New Validation utilities provided by Microsoft Visual Studio's validation routine library (https://github.com/microsoft/vs-validation)
+			- Added support for .NET Standard 2.0, and .NET 10.0
 		</PackageReleaseNotes>
 	</PropertyGroup>
 	

@@ -2,7 +2,7 @@
 
 using AridityTeam.Util;
 
-namespace AridityTeam.Platform.Tests.Util
+namespace AridityTeam.Ascorbic.Tests.Util
 {
     public class CommandLineTests
     {

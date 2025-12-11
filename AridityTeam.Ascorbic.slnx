@@ -18,7 +18,7 @@
 		<File Path="README.md" />
 	</Folder>
 	<Folder Name="/Tests/">
-		<Project Path="src/Tests/AridityTeam.Ascorbic/AridityTeam.Ascorbic.csproj">
+		<Project Path="src/Tests/AridityTeam.Ascorbic.Tests/AridityTeam.Ascorbic.Tests.csproj">
 			<Platform Solution="*|x64" Project="x64" />
 			<Platform Solution="*|x86" Project="x86" />
 		</Project>

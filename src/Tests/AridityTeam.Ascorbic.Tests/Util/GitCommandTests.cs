@@ -26,7 +26,7 @@ using AridityTeam.Util;
 
 using Moq;
 
-namespace AridityTeam.Platform.Tests.Util;
+namespace AridityTeam.Ascorbic.Tests.Util;
 
 [Collection("GitTests")] // This ensures tests run sequentially
 public class GitCommandTests : IDisposable

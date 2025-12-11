@@ -46,6 +46,8 @@ namespace AridityTeam.Addin
         /// <returns>The found add-in.</returns>
         public TInterface? GetAddInFromName(string name)
         {
+            Verify.NotDisposed(this);
+
             foreach (var addin in _addins)
             {
                 if (!addin.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
@@ -63,6 +65,8 @@ namespace AridityTeam.Addin
         /// <returns>The found add-in.</returns>
         public TInterface? GetAddInFromPrefix(string prefix)
         {
+            Verify.NotDisposed(this);
+
             foreach (var addin in _addins)
             {
                 if (!addin.Prefix.Equals(prefix, StringComparison.OrdinalIgnoreCase))
@@ -79,6 +83,8 @@ namespace AridityTeam.Addin
         /// <param name="dllPath">The value of the DLL path.</param>
         public void LoadAddInFromFile(string dllPath)
         {
+            Verify.NotDisposed(this);
+
             Requires.FileExists(dllPath);
             var dll = Assembly.LoadFrom(dllPath);
             Requires.NotNull(dll);
@@ -101,6 +107,8 @@ namespace AridityTeam.Addin
         /// <exception cref="AddInException">Thrown when an add-in failed to initialize.</exception>
         public void LoadAddIn(TInterface addin)
         {
+            Verify.NotDisposed(this);
+
             Requires.NotNull(addin);
 
             if (_addins.Contains(addin))
@@ -120,6 +128,7 @@ namespace AridityTeam.Addin
         /// <param name="addin">The value of the add-in class.</param>
         public void UnloadAddIn(TInterface addin)
         {
+            Verify.NotDisposed(this);
             Requires.NotNull(addin);
 
             if (!_addins.Contains(addin))

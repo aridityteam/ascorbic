@@ -20,15 +20,17 @@
  */
 
 using System;
+using System.Threading.Tasks;
+
 using AridityTeam.Util;
 
 namespace AridityTeam
 {
     /// <summary>
-    /// Provides a base class for objects that implement the <see cref="IDisposable"/> pattern, with support for
-    /// observing the disposed state.
+    /// Provides a base class for objects that implement the <see cref="IAsyncDisposable"/> pattern, with support for
+    /// observing the disposed state asynchronously.
     /// </summary>
-    public abstract class DisposableObject : IDisposable, IDisposableObservable
+    public abstract class AsyncDisposableObject : IAsyncDisposable, IDisposableObservable
     {
         private bool _disposed;
 
@@ -40,37 +42,35 @@ namespace AridityTeam
         /// <summary>
         /// Disposes and releases managed resources used by the object.
         /// </summary>
-        protected virtual void DisposeManagedResources()
-        {
-        }
+        protected virtual Task DisposeManagedResourcesAsync() =>
+            Task.CompletedTask;
 
         /// <summary>
         /// Disposes and releases unmanaged resources used by the object.
         /// </summary>
-        protected virtual unsafe void DisposeUnmanagedResources()
-        {
-        }
+        protected virtual unsafe Task DisposeUnmanagedResourcesAsync() =>
+            Task.CompletedTask;
 
-        private void Dispose(bool disposing)
+        private async Task DisposeAsync(bool disposing)
         {
             if (!_disposed)
             {
                 if (disposing)
                 {
-                    DisposeManagedResources();
+                    await DisposeManagedResourcesAsync();
                 }
 
-                DisposeUnmanagedResources();
+                await DisposeUnmanagedResourcesAsync();
 
                 _disposed = true;
             }
         }
 
         /// <inheritdoc/>
-        public void Dispose()
+        public async ValueTask DisposeAsync()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
-            Dispose(disposing: true);
+            // Do not change this code. Put cleanup code in 'DisposeAsync(bool disposing)' method
+            await DisposeAsync(disposing: true);
             GC.SuppressFinalize(this);
         }
     }

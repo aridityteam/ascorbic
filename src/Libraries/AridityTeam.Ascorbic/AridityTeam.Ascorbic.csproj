@@ -20,7 +20,7 @@
     <!--NuGet package info-->
     <PropertyGroup>
 	    <PackageId>$(MSBuildProjectName)</PackageId>
-	    <Version>0.0.3</Version>
+	    <Version>0.0.4</Version>
 	    <Authors>PracticeMedicine</Authors>
 	    <Company>The Aridity Team</Company>
 	    <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -37,11 +37,9 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Replaced all of the utilities from 0.0.1 with the Cereon ones
-			- Moved the contents of the "Diagnostics" and "Git" projects into the "Core" project
-			- Renamed from "AridityTeam.Platform.Core" to "AridityTeam.Ascorbic"
-			- New Validation utilities provided by Microsoft Visual Studio's validation routine library (https://github.com/microsoft/vs-validation)
-			- Added support for .NET Standard 2.0, and .NET 10.0
+			- Implemented the Aridity PAK archive utility
+			- Added more validation methods
+			- Added the missing code analysis attributes to some validation methods
 		</PackageReleaseNotes>
 	</PropertyGroup>
 	
@@ -50,6 +48,7 @@
 	    <PackageReference Include="System.Net.Http" Version="4.3.4" />
 	    <PackageReference Include="System.Reflection.DispatchProxy" Version="4.8.2" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.1" />
+		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
     </ItemGroup>
     <ItemGroup>
 	    <Content Include="..\..\..\README.md" Pack="True" PackagePath="\" />

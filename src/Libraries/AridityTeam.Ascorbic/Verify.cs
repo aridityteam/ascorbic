@@ -43,7 +43,7 @@ namespace AridityTeam
         /// <exception cref="InvalidOperationException">Thrown if <paramref name="condition"/> returned <see langword="false" />.</exception>
         [DebuggerStepThrough]
         public static void Operation(
-            bool condition,
+            [DoesNotReturnIf(false)] bool condition,
             string? message = null,
             [CallerArgumentExpression(nameof(condition))] string? conditionText = null)
         {

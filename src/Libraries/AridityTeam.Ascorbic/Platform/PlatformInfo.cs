@@ -57,7 +57,6 @@ public static class PlatformInfo
     /// <summary>
     /// Gets the current runtime framework description.
     /// </summary>
-    
     public static string FrameworkDescription => RuntimeInformation.FrameworkDescription;
 
     /// <summary>

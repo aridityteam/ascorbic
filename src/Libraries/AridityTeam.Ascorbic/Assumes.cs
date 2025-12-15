@@ -40,7 +40,7 @@ namespace AridityTeam
         /// <typeparam name="T">The type of value to test.</typeparam>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void NotNull<T>(T? value)
+        public static void NotNull<T>([NotNull] T? value)
             where T : class
         {
             if (value is null)
@@ -50,14 +50,29 @@ namespace AridityTeam
         }
 
         /// <summary>
+        /// Throws <see cref="InternalErrorException" /> if the specified value is null.
+        /// </summary>
+        /// <typeparam name="T">The type of value to test.</typeparam>
+        [DebuggerStepThrough]
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        public static void NotNull<T>([NotNull] T? value)
+            where T : struct
+        {
+            if (!value.HasValue)
+            {
+                FailNotNull<T>();
+            }
+        }
+
+        /// <summary>
         /// Throws <see cref="InternalErrorException" /> if the specified value is null or empty.
         /// </summary>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty(string? value)
+        public static void NotNullOrEmpty([NotNull] string? value)
         {
             NotNull(value);
-            True(value?.Length > 0);
-            True(value?[0] != '\0');
+            True(value.Length > 0);
+            True(value[0] != '\0');
         }
 
         /// <summary>
@@ -65,10 +80,10 @@ namespace AridityTeam
         /// </summary>
         /// <typeparam name="T">The type of value to test.</typeparam>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(ICollection<T?>? values)
+        public static void NotNullOrEmpty<T>([NotNull] ICollection<T>? values)
         {
             Assumes.NotNull(values);
-            Assumes.True(values?.Count > 0);
+            Assumes.True(values.Count > 0);
         }
 
         /// <summary>
@@ -76,7 +91,7 @@ namespace AridityTeam
         /// </summary>
         /// <typeparam name="T">The type of value to test.</typeparam>
         [DebuggerStepThrough]
-        public static void NotNullOrEmpty<T>(IEnumerable<T> values)
+        public static void NotNullOrEmpty<T>([NotNull] IEnumerable<T>? values)
         {
             Assumes.NotNull(values);
 
@@ -104,10 +119,25 @@ namespace AridityTeam
         /// <typeparam name="T">The type of value to test.</typeparam>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void Null<T>(T value)
+        public static void Null<T>(T? value)
             where T : class
         {
             if (value is not null)
+            {
+                FailNull<T>();
+            }
+        }
+
+        /// <summary>
+        /// Throws <see cref="InternalErrorException" /> if the specified value is not null.
+        /// </summary>
+        /// <typeparam name="T">The type of value to test.</typeparam>
+        [DebuggerStepThrough]
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        public static void Null<T>(T? value)
+            where T : struct
+        {
+            if (value.HasValue)
             {
                 FailNull<T>();
             }
@@ -120,7 +150,7 @@ namespace AridityTeam
         /// <param name="value">The value to test.</param>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void Is<T>(object value)
+        public static void Is<T>(object? value)
         {
             True(value is T);
         }
@@ -130,7 +160,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void False(bool condition, [CallerArgumentExpression(nameof(condition)), Localizable(false)] string? message = null)
+        public static void False([DoesNotReturnIf(true)] bool condition, [CallerArgumentExpression(nameof(condition)), Localizable(false)] string? message = null)
         {
             if (condition)
             {
@@ -143,7 +173,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void False(bool condition, [Localizable(false)] string unformattedMessage, object? arg1)
+        public static void False([DoesNotReturnIf(true)] bool condition, [Localizable(false)] string unformattedMessage, object? arg1)
         {
             if (condition)
             {
@@ -156,7 +186,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void False(bool condition, [Localizable(false)] string unformattedMessage, params object?[] args)
+        public static void False([DoesNotReturnIf(true)] bool condition, [Localizable(false)] string unformattedMessage, params object?[] args)
         {
             if (condition)
             {
@@ -169,7 +199,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void False(bool condition, [InterpolatedStringHandlerArgument("condition")] ref ValidationInterpolatedStringHandlerInvertedCondition message)
+        public static void False([DoesNotReturnIf(true)] bool condition, [InterpolatedStringHandlerArgument("condition")] ref ValidationInterpolatedStringHandlerInvertedCondition message)
         {
             if (condition)
             {
@@ -182,7 +212,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void True(bool condition, [CallerArgumentExpression(nameof(condition)), Localizable(false)] string? message = null)
+        public static void True([DoesNotReturnIf(false)] bool condition, [CallerArgumentExpression(nameof(condition)), Localizable(false)] string? message = null)
         {
             if (!condition)
             {
@@ -195,7 +225,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void True(bool condition, [Localizable(false)] string unformattedMessage, object? arg1)
+        public static void True([DoesNotReturnIf(false)] bool condition, [Localizable(false)] string unformattedMessage, object? arg1)
         {
             if (!condition)
             {
@@ -208,7 +238,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void True(bool condition, [Localizable(false)] string unformattedMessage, params object?[] args)
+        public static void True([DoesNotReturnIf(false)] bool condition, [Localizable(false)] string unformattedMessage, params object?[] args)
         {
             if (!condition)
             {
@@ -221,7 +251,7 @@ namespace AridityTeam
         /// </summary>
         [DebuggerStepThrough]
         [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public static void True(bool condition, [InterpolatedStringHandlerArgument("condition")] ref ValidationInterpolatedStringHandler message)
+        public static void True([DoesNotReturnIf(false)] bool condition, [InterpolatedStringHandlerArgument("condition")] ref ValidationInterpolatedStringHandler message)
         {
             if (!condition)
             {
@@ -234,6 +264,7 @@ namespace AridityTeam
         /// </summary>
         /// <returns>Nothing. This method always throws.</returns>
         [DebuggerStepThrough]
+        [DoesNotReturn]
         public static Exception NotReachable()
         {
             // Keep these two as separate lines of code, so the debugger can come in during the assert dialog
@@ -259,6 +290,7 @@ namespace AridityTeam
         /// <typeparam name="T">The type that the method should be typed to return (although it never returns anything).</typeparam>
         /// <returns>Nothing. This method always throws.</returns>
         [DebuggerStepThrough]
+        [DoesNotReturn]
         public static T? NotReachable<T>()
         {
             // Keep these two as separate lines of code, so the debugger can come in during the assert dialog
@@ -297,6 +329,7 @@ namespace AridityTeam
         /// </summary>
         /// <returns>Nothing, as this method always throws.  The signature allows for "throwing" Fail so C# knows execution will stop.</returns>
         [DebuggerStepThrough]
+        [DoesNotReturn]
         public static Exception Fail([Localizable(false)] string? message = null)
         {
             var exception = new InternalErrorException(message);
@@ -317,6 +350,7 @@ namespace AridityTeam
         /// Throws an public exception.
         /// </summary>
         /// <returns>Nothing, as this method always throws.  The signature allows for "throwing" Fail so C# knows execution will stop.</returns>
+        [DoesNotReturn]
         public static Exception Fail([Localizable(false)] string message, Exception innerException)
         {
             var exception = new InternalErrorException(message, innerException);
@@ -333,12 +367,14 @@ namespace AridityTeam
             }
         }
 
+        [DoesNotReturn]
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void FailNotNull<T>()
         {
             Fail(Format(SR.UnexpectedNull, typeof(T).Name));
         }
 
+        [DoesNotReturn]
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void FailNull<T>()
         {

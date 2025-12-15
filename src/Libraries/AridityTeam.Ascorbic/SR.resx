@@ -210,4 +210,10 @@
 	<data name="UnexpectedNonNull" xml:space="preserve">
 		<value>Unexpected non-null value of type '{0}'.</value>
 	</data>
+	<data name="PakErr_VersionMismatch" xml:space="preserve">
+		<value>This Aridity PAK file is invalid: Version number mismatch.</value>
+	</data>
+	<data name="PakErr_InvalidSignature" xml:space="preserve">
+		<value>This Aridity PAK file is invalid: The signature of the PAK file is invalid.</value>
+	</data>
 </root>

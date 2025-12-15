@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -28,6 +29,8 @@ using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+
+using Microsoft.VisualBasic;
 
 namespace AridityTeam
 {
@@ -51,6 +54,20 @@ namespace AridityTeam
                 throw new ArgumentNullException(parameterName);
             return value;
         }
+        /// <summary>
+        /// Throws an exception if the specified parameter's value is null.
+        /// </summary>
+        /// <param name="value">The value of the argument.</param>
+        /// <param name="parameterName">The name of the parameter to include in any thrown exception. If this argument is omitted (explicitly writing <see langword="null" /> does not qualify), the expression used in the first argument will be used as the parameter name.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IntPtr NotNull([NotNull] IntPtr value, [CallerArgumentExpression(nameof(value))] string? parameterName = null)
+        {
+            if (value == IntPtr.Zero)
+                throw new ArgumentNullException(parameterName);
+            return value;
+        }
 
         /// <summary>
         /// Throws an exception if the specified parameter's value is null or empty.
@@ -66,7 +83,7 @@ namespace AridityTeam
             if (value is null)
                 throw new ArgumentNullException(parameterName);
 
-            if (value.Length == 0)
+            if (string.IsNullOrEmpty(value) || value.Length == 0 || value[0] == '\0')
                 throw new ArgumentException(SR.Validation_ValueEmpty, parameterName);
 
             return value;
@@ -85,6 +102,9 @@ namespace AridityTeam
         {
             if (value is null)
                 throw new ArgumentNullException(parameterName);
+
+            if (string.IsNullOrEmpty(value) || value.Length == 0 || value[0] == '\0')
+                throw new ArgumentException(SR.Validation_ValueEmpty, parameterName);
 
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException(SR.Validation_ValueEmptyOrWhitespace, parameterName);
@@ -219,20 +239,61 @@ namespace AridityTeam
         /// <summary>
         /// Throws an exception if the collection is null or empty.
         /// </summary>
-        /// <typeparam name="T">The type of elements in the collection.</typeparam>
-        /// <param name="collection">The collection to check.</param>
+        /// <param name="values">The collection to check.</param>
         /// <param name="parameterName">The name of the parameter to include in any thrown exception. If this argument is omitted (explicitly writing <see langword="null" /> does not qualify), the expression used in the first argument will be used as the parameter name.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="collection"/> is null.</exception>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="collection"/> is empty.</exception>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="values"/> is empty.</exception>
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void NotNullOrEmpty<T>([NotNull] IEnumerable<T>? collection, [CallerArgumentExpression(nameof(collection))] string? parameterName = null)
+        public static void NotNullOrEmpty([NotNull] IEnumerable values, [CallerArgumentExpression(nameof(values))] string? parameterName = null)
         {
-            if (collection is null)
+            if (values is null)
                 throw new ArgumentNullException(parameterName);
 
-            if (!collection.Any())
+            IEnumerator enumerator = values.GetEnumerator();
+            using (enumerator as IDisposable)
+            {
+                if (!enumerator.MoveNext())
+                {
+                    throw new ArgumentException(SR.Validation_CollectionEmpty, parameterName);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Throws an exception if the collection is null or empty.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the collection.</typeparam>
+        /// <param name="values">The collection to check.</param>
+        /// <param name="parameterName">The name of the parameter to include in any thrown exception. If this argument is omitted (explicitly writing <see langword="null" /> does not qualify), the expression used in the first argument will be used as the parameter name.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="values"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="values"/> is empty.</exception>
+        [DebuggerStepThrough]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void NotNullOrEmpty<T>([NotNull] IEnumerable<T>? values, [CallerArgumentExpression(nameof(values))] string? parameterName = null)
+        {
+            if (values is null)
+                throw new ArgumentNullException(parameterName);
+
+            bool isEmpty;
+            if (values is ICollection<T> collection)
+            {
+                isEmpty = collection.Count == 0;
+            }
+            else if (values is IReadOnlyCollection<T> readOnlyCollection)
+            {
+                isEmpty = readOnlyCollection.Count == 0;
+            }
+            else
+            {
+                using IEnumerator<T> enumerator = values.GetEnumerator();
+                isEmpty = !enumerator.MoveNext();
+            }
+
+            if (isEmpty)
+            {
                 throw new ArgumentException(SR.Validation_CollectionEmpty, parameterName);
+            }
         }
 
         /// <summary>

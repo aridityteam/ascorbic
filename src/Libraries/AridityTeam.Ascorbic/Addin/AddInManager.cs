@@ -30,14 +30,14 @@ namespace AridityTeam.Addin
     /// Just a simple add-in manager. :D
     /// </summary>
     /// <typeparam name="TInterface">The value of the add-in interface to use.</typeparam>
-    public class AddInManager<TInterface> : DisposableObject where TInterface : class, IAddInBase
+    public class AddInManager<TInterface> : DisposableObject, IAddInManager<TInterface> where TInterface : class, IAddInBase
     {
         private readonly List<TInterface> _addins = [];
 
         /// <summary>
         /// Gets a collection of loaded add-ins.
         /// </summary>
-        public List<TInterface> Addins => _addins;
+        public IReadOnlyList<TInterface> Addins => _addins;
 
         /// <summary>
         /// Gets an loaded add-in by its name. (Not case-sensitive)
@@ -147,8 +147,8 @@ namespace AridityTeam.Addin
         protected override void DisposeManagedResources()
         {
             var addinsCache = new List<TInterface>(_addins);
-            foreach (var addin in addinsCache)
-                UnloadAddIn(addin);
+            for (var i = 0; i < addinsCache.Count; i++)
+                UnloadAddIn(_addins[i]);
 
             addinsCache.Clear();
 

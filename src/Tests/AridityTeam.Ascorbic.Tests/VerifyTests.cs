@@ -14,6 +14,14 @@ namespace AridityTeam.Ascorbic.Tests
         }
 
         [Fact]
+        public void Operation_Result()
+        {
+            Verify.Operation(Result<object>.Success(new object()), "Should not throw");
+
+            Assert.Throws<InvalidOperationException>(() => Verify.Operation(Result<object>.Failure(null), "throw"));
+        }
+
+        [Fact]
         public void Operation_InterpolatedString()
         {
             int formatCount = 0;

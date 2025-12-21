@@ -2,6 +2,7 @@
 
     <PropertyGroup>
 	    <TargetFrameworks>net10.0;net8.0;net472;netstandard2.0</TargetFrameworks>
+		<AssemblyTitle>The Aridity Team "Ascorbic" Library</AssemblyTitle>
 	    <ImplicitUsings>disable</ImplicitUsings>
 	    <Nullable>enable</Nullable>
 	    <LangVersion>latest</LangVersion>
@@ -21,7 +22,7 @@
     <PropertyGroup>
 	    <PackageId>$(MSBuildProjectName)</PackageId>
 	    <Version>0.0.5</Version>
-	    <Authors>PracticeMedicine</Authors>
+	    <Authors>PracticeMedicine;AridityTeam</Authors>
 	    <Company>The Aridity Team</Company>
 	    <PackageReadmeFile>README.md</PackageReadmeFile>
 	    <Description>Core platform library for the Aridity Team projects.</Description>

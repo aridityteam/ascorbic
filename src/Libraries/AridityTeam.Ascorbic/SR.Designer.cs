@@ -79,6 +79,24 @@ namespace AridityTeam {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The number ({0}) is not a power of 2..
+        /// </summary>
+        internal static string Math_TheNumberIsNotPow2 {
+            get {
+                return ResourceManager.GetString("Math_TheNumberIsNotPow2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number ({0}) is too big..
+        /// </summary>
+        internal static string Math_TheNumberIsTooBig {
+            get {
+                return ResourceManager.GetString("Math_TheNumberIsTooBig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This Aridity PAK file is invalid: The signature of the PAK file is invalid..
         /// </summary>
         internal static string PakErr_InvalidSignature {

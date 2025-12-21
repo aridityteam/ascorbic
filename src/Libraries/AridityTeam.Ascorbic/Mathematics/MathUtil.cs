@@ -132,7 +132,8 @@ namespace AridityTeam.Mathematics
         public static long GetNearestHigherPowOf2(long number)
         {
             if (!GetNearestPow2(number, out long _, out long higherPow2))
-                throw new ArgumentOutOfRangeException(nameof(number), $"Too big number: {number}");
+                throw new ArgumentOutOfRangeException(nameof(number), 
+                    PrivateErrorHelpers.Format(SR.Math_TheNumberIsTooBig, number));
             return higherPow2;
         }
 
@@ -164,7 +165,8 @@ namespace AridityTeam.Mathematics
                 num2 >>= 1;
                 ++num1;
             }
-            return number == (1 << num1) ? num1 : throw new ArgumentException($"The number {number} is not power of 2");
+            return number == (1 << num1) ? num1 : throw new ArgumentException(
+                PrivateErrorHelpers.Format(SR.Math_TheNumberIsNotPow2, number));
         }
     }
 }

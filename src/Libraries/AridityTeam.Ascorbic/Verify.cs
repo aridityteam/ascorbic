@@ -79,7 +79,7 @@ namespace AridityTeam
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NotNullOrEmpty(
-            [NotNull] string value,
+            [NotNull] string? value,
             string? message = null,
             [CallerArgumentExpression(nameof(value))] string? expr = null)
         {
@@ -102,7 +102,7 @@ namespace AridityTeam
         [DebuggerStepThrough]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string NotNullOrWhiteSpace(
-            [NotNull] string value,
+            [NotNull] string? value,
             string? message = null,
             [CallerArgumentExpression(nameof(value))] string? expr = null)
         {
@@ -129,7 +129,7 @@ namespace AridityTeam
             if (disposedValue.IsDisposed)
             {
                 var objectName = disposedValue.GetType().FullName ?? string.Empty;
-                if (message is object)
+                if (message is not null)
                 {
                     throw new ObjectDisposedException(objectName, message);
                 }

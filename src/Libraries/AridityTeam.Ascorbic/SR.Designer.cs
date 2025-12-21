@@ -70,6 +70,15 @@ namespace AridityTeam {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The buffer must be backed by an array..
+        /// </summary>
+        internal static string BufferMustBeBackedByArray {
+            get {
+                return ResourceManager.GetString("BufferMustBeBackedByArray", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An internal error occurred. Please contact Microsoft Support..
         /// </summary>
         internal static string InternalExceptionMessage {
@@ -111,6 +120,15 @@ namespace AridityTeam {
         internal static string PakErr_VersionMismatch {
             get {
                 return ResourceManager.GetString("PakErr_VersionMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The provided {0} must be backed by an array..
+        /// </summary>
+        internal static string ProvidedTypeMustBeBackedByArray {
+            get {
+                return ResourceManager.GetString("ProvidedTypeMustBeBackedByArray", resourceCulture);
             }
         }
         

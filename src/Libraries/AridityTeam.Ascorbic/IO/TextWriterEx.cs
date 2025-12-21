@@ -64,7 +64,10 @@ namespace AridityTeam.IO
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             if (!MemoryMarshal.TryGetArray(buffer, out var segment))
                 throw new ArgumentException(
-                    "The provided ReadOnlyMemory<char> must be backed by an array.",
+                    PrivateErrorHelpers.Format(
+                        SR.ProvidedTypeMustBeBackedByArray,
+                        typeof(ReadOnlyMemory<char>).Name
+                    ),
                     nameof(buffer));
 
             return Task.Run(() =>

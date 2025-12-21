@@ -31,7 +31,7 @@ namespace AridityTeam.IO
         {
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             if (!MemoryMarshal.TryGetArray<byte>(buffer, out var segment))
-                throw new ArgumentException("Buffer must be backed by an array.", nameof(buffer));
+                throw new ArgumentException(SR.BufferMustBeBackedByArray, nameof(buffer));
 
             return stream.ReadAsync(segment.Array!, segment.Offset, segment.Count, token);
 #else
@@ -58,7 +58,7 @@ namespace AridityTeam.IO
         {
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             if (!MemoryMarshal.TryGetArray(buffer, out var segment))
-                throw new ArgumentException("Buffer must be backed by an array.", nameof(buffer));
+                throw new ArgumentException(SR.BufferMustBeBackedByArray, nameof(buffer));
 
             return stream.WriteAsync(segment.Array!, segment.Offset, segment.Count, token);
 #else

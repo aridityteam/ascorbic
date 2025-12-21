@@ -222,4 +222,10 @@
   <data name="Math_TheNumberIsTooBig" xml:space="preserve">
     <value>The number ({0}) is too big.</value>
   </data>
+  <data name="ProvidedTypeMustBeBackedByArray" xml:space="preserve">
+    <value>The provided {0} must be backed by an array.</value>
+  </data>
+  <data name="BufferMustBeBackedByArray" xml:space="preserve">
+    <value>The buffer must be backed by an array.</value>
+  </data>
 </root>

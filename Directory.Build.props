@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project>
+	<PropertyGroup>
+		<AssemblyName>$(ProjectName)</AssemblyName>
+		<Company>The Aridity Team</Company>
+		<LanguageVersion>latest</LanguageVersion>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<EnableNETAnalyzers>true</EnableNETAnalyzers>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Platforms>x64;x86</Platforms>
+		<OutputPath>$(SolutionDir)\bin\$(Platform)</OutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+	</ItemGroup>
+</Project>

@@ -21,6 +21,7 @@
     <!--NuGet package info-->
     <PropertyGroup>
 	    <PackageId>$(MSBuildProjectName)</PackageId>
+		<PackageIcon>assets\ascorbic_icon.png</PackageIcon>
 	    <Authors>PracticeMedicine;AridityTeam</Authors>
 	    <Company>The Aridity Team</Company>
 	    <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -37,13 +38,18 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
+			- Addition: Package Icon (finally)
 			- Addition: Polyfills for the latest Stream APIs for .NET Standard 2.0 and .NET Framework v4.8
 			- Addition: Polyfills for the latest TextWriter APIs for .NET Standard 2.0 and .NET Framework v4.8
 			- Improvements: Refactor existing Stream extension methods
 		</PackageReleaseNotes>
 	</PropertyGroup>
-	
-    <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net472'">
+
+	<ItemGroup>
+		<None Include="..\..\..\assets\ascorbic_icon.png" Pack="true" PackagePath="assets\" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net472'">
 	    <PackageReference Include="Nullable" />
 	    <PackageReference Include="System.Reflection.DispatchProxy" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />

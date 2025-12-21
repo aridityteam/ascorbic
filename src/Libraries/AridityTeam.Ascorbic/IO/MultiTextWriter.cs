@@ -336,12 +336,10 @@ namespace AridityTeam.IO
         }
 
         /// <inheritdoc/>
-        public override async Task FlushAsync()
-        {
-            await Task.WhenAll(
+        public override Task FlushAsync() =>
+            Task.WhenAll(
                 _writers.Select((writer) => writer.FlushAsync())
             );
-        }
 
         /// <inheritdoc/>
         public override Task WriteAsync(char value) =>

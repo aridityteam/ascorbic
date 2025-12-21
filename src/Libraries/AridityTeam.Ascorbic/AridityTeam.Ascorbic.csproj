@@ -21,7 +21,6 @@
     <!--NuGet package info-->
     <PropertyGroup>
 	    <PackageId>$(MSBuildProjectName)</PackageId>
-	    <Version>0.0.5</Version>
 	    <Authors>PracticeMedicine;AridityTeam</Authors>
 	    <Company>The Aridity Team</Company>
 	    <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -38,7 +37,9 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Added Mathematical utilities from Aridity Cereon
+			- Addition: Polyfills for the latest Stream APIs for .NET Standard 2.0 and .NET Framework v4.8
+			- Addition: Polyfills for the latest TextWriter APIs for .NET Standard 2.0 and .NET Framework v4.8
+			- Improvements: Refactor existing Stream extension methods
 		</PackageReleaseNotes>
 	</PropertyGroup>
 	

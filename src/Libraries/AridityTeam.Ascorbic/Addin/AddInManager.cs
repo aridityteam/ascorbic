@@ -32,7 +32,7 @@ namespace AridityTeam.Addin
     /// <typeparam name="TInterface">The value of the add-in interface to use.</typeparam>
     public class AddInManager<TInterface> : DisposableObject where TInterface : class, IAddInBase
     {
-        private readonly List<TInterface> _addins = new List<TInterface>();
+        private readonly List<TInterface> _addins = [];
 
         /// <summary>
         /// Gets a collection of loaded add-ins.

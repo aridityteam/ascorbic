@@ -24,6 +24,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,7 +45,7 @@ namespace AridityTeam.IO
         /// </summary>
         public MultiTextWriter()
         {
-            _writers = new ConcurrentBag<TextWriter>();
+            _writers = [];
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace AridityTeam.IO
         /// </summary>
         public MultiTextWriter(params TextWriter[] writers)
         {
-            _writers = new ConcurrentBag<TextWriter>(writers);
+            _writers = [.. writers];
         }
 
         /// <summary>
@@ -60,7 +61,7 @@ namespace AridityTeam.IO
         /// </summary>
         public MultiTextWriter(IEnumerable<TextWriter> writers)
         {
-            _writers = new ConcurrentBag<TextWriter>(writers);
+            _writers = [.. writers];
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace AridityTeam.IO
         /// </summary>
         public MultiTextWriter(IFormatProvider formatProvider) : base(formatProvider)
         {
-            _writers = new ConcurrentBag<TextWriter>();
+            _writers = [];
         }
 
         /// <summary>
@@ -327,7 +328,6 @@ namespace AridityTeam.IO
                 writer.WriteLine(format, args);
         }
 
-
         /// <inheritdoc/>
         public override void Flush()
         {
@@ -338,58 +338,52 @@ namespace AridityTeam.IO
         /// <inheritdoc/>
         public override async Task FlushAsync()
         {
-            foreach (var writer in _writers)
-                await writer.FlushAsync();
+            await Task.WhenAll(
+                _writers.Select((writer) => writer.FlushAsync())
+            );
         }
 
         /// <inheritdoc/>
-        public override async Task WriteAsync(char value)
-        {
-            foreach (var writer in _writers)
-                await writer.WriteAsync(value);
-        }
+        public override Task WriteAsync(char value) =>
+            Task.WhenAll(
+                _writers.Select((writer) => writer.WriteAsync(value))
+            );
 
         /// <inheritdoc/>
-        public override async Task WriteAsync(char[] buffer, int index, int count)
-        {
-            foreach (var writer in _writers)
-                await writer.WriteAsync(buffer, index, count);
-        }
+        public override Task WriteAsync(char[] buffer, int index, int count) =>
+            Task.WhenAll(
+                _writers.Select((writer) => writer.WriteAsync(buffer, index, count))
+            );
 
         /// <inheritdoc/>
-        public override async Task WriteAsync(string? value)
-        {
-            foreach (var writer in _writers)
-                await writer.WriteAsync(value);
-        }
+        public override Task WriteAsync(string? value) =>
+            Task.WhenAll(
+                _writers.Select((writer) => writer.WriteAsync(value))
+            );
 
         /// <inheritdoc/>
-        public override async Task WriteLineAsync()
-        {
-            foreach (var writer in _writers)
-                await writer.WriteLineAsync();
-        }
+        public override Task WriteLineAsync() =>
+            Task.WhenAll(
+                _writers.Select((writer) => writer.WriteLineAsync())
+            );
 
         /// <inheritdoc/>
-        public override async Task WriteLineAsync(char value)
-        {
-            foreach (var writer in _writers)
-                await writer.WriteLineAsync(value);
-        }
+        public override Task WriteLineAsync(char value) =>
+            Task.WhenAll(
+                _writers.Select((writer) => writer.WriteLineAsync(value))
+            );
 
         /// <inheritdoc/>
-        public override async Task WriteLineAsync(string? value)
-        {
-            foreach (var writer in _writers)
-                await writer.WriteLineAsync(value);
-        }
+        public override Task WriteLineAsync(string? value) =>
+            Task.WhenAll(
+                _writers.Select((writer) => writer.WriteLineAsync(value))
+            );
 
         /// <inheritdoc/>
-        public override async Task WriteLineAsync(char[] buffer, int index, int count)
-        {
-            foreach (var writer in _writers)
-                await writer.WriteLineAsync(buffer, index, count);
-        }
+        public override Task WriteLineAsync(char[] buffer, int index, int count) =>
+            Task.WhenAll(
+                _writers.Select((writer) => writer.WriteLineAsync(buffer, index, count))
+            );
 
         /// <inheritdoc/>
         public override void Close()

@@ -34,7 +34,7 @@ namespace AridityTeam.IO
     /// </summary>
     public static class StreamEx
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient _httpClient = new();
 
         /// <summary>
         /// Gets a new <seealso cref="Stream"/> on a web response asynchronously.
@@ -54,14 +54,12 @@ namespace AridityTeam.IO
         /// <returns>The current stream that has been replaced with the newly response stream.</returns>
         public static async Task<MemoryStream> GetResponseStreamAsync(this Stream _, Uri uri, CancellationToken token = default)
         {
-            using (var responseStream = await _httpClient.GetStreamAsync(uri))
-            {
-                var ms = new MemoryStream();
-                token.ThrowIfCancellationRequested();
-                await responseStream.CopyToAsync(ms);
-                ms.Position = 0;
-                return ms;
-            }
+            using var responseStream = await _httpClient.GetStreamAsync(uri);
+            var ms = new MemoryStream();
+            token.ThrowIfCancellationRequested();
+            await responseStream.CopyToAsync(ms);
+            ms.Position = 0;
+            return ms;
         }
 
         /// <summary>
@@ -83,12 +81,10 @@ namespace AridityTeam.IO
         public static async Task<string> GetResponseContentAsync(this Stream _, Uri uri, CancellationToken token = default)
         {
             token.ThrowIfCancellationRequested();
-            using (var stream = await GetResponseStreamAsync(_, uri, token))
-            using (var sr = new StreamReader(stream, Encoding.UTF8, true, 1024, leaveOpen: true))
-            {
-                token.ThrowIfCancellationRequested();
-                return await sr.ReadToEndAsync();
-            }
+            using var stream = await GetResponseStreamAsync(_, uri, token);
+            using var sr = new StreamReader(stream, Encoding.UTF8, true, 1024, leaveOpen: true);
+            token.ThrowIfCancellationRequested();
+            return await sr.ReadToEndAsync();
         }
 
         /// <summary>
@@ -118,14 +114,12 @@ namespace AridityTeam.IO
             var base64Data = match.Groups["data"].Value;
             var binData = Convert.FromBase64String(base64Data);
             var stream = new MemoryStream();
-            using (var newStream = new MemoryStream(binData))
-            {
-                stream.SetLength(0);
-                token.ThrowIfCancellationRequested();
-                await newStream.CopyToAsync(stream);
-                stream.Position = 0;
-                return stream;
-            }
+            using var newStream = new MemoryStream(binData);
+            stream.SetLength(0);
+            token.ThrowIfCancellationRequested();
+            await newStream.CopyToAsync(stream);
+            stream.Position = 0;
+            return stream;
         }
     }
 }

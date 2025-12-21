@@ -92,7 +92,7 @@ namespace AridityTeam.Logging
         };
 
         private StreamWriter? _fileWriter = null;
-        private readonly List<ILogEventListener> _listeners = new List<ILogEventListener>();
+        private readonly List<ILogEventListener> _listeners = [];
 
         /// <summary>
         /// Gets the text writer used for standard output messages.

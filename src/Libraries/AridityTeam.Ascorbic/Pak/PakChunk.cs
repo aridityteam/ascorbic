@@ -1,4 +1,6 @@
-﻿namespace AridityTeam.Pak
+﻿using System.Collections.Generic;
+
+namespace AridityTeam.Pak
 {
     /// <summary>
     /// Provides an entry class that stores information about this chunk.
@@ -16,13 +18,18 @@
         public long Offset { get; set; } = 0L;
 
         /// <summary>
-        /// The estimate compressed size of the chunk.
+        /// The estimate size of this chunk.
         /// </summary>
-        public long Length { get; set; } = 0L;
+        public long OriginalSize { get; set; } = 0L;
 
         /// <summary>
         /// The actual data of the chunk.
         /// </summary>
         public byte[] Data { get; set; } = [];
+
+        /// <summary>
+        /// A collection of each blocks in the chunk.
+        /// </summary>
+        public List<PakBlock> Blocks = [];
     }
 }

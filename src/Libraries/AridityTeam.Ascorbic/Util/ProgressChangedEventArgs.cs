@@ -21,20 +21,21 @@
 
 using System;
 
-namespace AridityTeam.Util;
-
-/// <summary>
-/// Event data when the current progress in an Git operation has changed.
-/// </summary>
-public class ProgressChangedEventArgs(int percentage, string? message = null) : EventArgs
+namespace AridityTeam.Util
 {
     /// <summary>
-    /// Gets the current perecentage value of the current progress.
+    /// Event data when the current progress in an Git operation has changed.
     /// </summary>
-    public int Perecentage => percentage;
+    public class ProgressChangedEventArgs(int percentage, string? message = null) : EventArgs
+    {
+        /// <summary>
+        /// Gets the current perecentage value of the current progress.
+        /// </summary>
+        public int Perecentage => percentage;
 
-    /// <summary>
-    /// Gets the current message of the current progress.
-    /// </summary>
-    public string? Message => message;
+        /// <summary>
+        /// Gets the current message of the current progress.
+        /// </summary>
+        public string? Message => message;
+    }
 }

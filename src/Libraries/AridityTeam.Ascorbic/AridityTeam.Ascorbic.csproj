@@ -20,7 +20,7 @@
     <!--NuGet package info-->
     <PropertyGroup>
 	    <PackageId>$(MSBuildProjectName)</PackageId>
-	    <Version>0.0.4</Version>
+	    <Version>0.0.5</Version>
 	    <Authors>PracticeMedicine</Authors>
 	    <Company>The Aridity Team</Company>
 	    <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -37,9 +37,7 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Implemented the Aridity PAK archive utility
-			- Added more validation methods
-			- Added the missing code analysis attributes to some validation methods
+			- Added Mathematical utilities from Aridity Cereon
 		</PackageReleaseNotes>
 	</PropertyGroup>
 	
@@ -48,6 +46,8 @@
 	    <PackageReference Include="System.Net.Http" Version="4.3.4" />
 	    <PackageReference Include="System.Reflection.DispatchProxy" Version="4.8.2" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Bcl.Memory" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Bcl.HashCode" Version="6.0.0" />
 		<PackageReference Include="System.IO.Compression" Version="4.3.0" />
     </ItemGroup>
     <ItemGroup>

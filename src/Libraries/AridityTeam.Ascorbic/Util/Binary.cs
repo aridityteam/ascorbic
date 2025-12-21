@@ -57,7 +57,7 @@ namespace AridityTeam.Util
         /// <summary>
         /// Converts a string to a <see cref="Binary"/> instance.
         /// </summary>
-        public static implicit operator Binary(string binaryText) => new Binary(binaryText);
+        public static implicit operator Binary(string binaryText) => new(binaryText);
 
         /// <summary>
         /// Converts a <see cref="Binary"/> instance to a string literal.
@@ -87,11 +87,11 @@ namespace AridityTeam.Util
         /// <param name="text">The value of the raw text.</param>
         /// <param name="result">The output value of the new instance.</param>
         /// <returns><see langword="true"/> if it successfully parsed raw text into <seealso cref="Binary"/>; otherwise obviously <see langword="false"/>.</returns>
-        public static bool TryParse(string text, out Binary result)
+        public static bool TryParse(string text, out Binary? result)
         {
             if (string.IsNullOrEmpty(text))
             {
-                result = null!;
+                result = null;
                 return false;
             }
 
@@ -148,9 +148,7 @@ namespace AridityTeam.Util
         {
             if (_binText.Length % 8 != 0)
                 throw new InvalidOperationException("Binary data length must be a multiple of 8.");
-            return Enumerable.Range(0, _binText.Length / 8)
-                             .Select(i => Convert.ToByte(_binText.Substring(i * 8, 8), 2))
-                             .ToArray();
+            return [.. Enumerable.Range(0, _binText.Length / 8).Select(i => Convert.ToByte(_binText.Substring(i * 8, 8), 2))];
         }
 
         /// <summary>
@@ -178,6 +176,6 @@ namespace AridityTeam.Util
 
         /// <inheritdoc/>
         public override int GetHashCode() =>
-            _binText.GetHashCode();
+            HashCode.Combine(_binText);
     }
 }

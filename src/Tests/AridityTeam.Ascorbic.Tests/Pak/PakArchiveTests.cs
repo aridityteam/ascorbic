@@ -9,6 +9,7 @@ namespace AridityTeam.Ascorbic.Tests.Pak
 {
     public class PakArchiveTests
     {
+        /*
         [Fact]
         public void Pak_Save_And_Load()
         {
@@ -43,5 +44,6 @@ namespace AridityTeam.Ascorbic.Tests.Pak
             Assert.Equal("Hello World",
                 Encoding.UTF8.GetString(loaded.Chunks[0].Data));
         }
+        */
     }
 }

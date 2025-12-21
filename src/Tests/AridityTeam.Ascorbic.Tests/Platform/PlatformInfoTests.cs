@@ -24,61 +24,62 @@ using System.Runtime.InteropServices;
 
 using AridityTeam.Platform;
 
-namespace AridityTeam.Ascorbic.Tests.Platform;
-
-public class PlatformInfoTests
+namespace AridityTeam.Ascorbic.Tests.Platform
 {
-    [Fact]
-    public void OperatingSystem_ShouldNotBeEmpty()
+    public class PlatformInfoTests
     {
-        var os = PlatformInfo.OperatingSystem;
+        [Fact]
+        public void OperatingSystem_ShouldNotBeEmpty()
+        {
+            var os = PlatformInfo.OperatingSystem;
 
-        Assert.NotNull(os);
-        Assert.NotEmpty(os);
-    }
+            Assert.NotNull(os);
+            Assert.NotEmpty(os);
+        }
 
-    [Fact]
-    public void ProcessArchitecture_ShouldBeValid()
-    {
-        var architecture = PlatformInfo.ProcessArchitecture;
+        [Fact]
+        public void ProcessArchitecture_ShouldBeValid()
+        {
+            var architecture = PlatformInfo.ProcessArchitecture;
 
-        Assert.True(Enum.IsDefined(typeof(Architecture), architecture));
-    }
+            Assert.True(Enum.IsDefined(typeof(Architecture), architecture));
+        }
 
-    [Fact]
-    public void FrameworkDescription_ShouldNotBeEmpty()
-    {
-        var framework = PlatformInfo.FrameworkDescription;
+        [Fact]
+        public void FrameworkDescription_ShouldNotBeEmpty()
+        {
+            var framework = PlatformInfo.FrameworkDescription;
 
-        Assert.NotNull(framework);
-        Assert.NotEmpty(framework);
-    }
+            Assert.NotNull(framework);
+            Assert.NotEmpty(framework);
+        }
 
-    [Fact]
-    public void RuntimeVersion_ShouldNotBeNull()
-    {
-        var version = PlatformInfo.RuntimeVersion;
+        [Fact]
+        public void RuntimeVersion_ShouldNotBeNull()
+        {
+            var version = PlatformInfo.RuntimeVersion;
 
-        Assert.NotNull(version);
-    }
+            Assert.NotNull(version);
+        }
 
-    [Fact]
-    public void PlatformDetection_ShouldBeConsistent()
-    {
-        var isWindows = PlatformInfo.IsWindows;
-        var isLinux = PlatformInfo.IsLinux;
-        var isMacOS = PlatformInfo.IsMacOS;
+        [Fact]
+        public void PlatformDetection_ShouldBeConsistent()
+        {
+            var isWindows = PlatformInfo.IsWindows;
+            var isLinux = PlatformInfo.IsLinux;
+            var isMacOS = PlatformInfo.IsMacOS;
 
-        var platformCount = (isWindows ? 1 : 0) + (isLinux ? 1 : 0) + (isMacOS ? 1 : 0);
-        Assert.Equal(1, platformCount);
-    }
+            var platformCount = (isWindows ? 1 : 0) + (isLinux ? 1 : 0) + (isMacOS ? 1 : 0);
+            Assert.Equal(1, platformCount);
+        }
 
-    [Fact]
-    public void FrameworkDetection_ShouldBeConsistent()
-    {
-        var isNetFramework = PlatformInfo.IsNetFramework;
-        var isNetCoreOrNet5Plus = PlatformInfo.IsNetCoreOrNet5Plus;
+        [Fact]
+        public void FrameworkDetection_ShouldBeConsistent()
+        {
+            var isNetFramework = PlatformInfo.IsNetFramework;
+            var isNetCoreOrNet5Plus = PlatformInfo.IsNetCoreOrNet5Plus;
 
-        Assert.True(isNetFramework ^ isNetCoreOrNet5Plus);
-    }
-} 
+            Assert.True(isNetFramework ^ isNetCoreOrNet5Plus);
+        }
+    } 
+}

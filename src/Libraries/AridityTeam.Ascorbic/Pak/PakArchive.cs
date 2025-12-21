@@ -34,9 +34,10 @@ namespace AridityTeam.Pak
     /// </summary>
     public class PakArchive
     {
-        private const string MAGIC = "APRK";
+        private const string MAGIC = "APAK";
         private const uint FOOTER_MAGIC = 0x4B41504B; // 'KAPK'
         private const int VERSION = 1;
+        private const int BLOCK_SIZE = 1024 * 1024;
 
         private readonly List<PakChunk> _chunks = [];
 
@@ -53,11 +54,36 @@ namespace AridityTeam.Pak
         public void AddFile(string fullPath, byte[] data)
         {
             Requires.NotNullOrEmpty(fullPath);
-            _chunks.Add(new PakChunk
+            Requires.NotNullOrEmpty(data);
+
+            var chunk = new PakChunk()
             {
                 FilePath = fullPath.Replace('\\', '/'),
-                Data = data ?? []
-            });
+                Data = data
+            };
+
+            int offset = 0;
+
+            while (offset < data.Length)
+            {
+                int size = Math.Min(BLOCK_SIZE, data.Length - offset);
+
+                byte[] slice = new byte[size];
+                Buffer.BlockCopy(data, offset, slice, 0, size);
+
+                slice = Compress(slice);
+                slice = Obfuscate(slice);
+
+                chunk.Blocks.Add(new PakBlock
+                {
+                    Offset = offset,
+                    Length = slice.Length,
+                });
+
+                offset += size;
+            }
+
+            _chunks.Add(chunk);
         }
 
         /// <summary>
@@ -82,18 +108,6 @@ namespace AridityTeam.Pak
             return output.ToArray();
         }
 
-        private static async Task<byte[]> CompressAsync(byte[] data, CancellationToken token = default)
-        {
-            token.ThrowIfCancellationRequested();
-            using var output = new MemoryStream();
-            using (var deflate = new DeflateStream(
-                output, CompressionLevel.Optimal, leaveOpen: true))
-            {
-                await deflate.WriteAsync(data, 0, data.Length, token);
-            }
-            return output.ToArray();
-        }
-
         private static byte[] Decompress(byte[] data)
         {
             using var input = new MemoryStream(data);
@@ -101,17 +115,6 @@ namespace AridityTeam.Pak
                 input, CompressionMode.Decompress);
             using var output = new MemoryStream();
             deflate.CopyTo(output);
-            return output.ToArray();
-        }
-
-        private static async Task<byte[]> DecompressAsync(byte[] data, CancellationToken token = default)
-        {
-            token.ThrowIfCancellationRequested();
-            using var input = new MemoryStream(data);
-            using var deflate = new DeflateStream(
-                input, CompressionMode.Decompress);
-            using var output = new MemoryStream();
-            await deflate.CopyToAsync(output);
             return output.ToArray();
         }
 
@@ -132,33 +135,56 @@ namespace AridityTeam.Pak
             using var fs = new FileStream(path, FileMode.Create, FileAccess.Write);
             using var writer = new BinaryWriter(fs);
 
-            writer.Write(MAGIC);
+            writer.Write(Encoding.ASCII.GetBytes(MAGIC));
             writer.Write(VERSION);
             writer.Write(_chunks.Count);
 
             foreach (var chunk in _chunks)
             {
-                chunk.Offset = fs.Position;
+                chunk.Blocks.Clear();
+                chunk.OriginalSize = chunk.Data.Length;
 
-                var data = Compress(chunk.Data);
-                data = Obfuscate(data);
+                int pos = 0;
+                while (pos < chunk.Data.Length)
+                {
+                    int size = Math.Min(BLOCK_SIZE, chunk.Data.Length - pos);
+                    byte[] blockData = new byte[size];
+                    Buffer.BlockCopy(chunk.Data, pos, blockData, 0, size);
 
-                writer.Write(data);
-                chunk.Length = data.Length;
+                    blockData = Obfuscate(Compress(blockData));
+
+                    var block = new PakBlock();
+                    block.Offset = fs.Position;
+                    block.Length = blockData.Length;
+                    block.Size = size;
+
+                    writer.Write(blockData);
+                    chunk.Blocks.Add(block);
+
+                    pos += size;
+                }
             }
 
-            long tableOffset = fs.Position;
+            long indexOffset = fs.Position;
 
             foreach (var chunk in _chunks)
             {
-                var pathBytes = Encoding.UTF8.GetBytes(chunk.FilePath);
+                byte[] pathBytes = Encoding.UTF8.GetBytes(chunk.FilePath);
                 writer.Write(pathBytes.Length);
                 writer.Write(pathBytes);
-                writer.Write(chunk.Offset);
-                writer.Write(chunk.Length);
+
+                writer.Write(chunk.OriginalSize);
+                writer.Write(chunk.Blocks.Count);
+
+                foreach (var block in chunk.Blocks)
+                {
+                    writer.Write(block.Offset);
+                    writer.Write(block.Length);
+                    writer.Write(block.Size);
+                }
             }
 
-            writer.Write(tableOffset);
+            writer.Write(indexOffset);
             writer.Write(FOOTER_MAGIC);
         }
 
@@ -167,95 +193,87 @@ namespace AridityTeam.Pak
         /// </summary>
         /// <param name="path">The absolute path of the created file.</param>
         /// <param name="token">The value of the cancellation token.</param>
-        public async Task SaveAsync(string path, CancellationToken token = default)
-        {
-            using var fs = new FileStream(path, FileMode.Create, FileAccess.Write);
-            using var writer = new BinaryWriter(fs);
-
-            writer.Write(MAGIC);
-            writer.Write(VERSION);
-            writer.Write(_chunks.Count);
-
-            foreach (var chunk in _chunks)
-            {
-                chunk.Offset = fs.Position;
-
-                var data = await CompressAsync(chunk.Data);
-                data = Obfuscate(data);
-
-                writer.Write(data);
-                chunk.Length = data.Length;
-            }
-
-            long tableOffset = fs.Position;
-
-            foreach (var chunk in _chunks)
-            {
-                var pathBytes = Encoding.UTF8.GetBytes(chunk.FilePath);
-                writer.Write(pathBytes.Length);
-                writer.Write(pathBytes);
-                writer.Write(chunk.Offset);
-                writer.Write(chunk.Length);
-            }
-
-            writer.Write(tableOffset);
-            writer.Write(FOOTER_MAGIC);
-        }
+        public Task SaveAsync(string path, CancellationToken token = default) =>
+            Task.Factory.StartNew(() => Save(path), token);
 
         /// <summary>
         /// Loads a new Aridity PAK archive from a file.
         /// </summary>
         /// <param name="path">The absolute path to the PAK file.</param>
         /// <returns>A new <seealso cref="PakArchive"/> instance with the information received from the archive file.</returns>
-        /// <exception cref="PakException">Thrown if one of the data in the archive is invalid.</exception>
+        /// <exception cref="PakException">Thrown if one of the read data in the archive is incorrect/invalid.</exception>
         public static PakArchive Load(string path)
         {
             var pak = new PakArchive();
 
-            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            using (var reader = new BinaryReader(fs))
+            using var fs = new FileStream(path, FileMode.Open, FileAccess.Read);
+            using var reader = new BinaryReader(fs);
+
+            var magic = Encoding.ASCII.GetString(reader.ReadBytes(4));
+            var version = reader.ReadInt32();
+            var count = reader.ReadInt32();
+
+            if (magic != MAGIC)
+                throw new PakException(SR.PakErr_InvalidSignature);
+
+            if (version != VERSION)
+                throw new PakException(SR.PakErr_VersionMismatch);
+
+            fs.Seek(-12, SeekOrigin.End);
+            long indexOffset = reader.ReadInt64();
+            uint footerMagic = reader.ReadUInt32();
+
+            if (footerMagic != FOOTER_MAGIC)
+                throw new PakException(SR.PakErr_InvalidSignature);
+
+            fs.Seek(indexOffset, SeekOrigin.Begin);
+
+            for (int i = 0; i < count; i++)
             {
-                var magic = reader.ReadString();
-                var version = reader.ReadInt32();
-                var count = reader.ReadInt32();
+                int pathLen = reader.ReadInt32();
+                string pathName = Encoding.UTF8.GetString(reader.ReadBytes(pathLen));
 
-                if (magic != MAGIC)
-                    throw new PakException(SR.PakErr_InvalidSignature);
+                int originalSize = reader.ReadInt32();
+                int blockCount = reader.ReadInt32();
 
-                if (version != VERSION)
-                    throw new PakException(SR.PakErr_VersionMismatch);
-
-                fs.Seek(-12, SeekOrigin.End);
-                var tableOffset = reader.ReadInt64();
-                var footerMagic = reader.ReadUInt32();
-
-                if (footerMagic != FOOTER_MAGIC)
-                    throw new PakException(SR.PakErr_InvalidSignature);
-
-                fs.Seek(tableOffset, SeekOrigin.Begin);
-
-                for (int i = 0; i < count; i++)
+                var chunk = new PakChunk
                 {
-                    int len = reader.ReadInt32();
-                    string pathName = Encoding.UTF8.GetString(reader.ReadBytes(len));
-                    long offset = reader.ReadInt64();
-                    long size = reader.ReadInt64();
+                    FilePath = pathName,
+                    OriginalSize = originalSize
+                };
 
-                    pak._chunks.Add(new PakChunk
-                    {
-                        FilePath = pathName,
-                        Offset = offset,
-                        Length = size
-                    });
+                for (int b = 0; b < blockCount; b++)
+                {
+                    var block = new PakBlock();
+                    block.Offset = reader.ReadInt64();
+                    block.Length = reader.ReadInt32();
+                    block.Size = reader.ReadInt32();
+
+                    chunk.Blocks.Add(block);
                 }
 
-                foreach (var c in pak._chunks)
+                pak._chunks.Add(chunk);
+            }
+
+            foreach (var c in pak._chunks)
+            {
+                byte[] result = new byte[c.OriginalSize];
+                int writePos = 0;
+
+                foreach (var block in c.Blocks)
                 {
-                    fs.Seek(c.Offset, SeekOrigin.Begin);
-                    var data = reader.ReadBytes((int)c.Length);
-                    data = Obfuscate(data);
-                    c.Data = Decompress(data);
+                    if (block.Offset < 0 || block.Offset >= fs.Length)
+                        throw new PakException("Invalid block offset");
+
+                    fs.Seek(block.Offset, SeekOrigin.Begin);
+                    byte[] compressed = reader.ReadBytes(block.Length);
+
+                    byte[] data = Decompress(Obfuscate(compressed));
+                    Buffer.BlockCopy(data, 0, result, writePos, block.Size);
+                    writePos += block.Size;
                 }
+
+                c.Data = result;
             }
 
             return pak;
@@ -268,58 +286,7 @@ namespace AridityTeam.Pak
         /// <param name="token">The value of the cancellation token.</param>
         /// <returns>A new <seealso cref="PakArchive"/> instance with the information received from the archive file.</returns>
         /// <exception cref="PakException">Thrown if one of the data in the archive is invalid.</exception>
-        public static async Task<PakArchive> LoadAsync(string path, CancellationToken token = default)
-        {
-            token.ThrowIfCancellationRequested();
-            var pak = new PakArchive();
-
-            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
-            using (var reader = new BinaryReader(fs))
-            {
-                var magic = reader.ReadString();
-                var version = reader.ReadInt32();
-                var count = reader.ReadInt32();
-
-                if (magic != MAGIC)
-                    throw new PakException(SR.PakErr_InvalidSignature);
-
-                if (version != VERSION)
-                    throw new PakException(SR.PakErr_VersionMismatch);
-
-                fs.Seek(-12, SeekOrigin.End);
-                var tableOffset = reader.ReadInt64();
-                var footerMagic = reader.ReadUInt32();
-
-                if (footerMagic != FOOTER_MAGIC)
-                    throw new PakException(SR.PakErr_InvalidSignature);
-
-                fs.Seek(tableOffset, SeekOrigin.Begin);
-
-                for (int i = 0; i < count; i++)
-                {
-                    int len = reader.ReadInt32();
-                    string pathName = Encoding.UTF8.GetString(reader.ReadBytes(len));
-                    long offset = reader.ReadInt64();
-                    long size = reader.ReadInt64();
-
-                    pak._chunks.Add(new PakChunk
-                    {
-                        FilePath = pathName,
-                        Offset = offset,
-                        Length = size
-                    });
-                }
-
-                foreach (var c in pak._chunks)
-                {
-                    fs.Seek(c.Offset, SeekOrigin.Begin);
-                    var data = reader.ReadBytes((int)c.Length);
-                    data = Obfuscate(data);
-                    c.Data = await DecompressAsync(data, token);
-                }
-            }
-
-            return pak;
-        }
+        public static Task<PakArchive> LoadAsync(string path, CancellationToken token = default) =>
+            Task.Factory.StartNew(() => Load(path), token);
     }
 }

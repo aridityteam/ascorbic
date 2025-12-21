@@ -29,7 +29,7 @@ namespace AridityTeam.Util
     /// </summary>
     public class CommandLine
     {
-        private List<string> _curArgs = new List<string>();
+        private List<string> _curArgs = [];
 
         /// <summary>
         /// Creates a new instance of the parser using the command-line arguments provided by the runtime.
@@ -44,13 +44,13 @@ namespace AridityTeam.Util
         /// </summary>
         /// <param name="args">The value of the command-line arguments.</param>
         public CommandLine(string[] args) =>
-            _curArgs = new List<string>(args);
+            _curArgs = [.. args];
 
         /// <summary>
         /// Sets the current command-line arguments with the newly provided one.
         /// </summary>
         /// <param name="args">The value of the command-line arguments.</param>
-        public void SetCommandLineArgs(string[] args) =>
+        public void SetCommandLineArgs(params string[] args) =>
             _curArgs = [.. args];
 
         /// <summary>
@@ -81,10 +81,10 @@ namespace AridityTeam.Util
             foreach (string arg in _curArgs)
             {
                 if (arg.StartsWith(parm + '=', StringComparison.OrdinalIgnoreCase))
-                    return arg.Substring(parm.Length + 1);
+                    return arg[(parm.Length + 1)..];
 
                 if (arg.StartsWith(parm + ':', StringComparison.OrdinalIgnoreCase))
-                    return arg.Substring(parm.Length + 1);
+                    return arg[(parm.Length + 1)..];
             }
 
             return null;

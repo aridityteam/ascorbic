@@ -21,6 +21,8 @@
 
 using System;
 using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -28,62 +30,135 @@ using System.Xml.Serialization;
 
 namespace AridityTeam.Configuration
 {
-    /// <inheritdoc/>
-    public class ConfigurationManager<T> : IConfigurationManager<T> where T : class
+    /// <summary>
+    /// Manages the current configuration by loading/saving XML configuration from file or stream.
+    /// </summary>
+    public class ConfigurationManager<T> : IConfigurationManager<T> where T : class, new()
     {
         private readonly XmlSerializerHelper<T> _helper = new();
 
         private T _currentConfig = null!;
-        /// <inheritdoc/>
+
+        /// <summary>
+        /// Gets the current configuration instance.
+        /// </summary>
         public T CurrentConfig => _currentConfig;
 
-        private string? _configPath;
+        private readonly string _configurationPath;
 
-        /// <inheritdoc/>
-        public async void LoadConfig(string configurationPath) =>
-            await LoadConfigAsync(configurationPath);
+        /// <summary>
+        /// Initializes a new instance with default file path.
+        /// </summary>
+        public ConfigurationManager()
+            : this(Path.Combine(
+                  Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                  Assembly.GetEntryAssembly()?.GetName().Name ?? "App",
+                  "config.cfg"))
+        { }
 
-        /// <inheritdoc/>
-        public Task LoadConfigAsync(string configurationPath)
-            => LoadConfigAsync(configurationPath, CancellationToken.None);
-
-        /// <inheritdoc/>
-        public async Task LoadConfigAsync(string configurationPath, CancellationToken token = default)
+        /// <summary>
+        /// Initializes a new instance with a specified file path.
+        /// </summary>
+        public ConfigurationManager(string configurationPath)
         {
-            Requires.FileExists(configurationPath);
-            token.ThrowIfCancellationRequested();
-            if (!File.Exists(configurationPath) || string.IsNullOrEmpty(File.ReadAllText(configurationPath)))
-            {
-                await SaveConfigAsync((T)new object(), token);
-            }
-            _currentConfig = _helper.BytesToObject(File.ReadAllBytes(configurationPath))!;
-            _configPath = configurationPath;
+            if (string.IsNullOrWhiteSpace(configurationPath))
+                throw new ArgumentException("Configuration path cannot be null or empty.", nameof(configurationPath));
+
+            _configurationPath = configurationPath;
         }
 
-        /// <inheritdoc/>
-        public async void SaveConfig(T newConfig) =>
-            await SaveConfigAsync(newConfig);
+        #region File-based Methods
 
-        /// <inheritdoc/>
-        public Task SaveConfigAsync(T newConfig) =>
-            SaveConfigAsync(newConfig, default);
+        /// <summary>
+        /// Loads configuration from the configured file path.
+        /// </summary>
+        public async Task LoadConfigAsync(CancellationToken token = default)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(_configurationPath)!);
 
-        /// <inheritdoc/>
+            using var fs = new FileStream(
+                _configurationPath,
+                FileMode.OpenOrCreate,
+                FileAccess.ReadWrite,
+                FileShare.Read);
+
+            await LoadConfigAsync(fs, token);
+        }
+
+        /// <summary>
+        /// Saves configuration to the configured file path.
+        /// </summary>
         public async Task SaveConfigAsync(T newConfig, CancellationToken token = default)
         {
-            token.ThrowIfCancellationRequested();
-            using var stream = File.Open(_configPath!, FileMode.OpenOrCreate, FileAccess.Write);
-            using var sw = new StreamWriter(stream);
+            Directory.CreateDirectory(Path.GetDirectoryName(_configurationPath)!);
 
-            var serializer = new XmlSerializer(typeof(T));
-            using var writer = XmlWriter.Create(sw, new XmlWriterSettings
+            using var fs = new FileStream(
+                _configurationPath,
+                FileMode.OpenOrCreate,
+                FileAccess.Write,
+                FileShare.Read);
+
+            await SaveConfigAsync(newConfig, fs, token);
+        }
+
+        #endregion
+
+        #region Stream-based Methods
+
+        /// <summary>
+        /// Loads configuration from a stream. Does NOT dispose the stream.
+        /// </summary>
+        public async Task LoadConfigAsync(Stream stream, CancellationToken token = default)
+        {
+            token.ThrowIfCancellationRequested();
+
+            if (stream.Length == 0)
             {
-                Indent = true,
-                Async = true
-            });
+                // initialize default config if empty
+                await SaveConfigAsync(new T(), stream, token);
+                stream.Position = 0;
+            }
+
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            _currentConfig = _helper.BytesToObject(ms.ToArray()) ?? new T();
+        }
+
+        /// <summary>
+        /// Saves configuration to a stream. Does NOT dispose the stream.
+        /// </summary>
+        public async Task SaveConfigAsync(T newConfig, Stream stream, CancellationToken token = default)
+        {
+            token.ThrowIfCancellationRequested();
+
+            stream.Position = 0;
+
+            using var sw = new StreamWriter(stream, Encoding.UTF8, 1024, leaveOpen: true);
+            var serializer = new XmlSerializer(typeof(T));
+
+            using var writer = XmlWriter.Create(sw, new XmlWriterSettings { Indent = true, Async = true });
             serializer.Serialize(writer, newConfig);
 
             await sw.FlushAsync();
+            stream.SetLength(stream.Position); // truncate leftover bytes
         }
+
+        #endregion
+
+        #region Synchronous Convenience Methods
+
+        /// <summary>
+        /// Loads configuration synchronously from the file.
+        /// </summary>
+        public void LoadConfig()
+            => LoadConfigAsync().GetAwaiter().GetResult();
+
+        /// <summary>
+        /// Saves configuration synchronously to the file.
+        /// </summary>
+        public void SaveConfig(T newConfig)
+            => SaveConfigAsync(newConfig).GetAwaiter().GetResult();
+
+        #endregion
     }
 }

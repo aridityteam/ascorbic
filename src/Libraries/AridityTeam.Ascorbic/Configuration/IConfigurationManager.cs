@@ -20,6 +20,7 @@
 */
 
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,46 +32,49 @@ namespace AridityTeam.Configuration
     public interface IConfigurationManager<T> where T : class
     {
         /// <summary>
-        /// The current loaded configuration.
+        /// Gets the current configuration instance.
         /// </summary>
         T CurrentConfig { get; }
 
-        /// <summary>
-        /// Loads the configuration from a file.
-        /// </summary>
-        /// <param name="configurationPath">The value of the configuration file path.</param>
-        void LoadConfig(string configurationPath);
+        #region File-based Operations
 
         /// <summary>
-        /// Loads the configuration from a file asynchronously.
+        /// Loads configuration from the configured file path asynchronously.
+        /// Creates default configuration if the file is empty or missing.
         /// </summary>
-        /// <param name="configurationPath">The value of the configuration file path.</param>
-        Task LoadConfigAsync(string configurationPath);
+        Task LoadConfigAsync(CancellationToken token = default);
 
         /// <summary>
-        /// Loads the configuration from a file asynchronously.
+        /// Saves configuration to the configured file path asynchronously.
         /// </summary>
-        /// <param name="configurationPath">The value of the configuration file path.</param>
-        /// <param name="token">The value of the cancellation token.</param>
-        Task LoadConfigAsync(string configurationPath, CancellationToken token = default);
+        Task SaveConfigAsync(T newConfig, CancellationToken token = default);
 
         /// <summary>
-        /// Saves the new configuration, and sets that new one as the current global configuration.
+        /// Synchronously loads configuration from the configured file path.
         /// </summary>
-        /// <param name="newConfig">The value of the new configuration</param>
+        void LoadConfig();
+
+        /// <summary>
+        /// Synchronously saves configuration to the configured file path.
+        /// </summary>
         void SaveConfig(T newConfig);
 
-        /// <summary>
-        /// Saves the new configuration asynchronously, and sets that new one as the current global configuration.
-        /// </summary>
-        /// <param name="newConfig">The value of the new configuration</param>
-        Task SaveConfigAsync(T newConfig);
+        #endregion
+
+        #region Stream-based Operations
 
         /// <summary>
-        /// Saves the new configuration asynchronously, and sets that new one as the current global configuration.
+        /// Loads configuration from a stream asynchronously.
+        /// Does NOT dispose the stream.
         /// </summary>
-        /// <param name="newConfig">The value of the new configuration</param>
-        /// <param name="token">The value of the cancellation token.</param>
-        Task SaveConfigAsync(T newConfig, CancellationToken token = default);
+        Task LoadConfigAsync(Stream stream, CancellationToken token = default);
+
+        /// <summary>
+        /// Saves configuration to a stream asynchronously.
+        /// Does NOT dispose the stream.
+        /// </summary>
+        Task SaveConfigAsync(T newConfig, Stream stream, CancellationToken token = default);
+
+        #endregion
     }
 }

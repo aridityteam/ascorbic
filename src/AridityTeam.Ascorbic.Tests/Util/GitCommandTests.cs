@@ -111,6 +111,9 @@ namespace AridityTeam.Ascorbic.Tests.Util
         [Fact]
         public void Commit_ValidChanges_Success()
         {
+            _git.ExecuteGitCommand("user.name \"me\"", _testRepoPath);
+            _git.ExecuteGitCommand("user.email \"you@example.com\"", _testRepoPath);
+
             var testFile = Path.Combine(_testRepoPath, "test.txt");
             File.WriteAllText(testFile, "test content");
             _git.Add(_testRepoPath, "test.txt");
@@ -121,6 +124,9 @@ namespace AridityTeam.Ascorbic.Tests.Util
         [Fact]
         public void CreateBranch_ValidName_Success()
         {
+            _git.ExecuteGitCommand("user.name \"me\"", _testRepoPath);
+            _git.ExecuteGitCommand("user.email \"you@example.com\"", _testRepoPath);
+
             var result = _git.CreateBranch(_testRepoPath, TestBranchName);
             Assert.True(result);
         
@@ -178,6 +184,9 @@ namespace AridityTeam.Ascorbic.Tests.Util
         [Fact]
         public void Push_ValidRepository_Success()
         {
+            _git.ExecuteGitCommand("user.name \"me\"", _testRepoPath);
+            _git.ExecuteGitCommand("user.email \"you@example.com\"", _testRepoPath);
+
             // Create a local repository for push testing
             var localRepoPath = Path.Combine(Path.GetTempPath(), $"git-test-repo-push-{Guid.NewGuid()}");
             Directory.CreateDirectory(localRepoPath);
@@ -239,6 +248,8 @@ namespace AridityTeam.Ascorbic.Tests.Util
             catch (UnauthorizedAccessException)
             {
             }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

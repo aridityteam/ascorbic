@@ -169,6 +169,24 @@ namespace AridityTeam {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Already transitioned to the Completed state..
+        /// </summary>
+        internal static string Threading_InvalidAfterCompleted {
+            get {
+                return ResourceManager.GetString("Threading_InvalidAfterCompleted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The queue is currently empty..
+        /// </summary>
+        internal static string Threading_QueueEmpty {
+            get {
+                return ResourceManager.GetString("Threading_QueueEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unexpected non-null value of type &apos;{0}&apos;..
         /// </summary>
         internal static string UnexpectedNonNull {

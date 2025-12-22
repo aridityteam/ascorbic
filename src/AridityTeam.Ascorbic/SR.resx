@@ -234,4 +234,10 @@
   <data name="Threading_CannotAddCountAfterZero" xml:space="preserve">
     <value>Cannot increment the current count after zero.</value>
   </data>
+  <data name="Threading_InvalidAfterCompleted" xml:space="preserve">
+    <value>Already transitioned to the Completed state.</value>
+  </data>
+  <data name="Threading_QueueEmpty" xml:space="preserve">
+    <value>The queue is currently empty.</value>
+  </data>
 </root>

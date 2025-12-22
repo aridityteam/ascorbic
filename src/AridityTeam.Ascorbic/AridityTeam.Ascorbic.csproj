@@ -3,18 +3,12 @@
     <PropertyGroup>
 	    <TargetFrameworks>net10.0;net8.0;net472;netstandard2.0</TargetFrameworks>
 		<AssemblyTitle>The Aridity Team "Ascorbic" Library</AssemblyTitle>
-	    <ImplicitUsings>disable</ImplicitUsings>
-	    <Nullable>enable</Nullable>
-	    <LangVersion>latest</LangVersion>
 	    <RootNamespace>AridityTeam</RootNamespace>
-	    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	    <DocumentationFile>..\..\bin\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 	    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	    <SignAssembly>True</SignAssembly>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	    <AssemblyOriginatorKeyFile>..\AridityTeam.Ascorbic.snk</AssemblyOriginatorKeyFile>
-	    <Platforms>AnyCPU;x64;x86</Platforms>
     </PropertyGroup>
 	
     <!--NuGet package info-->
@@ -38,22 +32,7 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Addition: We have added (im)proper documentation using DocFX on https://aridityteam.github.io/ascorbic
-			- Addition: Result
-			- Addition: Result{T, TException}
-			- Addition: Verify.Operation(Result)
-			- Addition: Verify.Operation(Result{T, TException})
-			- Addition: AridityTeam.Diagnostics.DiagnosticScope
-			- Addition: AridityTeam.Diagnostics.DiagnosticSample
-			- Addition: Threading utilities (AridityTeam.Threading namespace)
-			- Addition: More mathematical utilities
-			- Addition: Generated shapes for serializable objects using PolyType
-			- Modified: The package icon to remove the paddings between the icon and the image itself
-			- Modified: Renamed "Vector2D" to "Vector2"
-			- Modified: Renamed "Vector3D" to "Vector3"
-			- Modified: Moved Git-related utilities from "AridityTeam.Util" to "AridityTeam.Util.Git"
-			- Modified: Renamed "Git" to "GitClient"
-			- Removed: Old AridityTeam.Diagnostics utilties
+			- Modified: Make use of MEF for the add-in manager
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
@@ -74,6 +53,8 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="PolyType" />
+		<PackageReference Include="System.Composition" />
+		<PackageReference Include="System.ComponentModel.Composition" />
 	</ItemGroup>
     <ItemGroup>
 	    <Content Include="..\..\README.md" Pack="True" PackagePath="\" />

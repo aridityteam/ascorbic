@@ -20,8 +20,10 @@
  */
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Composition.Hosting;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace AridityTeam.Addin
@@ -33,108 +35,87 @@ namespace AridityTeam.Addin
     public class AddInManager<TInterface> : DisposableObject, IAddInManager<TInterface> where TInterface : class, IAddInBase
     {
         private readonly List<TInterface> _addins = [];
+        private CompositionHost? _compositionHost;
 
         /// <summary>
-        /// Gets a collection of loaded add-ins.
+        /// Gets a read-only collection of loaded add-ins.
         /// </summary>
         public IReadOnlyList<TInterface> Addins => _addins;
 
         /// <summary>
-        /// Gets an loaded add-in by its name. (Not case-sensitive)
+        /// Discovers add-ins from a folder containing assemblies and loads them using MEF.
         /// </summary>
-        /// <param name="name">The value of the add-in name to find.</param>
-        /// <returns>The found add-in.</returns>
+        /// <param name="folderPath">The folder path containing add-in assemblies.</param>
+        public void LoadAddInsFromFolder(string folderPath)
+        {
+            Verify.NotDisposed(this);
+            Requires.DirectoryExists(folderPath);
+
+            var assemblies = Directory.GetFiles(folderPath, "*.dll")
+                                      .Select(Assembly.LoadFrom)
+                                      .ToList();
+
+            var configuration = new ContainerConfiguration()
+                .WithAssemblies(assemblies);
+
+            _compositionHost?.Dispose();
+            _compositionHost = configuration.CreateContainer();
+
+            var exports = _compositionHost.GetExports<TInterface>();
+
+            foreach (var addin in exports)
+            {
+                LoadAddIn(addin);
+            }
+        }
+
+        /// <summary>
+        /// Gets an add-in by its name (case-insensitive).
+        /// </summary>
         public TInterface? GetAddInFromName(string name)
         {
             Verify.NotDisposed(this);
-
-            foreach (var addin in _addins)
-            {
-                if (!addin.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                return addin;
-            }
-            return null;
+            return _addins.FirstOrDefault(a => a.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// Gets an loaded add-in by its prefix. (Not case-sensitive)
+        /// Gets an add-in by its prefix (case-insensitive).
         /// </summary>
-        /// <param name="prefix">The value of the add-in prefix to find.</param>
-        /// <returns>The found add-in.</returns>
         public TInterface? GetAddInFromPrefix(string prefix)
         {
             Verify.NotDisposed(this);
-
-            foreach (var addin in _addins)
-            {
-                if (!addin.Prefix.Equals(prefix, StringComparison.OrdinalIgnoreCase))
-                    continue;
-
-                return addin;
-            }
-            return null;
+            return _addins.FirstOrDefault(a => a.Prefix.Equals(prefix, StringComparison.OrdinalIgnoreCase));
         }
 
         /// <summary>
-        /// Loads an add-in from a class library (*.dll) file.
+        /// Loads an existing add-in instance.
         /// </summary>
-        /// <param name="dllPath">The value of the DLL path.</param>
-        public void LoadAddInFromFile(string dllPath)
-        {
-            Verify.NotDisposed(this);
-
-            Requires.FileExists(dllPath);
-            var dll = Assembly.LoadFrom(dllPath);
-            Requires.NotNull(dll);
-
-            var type = dll.GetTypes()
-                .First(t =>
-                typeof(TInterface).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract);
-
-            var addin = Activator.CreateInstance(type) as TInterface;
-            Requires.NotNull(addin);
-
-            LoadAddIn(addin);
-        }
-
-        /// <summary>
-        /// Loads an add-in from an existing <seealso cref="IAddInBase"/>, whether
-        /// from an DLL or whatever.
-        /// </summary>
-        /// <param name="addin">The value of the add-in class.</param>
-        /// <exception cref="AddInException">Thrown when an add-in failed to initialize.</exception>
+        /// <param name="addin">The add-in instance to load.</param>
+        /// <exception cref="AddInException">Thrown if the add-in fails to initialize or already exists.</exception>
         public void LoadAddIn(TInterface addin)
         {
             Verify.NotDisposed(this);
-
             Requires.NotNull(addin);
 
             if (_addins.Contains(addin))
-                throw new AddInException(
-                    PrivateErrorHelpers.Format(SR.AddIn_FailedToInitialize, addin.Name));
+                throw new AddInException($"Add-in '{addin.Name}' is already loaded.");
 
             if (!addin.Initialize())
-                throw new AddInException(
-                    PrivateErrorHelpers.Format(SR.AddIn_FailedToInitialize, addin.Name));
+                throw new AddInException($"Add-in '{addin.Name}' failed to initialize.");
 
             _addins.Add(addin);
         }
 
         /// <summary>
-        /// Unloads an add-in if it's found from the loaded add-ins list.
+        /// Unloads a loaded add-in instance.
         /// </summary>
-        /// <param name="addin">The value of the add-in class.</param>
+        /// <param name="addin">The add-in to unload.</param>
         public void UnloadAddIn(TInterface addin)
         {
             Verify.NotDisposed(this);
             Requires.NotNull(addin);
 
-            if (!_addins.Contains(addin))
-                return;
-
-            if (addin.IsDisposed)
+            if (!_addins.Contains(addin) || addin.IsDisposed)
                 return;
 
             addin.Dispose();
@@ -142,17 +123,19 @@ namespace AridityTeam.Addin
         }
 
         /// <summary>
-        /// Performs a task that disposes every resources used by the loaded add-ins and this manager.
+        /// Performs disposal of loaded add-ins and the MEF container.
         /// </summary>
         protected override void DisposeManagedResources()
         {
-            var addinsCache = new List<TInterface>(_addins);
-            for (var i = 0; i < addinsCache.Count; i++)
-                UnloadAddIn(_addins[i]);
-
-            addinsCache.Clear();
+            foreach (var addin in _addins.ToArray())
+            {
+                try { addin.Dispose(); } catch { }
+            }
 
             _addins.Clear();
+
+            _compositionHost?.Dispose();
+            _compositionHost = null;
         }
     }
 }

@@ -20,6 +20,10 @@
 		<File Path="README.md" />
 	</Folder>
 	<Folder Name="/Tests/">
+		<Project Path="src/TestAddIn/TestAddIn.csproj">
+			<Platform Solution="*|x64" Project="x64" />
+			<Platform Solution="*|x86" Project="x86" />
+		</Project>
 		<Project Path="src/AridityTeam.Ascorbic.Tests/AridityTeam.Ascorbic.Tests.csproj">
 			<Platform Solution="*|x64" Project="x64" />
 			<Platform Solution="*|x86" Project="x86" />

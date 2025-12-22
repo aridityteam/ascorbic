@@ -50,10 +50,10 @@ namespace AridityTeam.Addin
         TInterface? GetAddInFromPrefix(string prefix);
 
         /// <summary>
-        /// Loads an add-in from a class library (*.dll) file.
+        /// Discovers add-ins from a folder containing assemblies and loads them using MEF.
         /// </summary>
-        /// <param name="dllPath">The value of the DLL path.</param>
-        void LoadAddInFromFile(string dllPath);
+        /// <param name="folderPath">The folder path containing add-in assemblies.</param>
+        void LoadAddInsFromFolder(string folderPath);
 
         /// <summary>
         /// Loads an add-in from an existing <seealso cref="IAddInBase"/>, whether

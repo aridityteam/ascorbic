@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+	    <TargetFramework>net10.0</TargetFramework>
+	    <RootNamespace>MyAddIn</RootNamespace>
+    </PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="System.Composition" />
+		<PackageReference Include="System.ComponentModel.Composition" />
+		<ProjectReference Include="..\AridityTeam.Ascorbic\AridityTeam.Ascorbic.csproj" />
+	</ItemGroup>
+
+</Project>

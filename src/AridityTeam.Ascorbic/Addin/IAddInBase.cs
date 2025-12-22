@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.ComponentModel.Composition;
 
 using AridityTeam.Util;
 
@@ -28,6 +29,7 @@ namespace AridityTeam.Addin
     /// <summary>
     /// Represents the base of the add-in that can be initialized or disposed by <seealso cref="AddInManager{TInterface}"/>.
     /// </summary>
+    [InheritedExport]
     public interface IAddInBase : IDisposable, IDisposableObservable
     {
         /// <summary>

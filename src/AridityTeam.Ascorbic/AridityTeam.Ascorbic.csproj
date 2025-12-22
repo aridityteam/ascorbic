@@ -27,6 +27,7 @@
 	    <PackageReadmeFile>README.md</PackageReadmeFile>
 	    <Description>Core platform library for the Aridity Team projects.</Description>
 	    <PackageTags>aridity;base;cereon;ide;core;utility;utilities</PackageTags>
+		<PackageProjectUrl>https://aridityteam.github.io/ascorbic</PackageProjectUrl>
 	    <RepositoryUrl>https://github.com/aridityteam/ascorbic</RepositoryUrl>
 	    <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	    <Copyright>Copyright (c) 2025 The Aridity Team</Copyright>
@@ -38,19 +39,16 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			Hello again! This is yet another release after like a few hours since v0.0.5 has been released.
-			Really iconic, right? :/
-			
-			- Addition: Package Icon (finally)
-			- Addition: Result{T}
-			- Addition: Polyfills for the latest Stream APIs for .NET Standard 2.0 and .NET Framework v4.8
-			- Addition: Polyfills for the latest TextWriter APIs for .NET Standard 2.0 and .NET Framework v4.8
-			- Improvements: Refactor existing Stream extension methods
+			- Addition: We have added (un)proper documentation using DocFX on https://aridityteam.github.io/ascorbic
+			- Addition: Result
+			- Addition: Result{T, TException}
+			- Addition: Verify.Operation(Result)
+			- Addition: Verify.Operation(Result{T, TException})
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\..\..\assets\ascorbic_icon.png" Pack="true" PackagePath="assets\" />
+		<None Include="..\..\assets\ascorbic_icon.png" Pack="true" PackagePath="assets\" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net472'">
@@ -65,7 +63,7 @@
 		<PackageReference Include="System.IO.Compression" />
 	</ItemGroup>
     <ItemGroup>
-	    <Content Include="..\..\..\README.md" Pack="True" PackagePath="\" />
+	    <Content Include="..\..\README.md" Pack="True" PackagePath="\" />
     </ItemGroup>
     <ItemGroup>
 	    <Compile Update="SR.Designer.cs">

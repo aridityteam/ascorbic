@@ -60,10 +60,48 @@ namespace AridityTeam
         /// <param name="conditionText">The value of the condition's name.</param>
         /// <exception cref="InvalidOperationException">Thrown if <paramref name="result"/> did not indicate an success.</exception>
         [DebuggerStepThrough]
+        public static void Operation(
+            Result result,
+            string? message = null,
+            [CallerArgumentExpression(nameof(result))] string? conditionText = null)
+        {
+            if (!result)
+                throw new InvalidOperationException(message ?? 
+                    Format(SR.Validation_OperationFailed, conditionText));
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> if the result does not indicate an success.
+        /// </summary>
+        /// <param name="result">The value of the result indicator.</param>
+        /// <param name="message">The value of the error message.</param>
+        /// <param name="conditionText">The value of the condition's name.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="result"/> did not indicate an success.</exception>
+        [DebuggerStepThrough]
         public static void Operation<T>(
-            [DoesNotReturnIf(false)] Result<T> result,
+            Result<T> result,
             string? message = null,
             [CallerArgumentExpression(nameof(result))] string? conditionText = null) where T : class
+        {
+            if (!result)
+                throw new InvalidOperationException(message ?? 
+                    Format(SR.Validation_OperationFailed, conditionText));
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> if the result does not indicate an success.
+        /// </summary>
+        /// <param name="result">The value of the result indicator.</param>
+        /// <param name="message">The value of the error message.</param>
+        /// <param name="conditionText">The value of the condition's name.</param>
+        /// <exception cref="InvalidOperationException">Thrown if <paramref name="result"/> did not indicate an success.</exception>
+        [DebuggerStepThrough]
+        public static void Operation<T, TException>(
+            Result<T, TException> result,
+            string? message = null,
+            [CallerArgumentExpression(nameof(result))] string? conditionText = null)
+            where T : class
+            where TException : Exception, new()
         {
             if (!result)
                 throw new InvalidOperationException(message ?? 

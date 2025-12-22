@@ -21,7 +21,7 @@
 
 using System;
 
-namespace AridityTeam.Util
+namespace AridityTeam.Util.Git
 {
     /// <summary>
     /// Event data when the current progress in an Git operation has changed.

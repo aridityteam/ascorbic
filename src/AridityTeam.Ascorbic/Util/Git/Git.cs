@@ -24,7 +24,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace AridityTeam.Util
+namespace AridityTeam.Util.Git
 {
     /// <summary>
     /// Provides functionality to interact with the Git command-line tool.
@@ -75,7 +75,7 @@ namespace AridityTeam.Util
                     Arguments = arguments,
                     UseShellExecute = _config.UseShellExecution,
                     CreateNoWindow = true,
-                    RedirectStandardOutput = captureOutput || !_config.UseShellExecution,
+                    RedirectStandardOutput = captureOutput && !_config.UseShellExecution,
                     RedirectStandardError = !_config.UseShellExecution,
                     WorkingDirectory = workingDirectory
                 }

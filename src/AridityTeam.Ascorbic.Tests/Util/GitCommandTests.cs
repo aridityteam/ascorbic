@@ -22,7 +22,7 @@
 using System;
 using System.IO;
 
-using AridityTeam.Util;
+using AridityTeam.Util.Git;
 
 using Moq;
 

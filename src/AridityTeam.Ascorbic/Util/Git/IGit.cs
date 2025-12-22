@@ -21,7 +21,7 @@
 
 using System;
 
-namespace AridityTeam.Util
+namespace AridityTeam.Util.Git
 {
     /// <summary>
     /// Configuration for Git operations.

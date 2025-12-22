@@ -43,6 +43,9 @@
 			- Addition: Result{T, TException}
 			- Addition: Verify.Operation(Result)
 			- Addition: Verify.Operation(Result{T, TException})
+			- Addition: AridityTeam.Diagnostics.DiagnosticScope
+			- Addition: AridityTeam.Diagnostics.DiagnosticSample
+			- Removed: Old AridityTeam.Diagnostics utilties
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
@@ -60,6 +63,9 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'net472'">
 		<PackageReference Include="System.Net.Http" />
 		<PackageReference Include="System.IO.Compression" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="PolyType" />
 	</ItemGroup>
     <ItemGroup>
 	    <Content Include="..\..\README.md" Pack="True" PackagePath="\" />

@@ -19,13 +19,13 @@
  * SOFTWARE.
  */
 
-using System;
-using System.Collections.Generic;
 using AridityTeam;
 
 #if !NET5_0_OR_GREATER || !NETCOREAPP3_0_OR_GREATER
 namespace System.Runtime.CompilerServices
 {
+    internal class IsExternalInit { }
+
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false, Inherited = false)]
     internal sealed class CallerArgumentExpressionAttribute : Attribute
     {
@@ -162,7 +162,7 @@ namespace System.Collections.Generic
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue> dict, TKey key, TValue value) where TKey : class
+        public static bool TryAdd<TKey, TValue>(this Dictionary<TKey, TValue>? dict, TKey key, TValue value) where TKey : class
         {
             Requires.NotNull(dict);
 

@@ -26,13 +26,13 @@ using AridityTeam.Util.Git;
 
 using Moq;
 
-namespace AridityTeam.Ascorbic.Tests.Util
+namespace AridityTeam.Ascorbic.Tests.Util.Git
 {
     [Collection("GitTests")] // This ensures tests run sequentially
     public class GitCommandTests : IDisposable
     {
         private readonly string _testRepoPath;
-        private readonly Git _git;
+        private readonly GitClient _git;
         private const string TestBranchName = "test-branch";
         private readonly Mock<IGitConfiguration> _mockConfig;
         private const string GIT_REPO_URL = "https://github.com/AasishPokhrel/shit.git"; // use the 1Bth repo on GitHub
@@ -58,7 +58,7 @@ namespace AridityTeam.Ascorbic.Tests.Util
             _mockConfig.Setup(x => x.GitExecutablePath).Returns(DefaultGitConfiguration.FindGitExecutable());
             _mockConfig.Setup(x => x.UseShellExecution).Returns(false);
 
-            _git = new Git(_mockConfig.Object);
+            _git = new GitClient(_mockConfig.Object);
             _git.Clone(new Uri(GIT_REPO_URL), _testRepoPath, 1);
         }
 

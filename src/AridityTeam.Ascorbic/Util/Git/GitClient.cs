@@ -33,25 +33,25 @@ namespace AridityTeam.Util.Git
     /// This class allows users to execute Git commands by specifying the path to the Git executable. It
     /// initializes a process configured to run Git commands with standard output and error redirection.
     /// </remarks>
-    public class Git : IGit
+    public class GitClient : IGit
     {
         private readonly IGitConfiguration _config;
 
         /// <summary>
-        /// Initializes a new <seealso cref="Git"/> instance.
+        /// Initializes a new <seealso cref="GitClient"/> instance.
         /// </summary>
         /// <param name="config">Git configuration.</param>
-        public Git(IGitConfiguration? config)
+        public GitClient(IGitConfiguration? config)
         {
             Requires.NotNull(config);
             _config = config;
         }
 
         /// <summary>
-        /// Initializes a new <seealso cref="Git"/> instance with default configuration.
+        /// Initializes a new <seealso cref="GitClient"/> instance with default configuration.
         /// </summary>
         /// <param name="gitFilePath">Path to Git executable.</param>
-        public Git(string gitFilePath) : this(new DefaultGitConfiguration(gitFilePath))
+        public GitClient(string gitFilePath) : this(new DefaultGitConfiguration(gitFilePath))
         {
         }
 

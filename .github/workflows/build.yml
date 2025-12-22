@@ -24,12 +24,12 @@ jobs:
         dotnet-version: ${{ matrix.dotnet }}
 
     - name: Install Git on Linux
-      if: runner.os != 'Ubuntu'
+      if: runner.os == 'Linux'
       run: |
         sudo apt-get update && sudo apt-get install -y git
 
     - name: Install Git on macOS
-      if: runner.os != 'macOS'
+      if: runner.os == 'macOS'
       run: |
         brew install git
 

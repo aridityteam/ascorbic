@@ -2,7 +2,9 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+#if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER // so that it doesn't complain about an unused using directive.
 using System.Runtime.InteropServices;
+#endif
 
 namespace AridityTeam.IO
 {

@@ -26,7 +26,9 @@ namespace AridityTeam
     /// <summary>
     /// Represents an indicator that the operation was sucessful, or not.
     /// </summary>
-    public interface IResult<T> where T : class
+    public interface IResult<T, TException>
+        where T : class
+        where TException : Exception, new()
     {
         /// <summary>
         /// Gets the returned value after the operation has completed.
@@ -46,6 +48,6 @@ namespace AridityTeam
         /// <summary>
         /// Gets the attached exception.
         /// </summary>
-        Exception? Exception { get; }
+        TException? Exception { get; }
     }
 }

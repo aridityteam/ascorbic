@@ -4,8 +4,8 @@
 		<Platform Name="x64" />
 		<Platform Name="x86" />
 	</Configurations>
-	<Folder Name="/Libraries/">
-		<Project Path="src/Libraries/AridityTeam.Ascorbic/AridityTeam.Ascorbic.csproj">
+	<Folder Name="/Main/">
+		<Project Path="src/AridityTeam.Ascorbic/AridityTeam.Ascorbic.csproj">
 			<Platform Solution="*|x64" Project="x64" />
 			<Platform Solution="*|x86" Project="x86" />
 		</Project>
@@ -20,7 +20,7 @@
 		<File Path="README.md" />
 	</Folder>
 	<Folder Name="/Tests/">
-		<Project Path="src/Tests/AridityTeam.Ascorbic.Tests/AridityTeam.Ascorbic.Tests.csproj">
+		<Project Path="src/AridityTeam.Ascorbic.Tests/AridityTeam.Ascorbic.Tests.csproj">
 			<Platform Solution="*|x64" Project="x64" />
 			<Platform Solution="*|x86" Project="x86" />
 		</Project>

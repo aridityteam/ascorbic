@@ -30,6 +30,12 @@ namespace AridityTeam.Mathematics
     /// </summary>
     public static class MathUtil
     {
+        /// <summary>Degrees to radians conversion factor.</summary>
+        public const double Deg2Rad = Math.PI / 180.0;
+
+        /// <summary>Radians to degrees conversion factor.</summary>
+        public const double Rad2Deg = 180.0 / Math.PI;
+
 #if NET472_OR_GREATER
         /// <summary>
         /// Clamps an integer value between a minimum and maximum value.
@@ -168,5 +174,19 @@ namespace AridityTeam.Mathematics
             return number == (1 << num1) ? num1 : throw new ArgumentException(
                 PrivateErrorHelpers.Format(SR.Math_TheNumberIsNotPow2, number));
         }
+
+        /// <summary>
+        /// Converts degrees to radians.
+        /// </summary>
+        /// <param name="degrees">Angle in degrees.</param>
+        /// <returns>Angle in radians.</returns>
+        public static double ToRadians(double degrees) => degrees * Deg2Rad;
+
+        /// <summary>
+        /// Converts radians to degrees.
+        /// </summary>
+        /// <param name="radians">Angle in radians.</param>
+        /// <returns>Angle in degrees.</returns>
+        public static double ToDegrees(double radians) => radians * Rad2Deg;
     }
 }

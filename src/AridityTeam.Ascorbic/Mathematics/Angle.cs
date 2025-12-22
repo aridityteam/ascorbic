@@ -20,30 +20,37 @@
  */
 
 using System;
-using System.Threading;
+using System.Runtime.Serialization;
 
-namespace AridityTeam.Services
+using PolyType;
+
+namespace AridityTeam.Mathematics
 {
-    internal partial class ServiceEntry
+    /// <summary>
+    /// Represents an angle in degrees, with conversion to/from radians.
+    /// </summary>
+    [GenerateShape]
+    [Serializable]
+    public partial struct Angle(double degrees)
     {
-        public Type ServiceType { get; }
-        public Func<IServiceProvider, object>? Factory { get; }
-        public object? Instance;
-        public bool IsSingleton { get; }
-        public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
+        /// <summary>The angle in degrees.</summary>
+        [DataMember]
+        public double Degrees = degrees;
 
-        public ServiceEntry(Type t, object? instance)
+        /// <summary>Gets or sets the angle in radians.</summary>
+        [DataMember]
+        public double Radians
         {
-            ServiceType = t;
-            Instance = instance;
-            IsSingleton = true;
+            readonly get => MathUtil.ToRadians(Degrees);
+            set => Degrees = MathUtil.ToDegrees(value);
         }
 
-        public ServiceEntry(Type t, Func<IServiceProvider, object> factory, bool singleton)
-        {
-            ServiceType = t;
-            Factory = factory;
-            IsSingleton = singleton;
-        }
+        /// <summary>Creates an angle from radians.</summary>
+        /// <param name="radians">Angle in radians.</param>
+        /// <returns>Angle in degrees.</returns>
+        public static Angle FromRadians(double radians) => new(MathUtil.ToDegrees(radians));
+
+        /// <summary>Returns a string representation of the angle in degrees.</summary>
+        public override readonly string ToString() => $"{Degrees}°";
     }
 }

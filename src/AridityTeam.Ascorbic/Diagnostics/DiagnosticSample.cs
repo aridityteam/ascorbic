@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.Runtime.Serialization;
 
 using PolyType;
 
@@ -37,13 +38,25 @@ namespace AridityTeam.Diagnostics
     /// A collection of integers that represent the amount of times that
     /// the garbage collection has occurred.
     /// </param>
+    [Serializable]
     [GenerateShape]
     public partial record DiagnosticSample(
+        [property: DataMember]
         string ScopeName,
+
+        [property: DataMember]
         TimeSpan Elapsed,
+
+        [property: DataMember]
         TimeSpan CpuTime,
+
+        [property: DataMember]
         long AllocatedBytes,
+
+        [property: DataMember]
         long WorkingSetDelta,
+
+        [property: DataMember]
         int[] GcCollections
     );
 }

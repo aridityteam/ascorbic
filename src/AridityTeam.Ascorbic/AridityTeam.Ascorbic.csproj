@@ -46,6 +46,10 @@
 			- Addition: AridityTeam.Diagnostics.DiagnosticScope
 			- Addition: AridityTeam.Diagnostics.DiagnosticSample
 			- Addition: Threading utilities (AridityTeam.Threading namespace)
+			- Addition: More mathematical utilities
+			- Addition: Generated shapes for serializable objects using PolyType
+			- Modified: Renamed "Vector2D" to "Vector2"
+			- Modified: Renamed "Vector3D" to "Vector3"
 			- Modified: Moved Git-related utilities from "AridityTeam.Util" to "AridityTeam.Util.Git"
 			- Modified: Renamed "Git" to "GitClient"
 			- Removed: Old AridityTeam.Diagnostics utilties

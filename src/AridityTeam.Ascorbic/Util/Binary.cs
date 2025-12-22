@@ -21,7 +21,10 @@
 
 using System;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
+
+using PolyType;
 
 namespace AridityTeam.Util
 {
@@ -30,18 +33,22 @@ namespace AridityTeam.Util
     /// </summary>
     /// <remarks>The <see cref="Binary"/> class encapsulates a binary value represented as a string.  Instances of
     /// this class can be compared for equality using the <see cref="Equals(Binary?)"/> method.</remarks>
-    public class Binary : IEquatable<Binary>, IComparable<Binary>
+    [Serializable]
+    [GenerateShape]
+    public partial class Binary : IEquatable<Binary>, IComparable<Binary>
     {
         private readonly string _binText;
 
         /// <summary>
         /// Gets the binary string representation.
         /// </summary>
+        [DataMember]
         public string Value => ToString();
 
         /// <summary>
         /// Gets the length of the binary string.
         /// </summary>
+        [DataMember]
         public int Length => _binText.Length;
 
         /// <summary>

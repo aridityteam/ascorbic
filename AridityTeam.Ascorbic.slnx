@@ -26,6 +26,7 @@
 		</Project>
 	</Folder>
 	<Folder Name="/Workflows/">
+		<File Path=".github/workflows/build.yml" />
 		<File Path=".github/workflows/docfx.yml" />
 	</Folder>
 </Solution>

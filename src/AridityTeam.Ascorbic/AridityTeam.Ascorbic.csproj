@@ -38,7 +38,7 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Addition: We have added (un)proper documentation using DocFX on https://aridityteam.github.io/ascorbic
+			- Addition: We have added (im)proper documentation using DocFX on https://aridityteam.github.io/ascorbic
 			- Addition: Result
 			- Addition: Result{T, TException}
 			- Addition: Verify.Operation(Result)

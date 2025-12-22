@@ -75,7 +75,7 @@ namespace AridityTeam.Util.Git
                     Arguments = arguments,
                     UseShellExecute = _config.UseShellExecution,
                     CreateNoWindow = true,
-                    RedirectStandardOutput = captureOutput && !_config.UseShellExecution,
+                    RedirectStandardOutput = captureOutput || !_config.UseShellExecution,
                     RedirectStandardError = !_config.UseShellExecution,
                     WorkingDirectory = workingDirectory
                 }

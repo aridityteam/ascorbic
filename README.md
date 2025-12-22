@@ -14,6 +14,7 @@ It serves as the foundation for building applications and services that adhere t
 - **Validation**: A set of validation utilities to ensure data integrity and correctness.
   (validation methods inside the library are provided by [Microsoft.VisualStudio.Validation](https://github.com/microsoft/vs-validation),
   all of their code is used in the library, and are modified to suit our needs.)
+- **Threading**: AridityTeam.Ascorbic provides a set of threading (mostly asynchronous) utilities that were not present in BCL.
 - **Proper Error-Handling**: AridityTeam.Ascorbic provides a few methods, and classes like `Result<T>` to ensure proper error handling.
 - **Command-line parser**: A parser for command-line arguments that simplifies the process of handling user input.
 - **Multi-text writer**: A utility for writing text to multiple outputs simultaneously, such as console and file.

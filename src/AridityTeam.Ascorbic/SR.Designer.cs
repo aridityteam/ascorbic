@@ -79,7 +79,7 @@ namespace AridityTeam {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An internal error occurred. Please contact Microsoft Support..
+        ///   Looks up a localized string similar to An internal error occurred. Please contact The Aridity Team if possible..
         /// </summary>
         internal static string InternalExceptionMessage {
             get {
@@ -147,6 +147,24 @@ namespace AridityTeam {
         internal static string ServiceMissing {
             get {
                 return ResourceManager.GetString("ServiceMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot increment the current count after zero..
+        /// </summary>
+        internal static string Threading_CannotAddCountAfterZero {
+            get {
+                return ResourceManager.GetString("Threading_CannotAddCountAfterZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Countdown already reached zero..
+        /// </summary>
+        internal static string Threading_CountdownAlreadyReachedZero {
+            get {
+                return ResourceManager.GetString("Threading_CountdownAlreadyReachedZero", resourceCulture);
             }
         }
         

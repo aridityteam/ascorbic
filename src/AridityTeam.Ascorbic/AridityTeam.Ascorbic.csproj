@@ -45,6 +45,9 @@
 			- Addition: Verify.Operation(Result{T, TException})
 			- Addition: AridityTeam.Diagnostics.DiagnosticScope
 			- Addition: AridityTeam.Diagnostics.DiagnosticSample
+			- Addition: Threading utilities (AridityTeam.Threading namespace)
+			- Modified: Moved Git-related utilities from "AridityTeam.Util" to "AridityTeam.Util.Git"
+			- Modified: Renamed "Git" to "GitClient"
 			- Removed: Old AridityTeam.Diagnostics utilties
 		</PackageReleaseNotes>
 	</PropertyGroup>

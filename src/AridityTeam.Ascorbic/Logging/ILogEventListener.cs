@@ -32,12 +32,5 @@ namespace AridityTeam.Logging
         /// <param name="sender">The value of the event sender.</param>
         /// <param name="e">The value of the event data.</param>
         void OnLogEvent(object sender, LogEventArgs e);
-
-        /// <summary>
-        /// Called when a log message event has been invoked.
-        /// </summary>
-        /// <param name="sender">The value of the event sender.</param>
-        /// <param name="e">The value of the event data.</param>
-        void OnLogMessageEvent(object sender, LogMessageEventArgs e);
     }
 }

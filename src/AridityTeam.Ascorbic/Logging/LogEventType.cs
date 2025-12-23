@@ -19,34 +19,31 @@
  * SOFTWARE.
  */
 
-using System;
-
-using PolyType;
-
 namespace AridityTeam.Logging
 {
     /// <summary>
-    /// The data of the log message event.
+    /// Determines what kind of event is being sent to the logging listener.
     /// </summary>
-    /// <remarks>
-    /// Creates a new event data instance.
-    /// </remarks>
-    /// <param name="logger">The value of the current logger where the event was invoked from.</param>
-    /// <param name="message">The value of the log message string.</param>
-    /// <param name="level">The value of the log message's level.</param>
-    [Serializable]
-    [GenerateShape]
-    public partial class LogMessageEventArgs(ILogger logger, string message, MessageLevel level) : 
-        LogEventArgs(logger, LogEventType.Message)
+    public enum LogEventType
     {
         /// <summary>
-        /// The value of the log message string.
+        /// An unknown type.
         /// </summary>
-        public string Message { get; } = message;
+        None = 0,
 
         /// <summary>
-        /// The value of the log message's level.
+        /// Occurs when a log message is sent.
         /// </summary>
-        public MessageLevel Level { get; } = level;
+        Message,
+
+        /// <summary>
+        /// Occurs when a new log event listener has been registered.
+        /// </summary>
+        ListenerRegistered,
+
+        /// <summary>
+        /// Occurs when an existing log event listener has been removed.
+        /// </summary>
+        ListenerUnregistered
     }
 }

@@ -50,9 +50,8 @@ namespace AridityTeam.Logging
     /// messages are written to the error stream. All other messages are written to the standard output stream.
     /// </para>
     /// </remarks>
-    public class Logger : ILogger
+    public class Logger : DisposableObject, ILogger
     {
-        private bool _disposed;
         private readonly LoggerSettings _settings;
 
         /// <summary>
@@ -153,6 +152,9 @@ namespace AridityTeam.Logging
         {
             if (_listeners.Contains(listener)) return;
             _listeners.Add(listener);
+
+            foreach (var existingListeners in _listeners)
+                existingListeners.OnLogEvent(this, new(this, LogEventType.ListenerRegistered));
         }
 
         /// <summary>
@@ -167,6 +169,9 @@ namespace AridityTeam.Logging
                 disposable.Dispose();
 
             _listeners.Remove(listener);
+
+            foreach (var existingListeners in _listeners)
+                existingListeners.OnLogEvent(this, new(this, LogEventType.ListenerUnregistered));
         }
 
         /// <summary>
@@ -657,10 +662,7 @@ namespace AridityTeam.Logging
             }
 
             foreach (var listener in _listeners)
-            {
-                listener.OnLogEvent(this, new LogEventArgs(this));
-                listener.OnLogMessageEvent(this, new LogMessageEventArgs(this, message, level));
-            }
+                listener.OnLogEvent(this, new LogMessageEventArgs(this, message, level));
         }
 
         /// <summary>
@@ -743,6 +745,7 @@ namespace AridityTeam.Logging
 
             var file = Path.GetFileName(frame?.GetFileName()) ?? "unknown file";
             var line = frame?.GetFileLineNumber() ?? 0;
+            var message = string.Format(format, args);
 
             if (_settings.Colors)
             {
@@ -762,17 +765,17 @@ namespace AridityTeam.Logging
                     {
                         case MessageLevel.Debug:
                             Debug.WriteLine(FormatMessage(level, DateTime.Now,
-                            file, line, string.Format(format, args)));
+                            file, line, message));
                             break;
                         case MessageLevel.Err:
                         case MessageLevel.Crit:
                         case MessageLevel.Fatal:
                             ErrWriter.WriteLine(FormatMessage(level, DateTime.Now,
-                            file, line, string.Format(format, args)));
+                            file, line, message));
                             break;
                         default:
                             OutputWriter.WriteLine(FormatMessage(level, DateTime.Now,
-                            file, line, string.Format(format, args)));
+                            file, line, message));
                             break;
                     }
                 }
@@ -788,68 +791,39 @@ namespace AridityTeam.Logging
                 {
                     case MessageLevel.Debug:
                         Debug.WriteLine(FormatMessage(level, DateTime.Now,
-                        file, line, string.Format(format, args)));
+                        file, line, message));
                         break;
                     case MessageLevel.Err:
                     case MessageLevel.Crit:
                     case MessageLevel.Fatal:
                         ErrWriter.WriteLine(FormatMessage(level, DateTime.Now,
-                        file, line, string.Format(format, args)));
+                        file, line, message));
                         break;
                     default:
                         OutputWriter.WriteLine(FormatMessage(level, DateTime.Now,
-                        file, line, string.Format(format, args)));
+                        file, line, message));
                         break;
                 }
             }
 
             foreach (var listener in _listeners)
-            {
-                listener.OnLogEvent(this, new LogEventArgs(this));
-                listener.OnLogMessageEvent(this, new LogMessageEventArgs(this, string.Format(format, args), level));
-            }
+                listener.OnLogEvent(this, new LogMessageEventArgs(this, message, level));
         }
 
         /// <summary>
         /// Releases the unmanaged resources used by the Logger and optionally releases the managed resources.
         /// </summary>
-        /// <param name="disposing">True to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
-        /// <remarks>
-        /// If <paramref name="disposing"/> is true and the logger was constructed with <c>closeWriterOnDispose = true</c>,
-        /// the output writer will be closed. Otherwise, only the unmanaged resources are released.
-        /// </remarks>
-        protected virtual void Dispose(bool disposing)
+        protected override void DisposeManagedResources()
         {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    if (_settings.ShouldCloseWriterOnDispose
-                        || _settings.StdOut.HasFlag(LoggerDestination.File))
-                        OutputWriter.Close();
-                    if (_settings.ShouldCloseErrWriterOnDispose
-                        || _settings.StdErr.HasFlag(LoggerDestination.File))
-                        ErrWriter.Close();
+            if (_settings.ShouldCloseWriterOnDispose
+                || _settings.StdOut.HasFlag(LoggerDestination.File))
+                OutputWriter.Close();
+            if (_settings.ShouldCloseErrWriterOnDispose
+                || _settings.StdErr.HasFlag(LoggerDestination.File))
+                ErrWriter.Close();
 
-                    foreach (var listener in _listeners)
-                        UnregisterEventListener(listener);
-                }
-
-                _disposed = true;
-            }
-        }
-
-        /// <summary>
-        /// Releases all resources used by the Logger.
-        /// </summary>
-        /// <remarks>
-        /// This method calls the protected <see cref="Dispose(bool)"/> method with <c>disposing = true</c>
-        /// and suppresses finalization of the object.
-        /// </remarks>
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
+            foreach (var listener in _listeners)
+                UnregisterEventListener(listener);
         }
     }
 }

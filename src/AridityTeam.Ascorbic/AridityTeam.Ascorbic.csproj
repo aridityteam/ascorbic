@@ -7,8 +7,6 @@
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	    <DocumentationFile>..\..\bin\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 	    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	    <SignAssembly>True</SignAssembly>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 	
     <!--NuGet package info-->
@@ -32,7 +30,13 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
+			- Addition: MORE Threading utilities
+			- Addition: LogEventType
+			- Addition: "Type" property in LogEventArgs
 			- Modified: Make use of MEF for the add-in manager
+			- Modified: The AridityTeam.Logging.Logger class is now inherited from DisposableObject
+			- Modified: Log event listeners will trigger upon a new listener has been registered or removed from the logger.
+			- Removed: The "OnLogMessageEvent(object?, LogMessageEventArgs)" function in AridityTeam.Logging.ILogEventListener
 		</PackageReleaseNotes>
 	</PropertyGroup>
 

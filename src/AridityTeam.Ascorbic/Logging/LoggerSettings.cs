@@ -33,47 +33,27 @@ namespace AridityTeam.Logging
         /// <summary>
         /// Default configuration for the logger.
         /// </summary>
-        public static readonly LoggerSettings Default =
-            new LoggerSettings(new Type[]{},LoggerDestination.Default, LoggerDestination.Error,
-                false, MessageLevel.Info, "debug.log", true, new ILogEventListener[]{});
-
-        /// <summary>
-        /// Stores configuration and stuff for proper logging, these properties
-        /// can be changed at any time.
-        /// </summary>
-        /// <param name="exclusions">The collection of type exclusions.</param>
-        /// <param name="stdout">The value of the destination for normal messages. (info to warning)</param>
-        /// <param name="stderr">The value of the destination for error messages. (error to fatal)</param>
-        /// <param name="closeWriterOnDispose">Specifies whether to close the main output writer upon disposing the logger.</param>
-        /// <param name="minLevel">The value of the minimum logger level.</param>
-        /// <param name="logFileName">The value of the output file name.</param>
-        /// <param name="enableColors">Specifies whether to enable log message colors.</param>
-        /// <param name="listeners">The collection of log event listeners.</param>
-        public LoggerSettings(Type[] exclusions, LoggerDestination stdout, LoggerDestination stderr,
-            bool closeWriterOnDispose,
-            MessageLevel minLevel,
-            string logFileName, bool enableColors, ILogEventListener[] listeners)
+        public static readonly LoggerSettings Default = new()
         {
-            Exclusions = exclusions;
-            StdOut = stdout;
-            StdErr = stderr;
-            ShouldCloseWriterOnDispose = closeWriterOnDispose;
-            ShouldCloseErrWriterOnDispose = closeWriterOnDispose;
-            MinimumLevel = minLevel;
-            LogFileName = logFileName;
-            Colors = enableColors;
-            LogEventListeners = new List<ILogEventListener>(listeners);
-        }
+            LogEventListeners = [],
+            Exclusions = [],
+            LogFileName = "debug.log",
+            StdOut = LoggerDestination.Console,
+            StdErr = LoggerDestination.Error,
+            Colors = true,
+            ShouldCloseWriterOnDispose = false,
+            ShouldCloseErrWriterOnDispose = false
+        };
 
         /// <summary>
         /// The current registered log event listeners.
         /// </summary>
-        public List<ILogEventListener> LogEventListeners { get; set; }
+        public List<ILogEventListener> LogEventListeners { get; set; } = [];
 
         /// <summary>
         /// The file name of the logger output.
         /// </summary>
-        public string LogFileName { get; set; }
+        public string LogFileName { get; set; } = string.Empty;
 
         /// <summary>
         /// The main destination for normal messages. (info to warning)
@@ -110,6 +90,6 @@ namespace AridityTeam.Logging
         /// <summary>
         /// Types/classes to be skipped ahead of the file name checker.
         /// </summary>
-        public Type[] Exclusions { get; set; }
+        public List<Type> Exclusions { get; set; } = [];
     }
 }

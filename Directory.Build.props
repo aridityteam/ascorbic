@@ -11,6 +11,7 @@
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<OutputPath>$(SolutionDir)\bin\$(Platform)</OutputPath>
+		<SignAssembly>true</SignAssembly>
 		<AssemblyOriginatorKeyFile>..\AridityTeam.Ascorbic.snk</AssemblyOriginatorKeyFile>
 		<Platforms>AnyCPU;x64;x86</Platforms>
 	</PropertyGroup>

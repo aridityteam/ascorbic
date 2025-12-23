@@ -21,25 +21,27 @@
 
 using System;
 
+using PolyType;
+
 namespace AridityTeam.Logging
 {
-	/// <summary>
-	/// The data of the log event.
-	/// </summary>
-	public class LogEventArgs : EventArgs
+    /// <summary>
+    /// The event data of the log event.
+    /// </summary>
+    /// <param name="logger">The value of the current logger where the event was invoked from.</param>
+    /// <param name="type">The value of what kind of event is this.</param>
+    [Serializable]
+    [GenerateShape]
+    public partial class LogEventArgs(ILogger logger, LogEventType type = LogEventType.None) : EventArgs
 	{
-		/// <summary>
-		/// The logger where the event was invoked from.
-		/// </summary>
-		public ILogger Logger;
+        /// <summary>
+        /// The logger where the event was invoked from.
+        /// </summary>
+        public ILogger Logger { get; } = Requires.NotNull(logger);
 
         /// <summary>
-        /// Creates a new event data instance.
+        /// The type of event sent to the listener.
         /// </summary>
-        /// <param name="logger">The value of the current logger where the event was invoked from.</param>
-        public LogEventArgs(ILogger logger)
-		{
-			Logger = logger;
-		}
-	}
+        public LogEventType Type { get; } = type;
+    }
 }

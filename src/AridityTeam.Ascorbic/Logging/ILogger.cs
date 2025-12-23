@@ -31,7 +31,7 @@ namespace AridityTeam.Logging
     /// This interface provides a contract for logging implementations that support multiple message levels
     /// and various formatting options. It extends <see cref="IDisposable"/> to allow proper resource cleanup.
     /// </remarks>
-    public interface ILogger : IDisposable
+    public interface ILogger
     {
         /// <summary>
         /// Gets the minimum logging level.

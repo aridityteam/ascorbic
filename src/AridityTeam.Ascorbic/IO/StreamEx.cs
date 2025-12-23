@@ -96,9 +96,9 @@ namespace AridityTeam.IO
             long total = 0;
             int read;
 
-            while ((read = await source.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            while ((read = await source.ReadAsync(buffer, token)) > 0)
             {
-                await destination.WriteAsync(buffer, 0, read);
+                await destination.WriteAsync(buffer, token);
                 total += read;
                 progress?.Report(total);
             }

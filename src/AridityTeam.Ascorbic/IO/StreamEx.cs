@@ -46,10 +46,8 @@ namespace AridityTeam.IO
         /// </exception>
         public static void Rewind(this Stream stream)
         {
-            if (!stream.CanSeek)
-                throw new NotSupportedException("Stream does not support seeking.");
-
-            stream.Position = 0;
+            var seekable = stream.EnsureSeekable();
+            seekable.Position = 0;
         }
 
         /// <summary>
@@ -125,7 +123,7 @@ namespace AridityTeam.IO
             using var responseStream = await _httpClient.GetStreamAsync(uri);
             var ms = new MemoryStream();
             token.ThrowIfCancellationRequested();
-            await responseStream.CopyToAsync(ms);
+            await responseStream.CopyToAsync(ms, token);
             ms.Position = 0;
             return ms;
         }

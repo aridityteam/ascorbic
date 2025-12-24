@@ -240,4 +240,10 @@
   <data name="Threading_QueueEmpty" xml:space="preserve">
     <value>The queue is currently empty.</value>
   </data>
+  <data name="CannotWriteToStream" xml:space="preserve">
+    <value>Cannot write into the specified stream.</value>
+  </data>
+  <data name="CannotReadFromStream" xml:space="preserve">
+    <value>Cannot read from the specified stream.</value>
+  </data>
 </root>

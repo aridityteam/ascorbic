@@ -22,20 +22,19 @@
 using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Serialization;
+
+using AridityTeam.IO;
 
 namespace AridityTeam.Configuration
 {
     /// <summary>
-    /// Manages the current configuration by loading/saving XML configuration from file or stream.
+    /// Manages the current configuration by loading/saving the configuration from a file or stream.
     /// </summary>
     public class ConfigurationManager<T> : IConfigurationManager<T> where T : class, new()
     {
-        private readonly XmlSerializerHelper<T> _helper = new();
+        private readonly IConfigurationSerializer<T> _serializer;
 
         private T _currentConfig = null!;
 
@@ -57,14 +56,26 @@ namespace AridityTeam.Configuration
         { }
 
         /// <summary>
-        /// Initializes a new instance with a specified file path.
+        /// Initializes a new instance of the <seealso cref="ConfigurationManager{T}"/> class.
         /// </summary>
+        /// <param name="configurationPath">The absolute path to the configuration file.</param>
         public ConfigurationManager(string configurationPath)
+            : this(configurationPath, new JsonConfigurationSerializer<T>())
         {
-            if (string.IsNullOrWhiteSpace(configurationPath))
-                throw new ArgumentException("Configuration path cannot be null or empty.", nameof(configurationPath));
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <seealso cref="ConfigurationManager{T}"/> class.
+        /// </summary>
+        /// <param name="configurationPath">The absolute path to the configuration file.</param>
+        /// <param name="serializer">The serializer/deserializer instance to use.</param>
+        public ConfigurationManager(string configurationPath, IConfigurationSerializer<T> serializer)
+        {
+            Requires.NotNullOrEmpty(configurationPath);
+            Requires.NotNull(serializer);
 
             _configurationPath = configurationPath;
+            _serializer = serializer;
         }
 
         #region File-based Methods
@@ -76,11 +87,14 @@ namespace AridityTeam.Configuration
         {
             Directory.CreateDirectory(Path.GetDirectoryName(_configurationPath)!);
 
-            using var fs = new FileStream(
-                _configurationPath,
-                FileMode.OpenOrCreate,
-                FileAccess.ReadWrite,
-                FileShare.Read);
+#if NET6_0_OR_GREATER
+            await
+#endif
+                using var fs = new FileStream(
+                    _configurationPath,
+                    FileMode.OpenOrCreate,
+                    FileAccess.ReadWrite,
+                    FileShare.Read);
 
             await LoadConfigAsync(fs, token);
         }
@@ -92,11 +106,14 @@ namespace AridityTeam.Configuration
         {
             Directory.CreateDirectory(Path.GetDirectoryName(_configurationPath)!);
 
-            using var fs = new FileStream(
-                _configurationPath,
-                FileMode.OpenOrCreate,
-                FileAccess.Write,
-                FileShare.Read);
+#if NET6_0_OR_GREATER
+            await
+#endif
+                using var fs = new FileStream(
+                    _configurationPath,
+                    FileMode.OpenOrCreate,
+                    FileAccess.ReadWrite,
+                    FileShare.Read);
 
             await SaveConfigAsync(newConfig, fs, token);
         }
@@ -110,18 +127,21 @@ namespace AridityTeam.Configuration
         /// </summary>
         public async Task LoadConfigAsync(Stream stream, CancellationToken token = default)
         {
-            token.ThrowIfCancellationRequested();
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
+            Assumes.True(stream.CanRead, SR.CannotReadFromStream);
 
             if (stream.Length == 0)
             {
-                // initialize default config if empty
-                await SaveConfigAsync(new T(), stream, token);
-                stream.Position = 0;
+                var defaultConfig = new T();
+                await SaveConfigAsync(defaultConfig, stream, token);
+                stream.Rewind();
+                _currentConfig = defaultConfig;
+                return;
             }
 
-            using var ms = new MemoryStream();
-            await stream.CopyToAsync(ms);
-            _currentConfig = _helper.BytesToObject(ms.ToArray()) ?? new T();
+            _currentConfig = await _serializer.DeserializeConfigAsync(stream, token);
         }
 
         /// <summary>
@@ -129,18 +149,19 @@ namespace AridityTeam.Configuration
         /// </summary>
         public async Task SaveConfigAsync(T newConfig, Stream stream, CancellationToken token = default)
         {
-            token.ThrowIfCancellationRequested();
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
 
-            stream.Position = 0;
+            Assumes.True(stream.CanRead, SR.CannotReadFromStream);
+            Assumes.True(stream.CanWrite, SR.CannotWriteToStream);
 
-            using var sw = new StreamWriter(stream, Encoding.UTF8, 1024, leaveOpen: true);
-            var serializer = new XmlSerializer(typeof(T));
+            stream.SetLength(0);
+            stream.Rewind();
 
-            using var writer = XmlWriter.Create(sw, new XmlWriterSettings { Indent = true, Async = true });
-            serializer.Serialize(writer, newConfig);
+            _currentConfig = newConfig;
 
-            await sw.FlushAsync();
-            stream.SetLength(stream.Position); // truncate leftover bytes
+            await _serializer.SerializeConfigAsync(newConfig, stream, token);
+            await stream.FlushAsync(token);
         }
 
         #endregion

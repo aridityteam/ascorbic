@@ -24,9 +24,10 @@ using System.Threading;
 using System.Threading.Tasks;
 
 namespace AridityTeam.Threading
-{/// <summary>
- /// An asynchronously awaitable barrier for multiple participants.
- /// </summary>
+{
+    /// <summary>
+    /// An asynchronously awaitable barrier for multiple participants.
+    /// </summary>
     public sealed class AsyncBarrier : DisposableObject
     {
         private readonly object _lock = new();

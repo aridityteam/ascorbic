@@ -79,6 +79,24 @@ namespace AridityTeam {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot read from the specified stream..
+        /// </summary>
+        internal static string CannotReadFromStream {
+            get {
+                return ResourceManager.GetString("CannotReadFromStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot write into the specified stream..
+        /// </summary>
+        internal static string CannotWriteToStream {
+            get {
+                return ResourceManager.GetString("CannotWriteToStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An internal error occurred. Please contact The Aridity Team if possible..
         /// </summary>
         internal static string InternalExceptionMessage {

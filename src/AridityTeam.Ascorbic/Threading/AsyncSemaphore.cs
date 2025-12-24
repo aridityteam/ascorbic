@@ -35,7 +35,7 @@ namespace AridityTeam.Threading
         private readonly Queue<TaskCompletionSource<bool>> _waiters = new();
 
         private int _currentCount;
-        private int _maximumCount;
+        private readonly int _maximumCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AsyncSemaphore"/> class.

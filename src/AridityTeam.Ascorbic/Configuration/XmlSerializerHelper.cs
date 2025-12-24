@@ -53,5 +53,21 @@ namespace AridityTeam.Configuration
             using var reader = new XmlTextReader(memoryStream);
             return _serializer.Deserialize(reader) as T;
         }
+
+        /// <summary>
+        /// Converts <seealso cref="Memory{Byte}"/> from an XML file into an .NET object.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public T? BytesToObject(Memory<byte> bytes) =>
+            BytesToObject(bytes.ToArray());
+
+        /// <summary>
+        /// Converts <seealso cref="Span{Byte}"/> from an XML file into an .NET object.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <returns></returns>
+        public T? BytesToObject(Span<byte> bytes) =>
+            BytesToObject(bytes.ToArray());
     }
 }

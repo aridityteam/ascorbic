@@ -38,6 +38,13 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
+			Revision 3 changes:
+			
+			- Modified: Use Canonical Ubuntu's version format
+			- Modified: Changed the version suffix YET AGAIN
+			
+			------------------------------------------------------
+			
 			IMPORTANT: A different version format will be used after this version (0.0.9)
 			
 			Revision 2 changes:

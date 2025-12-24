@@ -9,6 +9,13 @@
 	    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 	
+	<PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
+	
     <!--NuGet package info-->
     <PropertyGroup>
 	    <PackageId>$(MSBuildProjectName)</PackageId>

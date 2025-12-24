@@ -1,14 +1,16 @@
+name: Deploy DocFX site to GitHub Pages
+
+permissions:
+  actions: read
+  pages: write
+  id-token: write
+
 on:
   push:
     branches: [ "master" ]
     paths:
         - ".github/workflows/**"
         - "docfx/**"
-
-permissions:
-  actions: read
-  pages: write
-  id-token: write
 
 concurrency:
   group: "pages"

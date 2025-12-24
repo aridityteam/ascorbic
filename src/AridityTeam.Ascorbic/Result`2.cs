@@ -28,7 +28,7 @@ namespace AridityTeam
     /// Represents an indicator that the operation was sucessful, or not.
     /// </summary>
     [Serializable]
-    public sealed class Result<T, TException> : IResult<T, TException>
+    public partial class Result<T, TException> : IResult<T, TException>
         where T : class
         where TException : Exception, new()
     {
@@ -173,7 +173,6 @@ namespace AridityTeam
         public static Result<T, TException> Failure(TException? ex) =>
             new(null, false, ex);
         #endregion
-
 
         #region Overriden common methods
         /// <inheritdoc/>

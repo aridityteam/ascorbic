@@ -35,10 +35,13 @@
 			- Addition: "Type" property in LogEventArgs
 			- Addition: The ability to create and use a custom serializer for ConfigurationManager
 			- Addition: 2 Built-in ConfigurationSerializers (XML, and JSON)
+			- Addition: Task.WithCancellation extension
+			- Addition: Generated PolyType shapes for some other serializable types
+			- Modified: Improved cancellation support for some extension methods.
 			- Modified: Make use of MEF for the add-in manager
 			- Modified: Use JSON as the default format for ConfigurationManager
 			- Modified: The AridityTeam.Logging.Logger class is now inherited from DisposableObject
-			- Modified: Log event listeners will trigger upon a new listener has been registered or removed from the logger.
+			- Modified: Log event listeners will trigger upon a new listener has been registered or removed from the logger
 			- Removed: The "OnLogMessageEvent(object?, LogMessageEventArgs)" function in AridityTeam.Logging.ILogEventListener
 		</PackageReleaseNotes>
 	</PropertyGroup>

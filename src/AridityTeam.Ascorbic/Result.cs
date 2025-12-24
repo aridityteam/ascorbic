@@ -22,13 +22,16 @@
 using System;
 using System.Runtime.Serialization;
 
+using PolyType;
+
 namespace AridityTeam
 {
     /// <summary>
     /// Represents an indicator that the operation was sucessful, or not.
     /// </summary>
     [Serializable]
-    public sealed class Result : IResult<object, Exception>
+    [GenerateShape]
+    public partial class Result : IResult<object, Exception>
     {
         #region Properties
         /// <summary>

@@ -55,6 +55,44 @@ namespace AridityTeam.Util
         }
 
         /// <summary>
+        /// Truncates the specified string to a maximum length.
+        /// </summary>
+        /// <param name="value">The string to truncate.</param>
+        /// <param name="maxLength">The maximum number of characters to retain.</param>
+        /// <returns>
+        /// The original string if its length is less than or equal to
+        /// <paramref name="maxLength"/>; otherwise, a truncated substring.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxLength"/> is less than zero.</exception>
+        public static string Truncate(this string value, int maxLength)
+        {
+            Requires.NotNull(value);
+            Requires.InRange(maxLength, 0, int.MaxValue);
+
+            return value.Length <= maxLength
+                ? value
+                : value.Substring(0, maxLength);
+        }
+
+        /// <summary>
+        /// Indents each line of the specified string by the given number of spaces.
+        /// </summary>
+        /// <param name="value">The string whose lines will be indented.</param>
+        /// <param name="spaces">The number of spaces to prepend to each line.</param>
+        /// <returns>A new string in which each line is indented by the specified number of spaces.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="value"/> is <c>null</c>.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="spaces"/> is less than zero. </exception>
+        public static string Indent(this string value, int spaces)
+        {
+            Requires.NotNull(value);
+            Requires.InRange(spaces, 0, int.MaxValue);
+
+            var prefix = new string(' ', spaces);
+            return prefix + value.Replace(Environment.NewLine, Environment.NewLine + prefix);
+        }
+
+        /// <summary>
         /// Throws an <seealso cref="ArgumentNullException"/> if the specified value is null.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown when the string is null.</exception>

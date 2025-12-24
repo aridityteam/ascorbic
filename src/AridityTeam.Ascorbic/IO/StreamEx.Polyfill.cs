@@ -31,6 +31,11 @@ namespace AridityTeam.IO
             Memory<byte> buffer,
             CancellationToken token = default)
         {
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             if (!MemoryMarshal.TryGetArray<byte>(buffer, out var segment))
                 throw new ArgumentException(SR.BufferMustBeBackedByArray, nameof(buffer));
@@ -58,6 +63,11 @@ namespace AridityTeam.IO
             ReadOnlyMemory<byte> buffer,
             CancellationToken token = default)
         {
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             if (!MemoryMarshal.TryGetArray(buffer, out var segment))
                 throw new ArgumentException(SR.BufferMustBeBackedByArray, nameof(buffer));
@@ -85,6 +95,11 @@ namespace AridityTeam.IO
             Stream destination,
             CancellationToken token)
         {
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             return source.CopyToAsync(destination, 81920, token);
 #else
@@ -110,6 +125,11 @@ namespace AridityTeam.IO
             int count,
             CancellationToken token = default)
         {
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NET7_0_OR_GREATER
             await stream.ReadExactlyAsync(buffer, offset, count, token);
 #else
@@ -153,6 +173,11 @@ namespace AridityTeam.IO
             bool throwOnEndOfStream,
             CancellationToken token = default)
         {
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NET7_0_OR_GREATER
             return await stream.ReadAtLeastAsync(buffer, offset, count, throwOnEndOfStream, token);
 #else
@@ -184,6 +209,11 @@ namespace AridityTeam.IO
             this Stream stream,
             CancellationToken token)
         {
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
             return stream.FlushAsync(token);
         }
     }

@@ -120,9 +120,13 @@ namespace AridityTeam.IO
         /// <returns>The current stream that has been replaced with the newly response stream.</returns>
         public static async Task<MemoryStream> GetResponseStreamAsync(Uri uri, CancellationToken token = default)
         {
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
             using var responseStream = await _httpClient.GetStreamAsync(uri);
             var ms = new MemoryStream();
-            token.ThrowIfCancellationRequested();
             await responseStream.CopyToAsync(ms, token);
             ms.Position = 0;
             return ms;
@@ -144,10 +148,14 @@ namespace AridityTeam.IO
         /// <returns>The main response if available.</returns>
         public static async Task<string> GetResponseContentAsync(Uri uri, CancellationToken token = default)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
             using var stream = await GetResponseStreamAsync(uri, token);
             using var sr = new StreamReader(stream, Encoding.UTF8, true, -1, leaveOpen: true);
-            return await sr.ReadToEndAsync();
+            return await sr.ReadToEndAsync(token);
         }
 
         /// <summary>
@@ -166,7 +174,10 @@ namespace AridityTeam.IO
         /// <returns>The current stream that has been replaced with the newly data stream.</returns>
         public static async Task<MemoryStream> GetDataStreamAsync(Uri uri, CancellationToken token = default)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
 
             var match = Regex.Match(uri.AbsoluteUri, @"^data:(?<mime>[^;]+);base64,(?<data>[A-Za-z0-9+/=]+)$");
             if (!match.Success)

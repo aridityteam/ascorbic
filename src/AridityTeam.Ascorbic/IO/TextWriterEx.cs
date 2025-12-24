@@ -16,7 +16,7 @@ namespace AridityTeam.IO
         /// </summary>
         /// <param name="writer">The text writer.</param>
         /// <param name="buffer">The buffer containing the characters to write.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         /// <exception cref="ArgumentException">
         /// Thrown when the provided memory is not backed by a character array.
@@ -24,9 +24,12 @@ namespace AridityTeam.IO
         public static Task WriteAsync(
             this TextWriter writer,
             ReadOnlyMemory<char> buffer,
-            CancellationToken token = default)
+            CancellationToken cancellationToken = default)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
 
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             if (!MemoryMarshal.TryGetArray(buffer, out var segment))
@@ -36,11 +39,11 @@ namespace AridityTeam.IO
 
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.Write(segment.Array!, segment.Offset, segment.Count);
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.WriteAsync(buffer, token);
+            return writer.WriteAsync(buffer, cancellationToken);
 #endif
         }
 
@@ -49,7 +52,7 @@ namespace AridityTeam.IO
         /// </summary>
         /// <param name="writer">The text writer.</param>
         /// <param name="buffer">The buffer containing the characters to write.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         /// <exception cref="ArgumentException">
         /// Thrown when the provided memory is not backed by a character array.
@@ -57,9 +60,12 @@ namespace AridityTeam.IO
         public static Task WriteLineAsync(
             this TextWriter writer,
             ReadOnlyMemory<char> buffer,
-            CancellationToken token = default)
+            CancellationToken cancellationToken = default)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
 
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             if (!MemoryMarshal.TryGetArray(buffer, out var segment))
@@ -72,12 +78,12 @@ namespace AridityTeam.IO
 
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.Write(segment.Array!, segment.Offset, segment.Count);
                 writer.WriteLine();
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.WriteLineAsync(buffer, token);
+            return writer.WriteLineAsync(buffer, cancellationToken);
 #endif
         }
 
@@ -86,7 +92,7 @@ namespace AridityTeam.IO
         /// </summary>
         /// <param name="writer">The text writer.</param>
         /// <param name="buffer">The buffer containing the characters to write.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         /// <remarks>
         /// This overload exists for API symmetry with modern .NET versions.
@@ -94,9 +100,14 @@ namespace AridityTeam.IO
         public static Task WriteAsync(
             this TextWriter writer,
             Memory<char> buffer,
-            CancellationToken token = default)
+            CancellationToken cancellationToken = default)
         {
-            return writer.WriteAsync((ReadOnlyMemory<char>)buffer, token);
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
+
+            return writer.WriteAsync((ReadOnlyMemory<char>)buffer, cancellationToken);
         }
 
         /// <summary>
@@ -104,22 +115,26 @@ namespace AridityTeam.IO
         /// </summary>
         /// <param name="writer">The text writer.</param>
         /// <param name="value">The character to write.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         public static Task WriteAsync(
             this TextWriter writer,
             char value,
-            CancellationToken token)
+            CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.Write(value);
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.WriteAsync(value, token);
+            return writer.WriteAsync(value, cancellationToken);
 #endif
         }
 
@@ -128,22 +143,26 @@ namespace AridityTeam.IO
         /// </summary>
         /// <param name="writer">The text writer.</param>
         /// <param name="value">The string to write.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         public static Task WriteAsync(
             this TextWriter writer,
             string? value,
-            CancellationToken token)
+            CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.Write(value);
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.WriteAsync(value, token);
+            return writer.WriteAsync(value, cancellationToken);
 #endif
         }
 
@@ -154,24 +173,28 @@ namespace AridityTeam.IO
         /// <param name="buffer">The character buffer.</param>
         /// <param name="index">The starting index in the buffer.</param>
         /// <param name="count">The number of characters to write.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         public static Task WriteAsync(
             this TextWriter writer,
             char[] buffer,
             int index,
             int count,
-            CancellationToken token)
+            CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.Write(buffer, index, count);
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.WriteAsync(buffer, index, count, token);
+            return writer.WriteAsync(buffer, index, count, cancellationToken);
 #endif
         }
 
@@ -179,21 +202,25 @@ namespace AridityTeam.IO
         /// Asynchronously writes a line terminator to the text stream.
         /// </summary>
         /// <param name="writer">The text writer.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         public static Task WriteLineAsync(
             this TextWriter writer,
-            CancellationToken token)
+            CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.WriteLine();
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.WriteLineAsync(token);
+            return writer.WriteLineAsync(cancellationToken);
 #endif
         }
 
@@ -202,22 +229,26 @@ namespace AridityTeam.IO
         /// </summary>
         /// <param name="writer">The text writer.</param>
         /// <param name="value">The string to write.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous write operation.</returns>
         public static Task WriteLineAsync(
             this TextWriter writer,
             string? value,
-            CancellationToken token)
+            CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.WriteLine(value);
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.WriteLineAsync(value, token);
+            return writer.WriteLineAsync(value, cancellationToken);
 #endif
         }
 
@@ -225,21 +256,25 @@ namespace AridityTeam.IO
         /// Asynchronously flushes all buffers for the text writer.
         /// </summary>
         /// <param name="writer">The text writer.</param>
-        /// <param name="token">A cancellation token.</param>
+        /// <param name="cancellationToken">A cancellation token.</param>
         /// <returns>A task that represents the asynchronous flush operation.</returns>
         public static Task FlushAsync(
             this TextWriter writer,
-            CancellationToken token)
+            CancellationToken cancellationToken)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (cancellationToken.IsCancellationRequested)
+                throw new TaskCanceledException();
+
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
             return Task.Run(() =>
             {
-                token.ThrowIfCancellationRequested();
+                cancellationToken.ThrowIfCancellationRequested();
                 writer.Flush();
-            }, token);
+            }, cancellationToken);
 #else
-            return writer.FlushAsync(token);
+            return writer.FlushAsync(cancellationToken);
 #endif
         }
     }

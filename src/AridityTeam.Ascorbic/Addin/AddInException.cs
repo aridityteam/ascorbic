@@ -21,13 +21,16 @@
 
 using System;
 
+using PolyType;
+
 namespace AridityTeam.Addin
 {
     /// <summary>
     /// Represents an error inside of the add-in.
     /// </summary>
     [Serializable]
-    public class AddInException : Exception
+    [GenerateShape]
+    public partial class AddInException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <seealso cref="AddInException"/> class.

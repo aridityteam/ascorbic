@@ -38,20 +38,11 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Addition: AsyncProducerConsumerQueue{T}
-			- Addition: LogEventType
-			- Addition: "Type" property in LogEventArgs
-			- Addition: The ability to create and use a custom serializer for ConfigurationManager
-			- Addition: 2 Built-in ConfigurationSerializers (XML, and JSON)
-			- Addition: Task.WithCancellation extension
-			- Addition: Generated PolyType shapes for some other serializable types
-			- Addition: StreamReader.ReadToEndAsync(CancellationToken)
-			- Modified: Improved cancellation support for some extension methods.
-			- Modified: Make use of MEF for the add-in manager
-			- Modified: Use JSON as the default format for ConfigurationManager
-			- Modified: The AridityTeam.Logging.Logger class is now inherited from DisposableObject
-			- Modified: Log event listeners will trigger upon a new listener has been registered or removed from the logger
-			- Removed: The "OnLogMessageEvent(object?, LogMessageEventArgs)" function in AridityTeam.Logging.ILogEventListener
+			IMPORTANT: A different version format will be used after this version (0.0.9)
+			
+			- Modified: README contents
+			- Modified: Removed the dependency for System.Reflection.DispatchProxy
+			- Modified: Removed the dependency for System.IO.Compression
 		</PackageReleaseNotes>
 	</PropertyGroup>
 
@@ -61,7 +52,6 @@
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' Or '$(TargetFramework)' == 'net472'">
 	    <PackageReference Include="Nullable" />
-	    <PackageReference Include="System.Reflection.DispatchProxy" />
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" />
 		<PackageReference Include="Microsoft.Bcl.Memory" />
 		<PackageReference Include="Microsoft.Bcl.HashCode" />
@@ -69,7 +59,6 @@
     </ItemGroup>
 	<ItemGroup Condition="'$(TargetFramework)' == 'net472'">
 		<PackageReference Include="System.Net.Http" />
-		<PackageReference Include="System.IO.Compression" />
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="PolyType" />

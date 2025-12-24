@@ -1,9 +1,14 @@
 # AridityTeam.Ascorbic
 
-The main core platform library for The Aridity Team projects.
+The main platform core library for The Aridity Team projects.
 
 This library contains the core functionalities and abstractions that are shared across various projects within The Aridity Team ecosystem. 
 It serves as the foundation for building applications and services that adhere to the team's standards and practices.
+
+We've made this library available for anyone to use in their projects, in hopes that it will be useful, and make things simple for them in the future.
+
+Contributions are always welcome, and it helps improve our other projects as well! To start contributing, you can read
+[CONTRIBUTING.md](https://github.com/aridityteam/ascorbic/blob/master/CONTRIBUTING.md) to help you getting started on your first contribution into project.
 
 ## Features
 
@@ -21,12 +26,23 @@ It serves as the foundation for building applications and services that adhere t
 - **Logging**: A logging framework that supports various log levels and output formats, making it easier to track application behavior.
 - **Extensions**: AridityTeam.Ascorbic provides variety of extension methods for base .NET types. (`string`, `TextWriter`, and `Stream`).
 - **Service Management**: A utility that manages registered services, to be used in singleton instances.
-- **Polyfills**: AridityTeam.Ascorbic provides extension methods to be able to use (some of) the latest .NET APIs in older framework runtimes.
+- **Polyfills**: AridityTeam.Ascorbic provides extension methods to be able to use (some of) the latest .NET APIs in older framework runtimes, like .NET Framework v4.7.2.
 
 ## License
 
-This library, and some of other third-party components used is licensed under the MIT/X11 License. License terms may apply here.
+This library, and most of the other third-party components used is licensed under the MIT/X11 License. License terms may apply here.
 
 ### Third-party software used
 
-- [Microsoft.VisualStudio.Validation](https://github.com/microsoft/vs-validation) (MIT License)
+Here is a list of third-party software used inside Ascorbic's code, in which made this library, and our other projects possible:
+
+- [Nullable](https://www.nuget.org/packages/Nullable) (MIT License)
+- [PolyType](https://www.nuget.org/packages/PolyType) (MIT License)
+- [System.Composition](https://www.nuget.org/packages/System.Composition) (MIT License)
+- [System.ComponentModel.Composition](https://www.nuget.org/packages/System.ComponentModel.Composition) (MIT License)
+- [System.Text.Json](https://www.nuget.org/packages/System.Text.Json) (MIT License)
+- [System.Net.Http](https://www.nuget.org/packages/System.Net.Http) (MIT License)
+- [Microsoft.Bcl.AsyncInterfaces](https://www.nuget.org/packages/Microsoft.Bcl.AsyncInterfaces) (MIT License)
+- [Microsoft.Bcl.Memory](https://www.nuget.org/packages/Microsoft.Bcl.Memory) (MIT License)
+- [Microsoft.Bcl.HashCode](https://www.nuget.org/packages/Microsoft.Bcl.HashCode) (MIT License)
+- [Microsoft.VisualStudio.Validation](https://www.nuget.org/packages/Microsoft.VisualStudio.Validation) (MIT License)

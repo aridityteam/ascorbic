@@ -2,6 +2,7 @@
 <Project>
 	<PropertyGroup>
 		<Version>0.0.9</Version>
+		<VersionSuffix Condition="'$(Configuration)' == 'Debug'">-beta</VersionSuffix>
 		<AssemblyName>$(ProjectName)</AssemblyName>
 		<Company>The Aridity Team</Company>
 		<LangVersion>latest</LangVersion>

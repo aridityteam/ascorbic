@@ -22,13 +22,16 @@
 using System;
 using System.Runtime.Serialization;
 
+using PolyType;
+
 namespace AridityTeam.Services
 {
     /// <summary>
 	/// Thrown when the <seealso cref="IServiceManager"/> cannot find a required service.
 	/// </summary>
 	[Serializable]
-    public class ServiceNotFoundException : Exception
+    [GenerateShape]
+    public partial class ServiceNotFoundException : Exception
     {
         /// <summary>
         /// Initializes a new instance of the <seealso cref="ServiceNotFoundException"/> error.

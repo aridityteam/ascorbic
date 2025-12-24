@@ -3,6 +3,7 @@
 	<PropertyGroup>
 		<Version>0.0.9</Version>
 		<VersionSuffix Condition="'$(Configuration)' == 'Debug'">-beta</VersionSuffix>
+		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
 		<AssemblyName>$(ProjectName)</AssemblyName>
 		<Company>The Aridity Team</Company>
 		<LangVersion>latest</LangVersion>

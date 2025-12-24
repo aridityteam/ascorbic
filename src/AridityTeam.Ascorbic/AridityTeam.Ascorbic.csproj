@@ -40,6 +40,8 @@
 		<PackageReleaseNotes>
 			IMPORTANT: A different version format will be used after this version (0.0.9)
 			
+			Revision 1 changes:
+			
 			- Modified: README contents
 			- Modified: Removed the dependency for System.Reflection.DispatchProxy
 			- Modified: Removed the dependency for System.IO.Compression

@@ -39,13 +39,13 @@ jobs:
 
       - name: Determine configuration
         run: |
-          if [ "${RELEASE_TYPE}" = "prereleased" ]; then
-            echo "Configuration=Debug" >> $GITHUB_ENV
-            echo "PackageVersion=${VERSION}-beta" >> $GITHUB_ENV
-          else
-            echo "Configuration=Release" >> $GITHUB_ENV
-            echo "PackageVersion=${VERSION}" >> $GITHUB_ENV
-          fi
+          if ($env:RELEASE_TYPE -eq "prereleased") {
+            Write-Output "Configuration=Debug" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+            Write-Output "PackageVersion=${env:VERSION}-beta" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          } else {
+            Write-Output "Configuration=Release" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+            Write-Output "PackageVersion=${env:VERSION}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          }
 
       - name: Build project
         run: dotnet build --no-restore -c ${{ env.Configuration }}

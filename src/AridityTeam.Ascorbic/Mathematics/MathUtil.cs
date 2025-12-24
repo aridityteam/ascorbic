@@ -36,7 +36,7 @@ namespace AridityTeam.Mathematics
         /// <summary>Radians to degrees conversion factor.</summary>
         public const double Rad2Deg = 180.0 / Math.PI;
 
-#if NET472_OR_GREATER
+#if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
         /// <summary>
         /// Clamps an integer value between a minimum and maximum value.
         /// </summary>

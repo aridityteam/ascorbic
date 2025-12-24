@@ -246,4 +246,7 @@
   <data name="CannotReadFromStream" xml:space="preserve">
     <value>Cannot read from the specified stream.</value>
   </data>
+  <data name="MaximumOfAttemptsExceeded" xml:space="preserve">
+    <value>The maximum amount of attempts has been exceeded.</value>
+  </data>
 </root>

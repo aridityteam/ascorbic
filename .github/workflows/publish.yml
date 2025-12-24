@@ -7,6 +7,12 @@ permissions:
 on:
   release:
     types: [published, prereleased]
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Type of release event to simulate (e.g., published)'
+        required: true
+        default: 'published'
 
 jobs:
   publish:

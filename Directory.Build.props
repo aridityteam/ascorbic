@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project>
 	<PropertyGroup>
-		<Version>0.0.9</Version>
+		<BuildDate>$([System.DateTime]::UtcNow.ToString("yy"))$([System.DateTime]::UtcNow.DayOfYear.ToString("000"))</BuildDate>
+		<VersionPrefix>$([System.DateTime]::Now.ToString("yy.MM")).$(BuildDate)</VersionPrefix>
+		<Version>$(VersionPrefix)</Version>
+		<FileVersion>$(VersionPrefix)</FileVersion>
+		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
+		<InformationalVersion>$(VersionPrefix)</InformationalVersion>
 		<VersionSuffix Condition="'$(Configuration)' == 'Debug'">-beta</VersionSuffix>
+		
 		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
 		<AssemblyName>$(ProjectName)</AssemblyName>
 		<Company>The Aridity Team</Company>

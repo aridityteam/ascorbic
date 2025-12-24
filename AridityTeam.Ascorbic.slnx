@@ -34,6 +34,6 @@
 	<Folder Name="/Workflows/">
 		<File Path=".github/workflows/build.yml" />
 		<File Path=".github/workflows/docfx.yml" />
-		<File Path="publish.yml" />
+		<File Path=".github/workflows/publish.yml" />
 	</Folder>
 </Solution>

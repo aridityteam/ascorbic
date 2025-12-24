@@ -37,6 +37,7 @@
 			- Addition: 2 Built-in ConfigurationSerializers (XML, and JSON)
 			- Addition: Task.WithCancellation extension
 			- Addition: Generated PolyType shapes for some other serializable types
+			- Addition: StreamReader.ReadToEndAsync(CancellationToken)
 			- Modified: Improved cancellation support for some extension methods.
 			- Modified: Make use of MEF for the add-in manager
 			- Modified: Use JSON as the default format for ConfigurationManager

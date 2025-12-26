@@ -34,8 +34,8 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			Revision 4 changes:
-
+			- Addition: RetryPolicy
+			- Addition: AsyncRetryPolicy
 			- Addition: HttpClient.GetStreamAsync(string?, CancellationToken) extension (in AridityTeam.Net)
 			- Addition: HttpClient.GetStreamAsync(Uri?, CancellationToken) extension (in AridityTeam.Net)
 			- Addition: HttpClient.GetStringAsync(string?, CancellationToken) extension (in AridityTeam.Net)
@@ -45,26 +45,10 @@
 			- Modified: The internal HttpClient variable inside of StreamEx will now automatically dispose itself
 			- Modified: Fix the StreamReaderEx class not being public
 			- Modified: Pass the CancellationToken parameter to HttpClient.GetStreamAsync in the StreamEx.GetResponseStreamAsync method
-
-			Revision 3 changes:
-
 			- Modified: The package description
 			- Modified: The package tags
-			- Modified: Use Canonical Ubuntu's version format
-			- Modified: Changed the version suffix YET AGAIN
-
-			------------------------------------------------------
-
-			IMPORTANT: A different version format will be used after this version (0.0.9)
-
-			Revision 2 changes:
-
-			- Addition: RetryPolicy
-			- Addition: AsyncRetryPolicy
+			- Modified: Use Canonical Ubuntu's version format (YY.MM)
 			- Modified: Made MathUtil.Clamp functions available for .NET Standard 2.0
-
-			Revision 1 changes:
-
 			- Modified: README contents
 			- Modified: Removed the dependency for System.Reflection.DispatchProxy
 			- Modified: Removed the dependency for System.IO.Compression

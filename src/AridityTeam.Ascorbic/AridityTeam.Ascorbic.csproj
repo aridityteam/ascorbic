@@ -24,14 +24,13 @@
 	    <Authors>PracticeMedicine;AridityTeam</Authors>
 	    <Company>The Aridity Team</Company>
 	    <PackageReadmeFile>README.md</PackageReadmeFile>
-	    <Description>Core platform library for the Aridity Team projects.</Description>
-	    <PackageTags>aridity;base;cereon;ide;core;utility;utilities</PackageTags>
+	    <Description>Platform core library for The Aridity Team projects.</Description>
+	    <PackageTags>aridity;base;cereon;ide;core;utility;utilities;general</PackageTags>
 		<PackageProjectUrl>https://aridityteam.github.io/ascorbic</PackageProjectUrl>
 	    <RepositoryUrl>https://github.com/aridityteam/ascorbic</RepositoryUrl>
 	    <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	    <Copyright>Copyright (c) 2025 The Aridity Team</Copyright>
 	    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-	    <EmbedUntrackedSources>true</EmbedUntrackedSources>
 	    <IncludeSymbols>true</IncludeSymbols>
 	    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
@@ -40,6 +39,8 @@
 		<PackageReleaseNotes>
 			Revision 3 changes:
 			
+			- Modified: The package description
+			- Modified: The package tags
 			- Modified: Use Canonical Ubuntu's version format
 			- Modified: Changed the version suffix YET AGAIN
 			

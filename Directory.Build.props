@@ -7,7 +7,10 @@
 		<FileVersion>$(VersionPrefix)</FileVersion>
 		<AssemblyVersion>$(VersionPrefix)</AssemblyVersion>
 		<InformationalVersion>$(VersionPrefix)</InformationalVersion>
-		<VersionSuffix Condition="'$(Configuration)' == 'Debug'">-3</VersionSuffix>
+		<VersionSuffix Condition="'$(Configuration)' == 'Debug'">-beta</VersionSuffix>
+		<VersionSuffix Condition="'$(Configuration)' == 'Debug' And ('$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true')">
+			-beta+$(GITHUB_RUN_NUMBER)
+		</VersionSuffix>
 		
 		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
 		<AssemblyName>$(ProjectName)</AssemblyName>

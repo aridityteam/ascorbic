@@ -31,7 +31,7 @@ namespace AridityTeam.IO
     /// <summary>
     /// Custom <seealso cref="StreamReader"/> extensions.
     /// </summary>
-    internal static class StreamReaderEx
+    public static class StreamReaderEx
     {
         /// <inheritdoc cref="StreamReader.ReadToEndAsync()"/>
         public static Task<string> ReadToEndAsync(this StreamReader reader, CancellationToken cancellationToken = default)

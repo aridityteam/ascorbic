@@ -28,6 +28,8 @@ using System.Threading;
 using System.Threading.Tasks;
 #if NETSTANDARD2_0_OR_GREATER || NET472_OR_GREATER
 using System.Runtime.InteropServices;
+
+using AridityTeam.Net;
 #endif
 
 namespace AridityTeam.IO
@@ -89,7 +91,11 @@ namespace AridityTeam.IO
             int bufferSize = 81920,
             CancellationToken token = default)
         {
-            token.ThrowIfCancellationRequested();
+            // CancellationToken.ThrowIfCancellationRequested throws InvalidOperationException
+            // instead of TaskCanceledException.
+            if (token.IsCancellationRequested)
+                throw new TaskCanceledException();
+
             var buffer = new byte[bufferSize];
             long total = 0;
             int read;
@@ -101,8 +107,6 @@ namespace AridityTeam.IO
                 progress?.Report(total);
             }
         }
-
-        private static readonly HttpClient _httpClient = new();
 
         /// <summary>
         /// Gets a new <seealso cref="Stream"/> on a web response asynchronously.
@@ -125,7 +129,8 @@ namespace AridityTeam.IO
             if (token.IsCancellationRequested)
                 throw new TaskCanceledException();
 
-            using var responseStream = await _httpClient.GetStreamAsync(uri);
+            using var httpClient = new HttpClient();
+            using var responseStream = await httpClient.GetStreamAsync(uri, token);
             var ms = new MemoryStream();
             await responseStream.CopyToAsync(ms, token);
             ms.Position = 0;

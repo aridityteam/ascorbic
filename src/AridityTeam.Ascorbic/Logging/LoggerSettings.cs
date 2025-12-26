@@ -21,6 +21,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+
+using PolyType;
 
 namespace AridityTeam.Logging
 {
@@ -28,7 +31,9 @@ namespace AridityTeam.Logging
     /// Stores configuration and stuff for proper logging, these properties
     /// can be changed at any time.
     /// </summary>
-    public class LoggerSettings
+    [Serializable]
+    [GenerateShape]
+    public partial class LoggerSettings
     {
         /// <summary>
         /// Default configuration for the logger.
@@ -48,48 +53,57 @@ namespace AridityTeam.Logging
         /// <summary>
         /// The current registered log event listeners.
         /// </summary>
+        [DataMember]
         public List<ILogEventListener> LogEventListeners { get; set; } = [];
 
         /// <summary>
         /// The file name of the logger output.
         /// </summary>
+        [DataMember]
         public string LogFileName { get; set; } = string.Empty;
 
         /// <summary>
         /// The main destination for normal messages. (info to warning)
         /// </summary>
+        [DataMember]
         public LoggerDestination StdOut { get; set; }
 
         /// <summary>
         /// The main destination for error messages. (error to fatal)
         /// </summary>
+        [DataMember]
         public LoggerDestination StdErr { get; set; }
 
         /// <summary>
         /// Specifies whether to close the output writer upon disposing the logger.
         /// The only exception to this is when the destination is redirected to a log file.
         /// </summary>
+        [DataMember]
         public bool ShouldCloseWriterOnDispose { get; set; }
 
         /// <summary>
         /// Specifies whether to close the error writer upon disposing the logger.
         /// The only exception to this is when the destination is redirected to a log file.
         /// </summary>
+        [DataMember]
         public bool ShouldCloseErrWriterOnDispose { get; set; }
 
         /// <summary>
         /// Specifies whether to enable color logging or not.
         /// </summary>
+        [DataMember]
         public bool Colors { get; set; }
 
         /// <summary>
         /// The logger's minimum message level to be displayed.
         /// </summary>
+        [DataMember]
         public MessageLevel MinimumLevel { get; set; }
 
         /// <summary>
         /// Types/classes to be skipped ahead of the file name checker.
         /// </summary>
+        [DataMember]
         public List<Type> Exclusions { get; set; } = [];
     }
 }

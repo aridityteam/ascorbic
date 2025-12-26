@@ -36,6 +36,24 @@ namespace AridityTeam.Configuration
     public class JsonConfigurationSerializer<T> : ConfigurationSerializerBase<T>
         where T : class, new()
     {
+        private readonly IJsonTypeInfoResolver _typeInfoResolver;
+        private readonly JsonSerializerOptions _serializerOptions;
+        private readonly JsonTypeInfo _typeInfo;
+
+        /// <summary>
+        /// Initializes a new instance of the <seealso cref="JsonConfigurationSerializer{T}"/> class.
+        /// </summary>
+        public JsonConfigurationSerializer()
+        {
+            _typeInfoResolver = new DefaultJsonTypeInfoResolver();
+            _serializerOptions = new JsonSerializerOptions(JsonSerializerOptions.Default);
+            _serializerOptions.TypeInfoResolver = _typeInfoResolver;
+
+            var typeInfo = _typeInfoResolver.GetTypeInfo(typeof(T), _serializerOptions);
+            Assumes.NotNull(typeInfo);
+            _typeInfo = typeInfo;
+        }
+
         /// <summary>
         /// Deserializes the specified configuration instance.
         /// </summary>
@@ -53,12 +71,7 @@ namespace AridityTeam.Configuration
             if (stream.Length == 0)
                 return new T();
 
-            var typeInfoResolver = new DefaultJsonTypeInfoResolver();
-            var serializationOptions = new JsonSerializerOptions();
-            serializationOptions.TypeInfoResolver = typeInfoResolver;
-
-            var typeInfo = typeInfoResolver.GetTypeInfo(typeof(T), serializationOptions);
-            var result = await JsonSerializer.DeserializeAsync(stream, typeInfo, token).AsTask();
+            var result = await JsonSerializer.DeserializeAsync(stream, _typeInfo, token).AsTask();
             Assumes.NotNull(result);
             return (T)result;
         }
@@ -77,12 +90,7 @@ namespace AridityTeam.Configuration
 
             Assumes.True(stream.CanWrite, SR.CannotWriteToStream);
 
-            var typeInfoResolver = new DefaultJsonTypeInfoResolver();
-            var serializationOptions = new JsonSerializerOptions();
-            serializationOptions.TypeInfoResolver = typeInfoResolver;
-
-            var typeInfo = typeInfoResolver.GetTypeInfo(typeof(T), serializationOptions);
-            return JsonSerializer.SerializeAsync(stream, newConfig, typeInfo, token);
+            return JsonSerializer.SerializeAsync(stream, newConfig, _typeInfo, token);
         }
     }
 }

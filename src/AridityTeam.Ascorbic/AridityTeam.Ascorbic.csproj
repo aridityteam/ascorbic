@@ -41,6 +41,7 @@
 			- Addition: HttpClient.GetStringAsync(string?, CancellationToken) extension (in AridityTeam.Net)
 			- Addition: HttpClient.GetStringAsync(Uri?, CancellationToken) extension (in AridityTeam.Net)
 			- Modified: LoggerSettings is made to be serializable now
+			- Modified: Stores private serialization options as non-local variables instead of initializing it every time the serialize and deserialize function has been called in JsonConfigurationSerializer
 			- Modified: StreamEx.CopyToAsync now throws an TaskCanceledException instead of a OperationCanceledException
 			- Modified: The internal HttpClient variable inside of StreamEx will now automatically dispose itself
 			- Modified: Fix the StreamReaderEx class not being public

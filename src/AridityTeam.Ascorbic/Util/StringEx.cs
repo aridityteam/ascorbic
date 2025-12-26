@@ -32,6 +32,42 @@ namespace AridityTeam.Util
     public static class StringEx
     {
         /// <summary>
+        /// Determines whether this string instance starts with the specified character.
+        /// </summary>
+        /// <param name="str">The current string instance.</param>
+        /// <param name="value">The character to compare.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="value"/> matches the beginning of this string; otherwise, <see langword="false"/>.
+        /// </returns>
+        public static bool StartsWith(this string str, char value)
+        {
+#if NET8_0_OR_GREATER
+            return str.StartsWith(value);
+#else
+            var convertedValue = value.ToString();
+            return str.StartsWith(convertedValue);
+#endif
+        }
+
+        /// <summary>
+        /// Determines whether the end of this string instance matches the specified character.
+        /// </summary>
+        /// <param name="str">The current string instance.</param>
+        /// <param name="value">The character to compare to the character at the end of this instance.</param>
+        /// <returns>
+        /// <see langword="true"/> if <paramref name="value"/> matches the end of this instance; otherwise, <see langword="false"/>.
+        /// </returns>
+        public static bool EndsWith(this string str, char value)
+        {
+#if NET8_0_OR_GREATER
+            return str.EndsWith(value);
+#else
+            var convertedValue = value.ToString();
+            return str.EndsWith(convertedValue);
+#endif
+        }
+
+        /// <summary>
         /// Combines a string with each specified string values.
         /// </summary>
         /// <param name="str">The value of the string to combine with.</param>

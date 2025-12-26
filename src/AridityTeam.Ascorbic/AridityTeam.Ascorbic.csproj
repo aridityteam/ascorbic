@@ -36,6 +36,10 @@
 		<PackageReleaseNotes>
 			- Addition: RetryPolicy
 			- Addition: AsyncRetryPolicy
+			- Addition: String.StartsWith(char) extension (in AridityTeam.Util)
+			- Addition: String.EndsWith(char) extension (in AridityTeam.Util)
+			- Addition: UriEx.Combine(string, params string[]) method (in AridityTeam.Util)
+			- Addition: Uri.Combine(params string[]) extension (in AridityTeam.Util)
 			- Addition: HttpClient.GetStreamAsync(string?, CancellationToken) extension (in AridityTeam.Net)
 			- Addition: HttpClient.GetStreamAsync(Uri?, CancellationToken) extension (in AridityTeam.Net)
 			- Addition: HttpClient.GetStringAsync(string?, CancellationToken) extension (in AridityTeam.Net)

@@ -9,7 +9,7 @@
 		<InformationalVersion>$(VersionPrefix)</InformationalVersion>
 		<VersionSuffix Condition="'$(Configuration)' == 'Debug'">-beta</VersionSuffix>
 		<VersionSuffix Condition="'$(Configuration)' == 'Debug' And ('$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true')">
-			-beta+$(GITHUB_RUN_NUMBER)
+			-beta.$(GITHUB_RUN_NUMBER)
 		</VersionSuffix>
 		
 		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>

@@ -14,7 +14,7 @@ namespace AridityTeam.Ascorbic.Tests.Mathematics
     [InlineData(10, 10, 10, 10)]
     public void Clamp_Int_Works(int value, int min, int max, int expected)
     {
-        int result = MathHelper.Clamp(value, min, max);
+        int result = MathUtil.Clamp(value, min, max);
         Assert.Equal(expected, result);
     }
 
@@ -24,7 +24,7 @@ namespace AridityTeam.Ascorbic.Tests.Mathematics
     [InlineData(15.5, 1.0, 10.0, 10.0)]
     public void Clamp_Double_Works(double value, double min, double max, double expected)
     {
-        double result = MathHelper.Clamp(value, min, max);
+        double result = MathUtil.Clamp(value, min, max);
         Assert.Equal(expected, result, 5); // precision tolerance
     }
 
@@ -34,7 +34,7 @@ namespace AridityTeam.Ascorbic.Tests.Mathematics
     [InlineData(15L, 1L, 10L, 10L)]
     public void Clamp_Long_Works(long value, long min, long max, long expected)
     {
-        double result = MathHelper.Clamp(value, min, max);
+        double result = MathUtil.Clamp(value, min, max);
         Assert.Equal(expected, result);
     }
 
@@ -44,7 +44,7 @@ namespace AridityTeam.Ascorbic.Tests.Mathematics
     [InlineData(15f, 1f, 10f, 10f)]
     public void Clamp_Float_Works(float value, float min, float max, float expected)
     {
-        double result = MathHelper.Clamp(value, min, max);
+        double result = MathUtil.Clamp(value, min, max);
         Assert.Equal(expected, result, 5);
     }
 #endif

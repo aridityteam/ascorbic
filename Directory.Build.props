@@ -11,7 +11,8 @@
 		<VersionSuffix Condition="'$(Configuration)' == 'Debug' And ('$(GITHUB_ACTIONS)' == 'true' Or '$(TF_BUILD)' == 'true')">
 			-beta.$(GITHUB_RUN_NUMBER)
 		</VersionSuffix>
-		
+
+		<TargetFrameworks>net10.0;net8.0;net472;netstandard2.0</TargetFrameworks>
 		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
 		<AssemblyName>$(ProjectName)</AssemblyName>
 		<Company>The Aridity Team</Company>

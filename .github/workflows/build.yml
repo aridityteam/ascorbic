@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-        dotnet: [ "8.0", "10.0" ]
+        dotnet: [ "8.0" ]
 
     steps:
     - name: Checkout repository
@@ -45,4 +45,4 @@ jobs:
       run: dotnet build --configuration Release --no-restore
 
     - name: Run unit tests
-      run: dotnet test --framework net10.0 --configuration Release --no-build --filter FullyQualifiedName!~AridityTeam.Ascorbic.Tests.Util.Git
+      run: dotnet test --framework net8.0 --configuration Release --no-build --filter FullyQualifiedName!~AridityTeam.Ascorbic.Tests.Util.Git

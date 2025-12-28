@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-	    <TargetFrameworks>net10.0;net8.0;net472;netstandard2.0</TargetFrameworks>
 		<AssemblyTitle>The Aridity Team "Ascorbic" Library</AssemblyTitle>
 	    <RootNamespace>AridityTeam</RootNamespace>
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -34,29 +33,10 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
-			- Addition: RetryPolicy
-			- Addition: AsyncRetryPolicy
-			- Addition: String.StartsWith(char) extension (in AridityTeam.Util)
-			- Addition: String.EndsWith(char) extension (in AridityTeam.Util)
-			- Addition: UriEx.Combine(string, params string[]) method (in AridityTeam.Util)
-			- Addition: Uri.Combine(params string[]) extension (in AridityTeam.Util)
-			- Addition: HttpClient.GetStreamAsync(string?, CancellationToken) extension (in AridityTeam.Net)
-			- Addition: HttpClient.GetStreamAsync(Uri?, CancellationToken) extension (in AridityTeam.Net)
-			- Addition: HttpClient.GetStringAsync(string?, CancellationToken) extension (in AridityTeam.Net)
-			- Addition: HttpClient.GetStringAsync(Uri?, CancellationToken) extension (in AridityTeam.Net)
-			- Modified: LoggerSettings is made to be serializable now
-			- Modified: Stores private serialization options as non-local variables instead of initializing it every time the serialize and deserialize function has been called in JsonConfigurationSerializer
-			- Modified: StreamEx.CopyToAsync now throws an TaskCanceledException instead of a OperationCanceledException
-			- Modified: The internal HttpClient variable inside of StreamEx will now automatically dispose itself
-			- Modified: Fix the StreamReaderEx class not being public
-			- Modified: Pass the CancellationToken parameter to HttpClient.GetStreamAsync in the StreamEx.GetResponseStreamAsync method
-			- Modified: The package description
-			- Modified: The package tags
-			- Modified: Use Canonical Ubuntu's version format (YY.MM)
-			- Modified: Made MathUtil.Clamp functions available for .NET Standard 2.0
-			- Modified: README contents
-			- Modified: Removed the dependency for System.Reflection.DispatchProxy
-			- Modified: Removed the dependency for System.IO.Compression
+			- Addition: MultiTextWriter.Writers
+			- Modified: Localized the default AridityTeam.Services.ServiceNotFoundException message
+			- Modified: Fixed MultiTextWriter.Write(string, object?, object?) not passing the "arg1" parameter into it's writers
+			- Modified: Made the IFormatProvider parameter in MultiTextWriter's constructor nullable
 		</PackageReleaseNotes>
 	</PropertyGroup>
 

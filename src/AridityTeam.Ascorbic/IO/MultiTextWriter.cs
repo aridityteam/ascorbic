@@ -20,7 +20,6 @@
  */
 
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -38,7 +37,12 @@ namespace AridityTeam.IO
         /// <inheritdoc/>
         public override Encoding Encoding => Encoding.ASCII;
 
-        private readonly ConcurrentBag<TextWriter> _writers;
+        private readonly List<TextWriter> _writers;
+
+        /// <summary>
+        /// Gets a collection of the currently registered <seealso cref="TextWriter"/>s.
+        /// </summary>
+        public IReadOnlyList<TextWriter> Writers => _writers;
 
         /// <summary>
         /// Initializes a new <seealso cref="MultiTextWriter"/> without any initial writers.
@@ -68,7 +72,7 @@ namespace AridityTeam.IO
         /// Initializes a new <seealso cref="MultiTextWriter"/> without initial writers,
         /// but with an new <seealso cref="IFormatProvider"/>.
         /// </summary>
-        public MultiTextWriter(IFormatProvider formatProvider) : base(formatProvider)
+        public MultiTextWriter(IFormatProvider? formatProvider) : base(formatProvider)
         {
             _writers = [];
         }
@@ -135,7 +139,7 @@ namespace AridityTeam.IO
         public override void Write([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, object? arg0, object? arg1)
         {
             foreach (var writer in _writers)
-                writer.Write(format, arg0);
+                writer.Write(format, arg0, arg1);
         }
 
         /// <inheritdoc/>
@@ -389,7 +393,7 @@ namespace AridityTeam.IO
             foreach (var writer in _writers)
                 writer.Close();
 
-            _writers.TryTake(out var _);
+            _writers.Clear();
         }
     }
 }

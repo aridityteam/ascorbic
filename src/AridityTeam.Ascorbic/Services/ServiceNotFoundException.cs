@@ -44,7 +44,12 @@ namespace AridityTeam.Services
         /// Initializes a new instance of the <seealso cref="ServiceNotFoundException"/> error with the specified service interface type.
         /// </summary>
         /// <param name="serviceType">The value of the service's interface type.</param>
-        public ServiceNotFoundException(Type serviceType) : base("Required service not found: " + serviceType.FullName)
+        public ServiceNotFoundException(Type serviceType) : base(
+            PrivateErrorHelpers.Format(
+                SR.ServiceMissing,
+                serviceType.FullName
+            )
+        )
         {
         }
 

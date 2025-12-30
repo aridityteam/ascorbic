@@ -189,7 +189,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogDebug([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0) => Log(MessageLevel.Debug, format, arg0);
+            object? arg0) => Log(MessageLevel.Debug, format, arg0);
 
         /// <summary>
         /// Logs a debug message with two arguments.
@@ -200,7 +200,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogDebug([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1) => Log(MessageLevel.Debug, format, arg0, arg1);
+            object? arg0, object? arg1) => Log(MessageLevel.Debug, format, arg0, arg1);
 
         /// <summary>
         /// Logs a debug message with three arguments.
@@ -212,7 +212,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogDebug([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1, object arg2) => Log(MessageLevel.Debug, format, arg0, arg1, arg2);
+            object? arg0, object? arg1, object? arg2) => Log(MessageLevel.Debug, format, arg0, arg1, arg2);
 
         /// <summary>
         /// Logs a debug message with multiple arguments.
@@ -221,7 +221,7 @@ namespace AridityTeam.Logging
         /// <param name="args">The arguments to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> or <paramref name="args"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void LogDebug([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object[] args) =>
+        public void LogDebug([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object?[] args) =>
             Log(MessageLevel.Debug, format, args);
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogInfo([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0) => Log(MessageLevel.Info, format, arg0);
+            object? arg0) => Log(MessageLevel.Info, format, arg0);
 
         /// <summary>
         /// Logs an informational message with two arguments.
@@ -250,7 +250,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogInfo([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1) => Log(MessageLevel.Info, format, arg0, arg1);
+            object? arg0, object? arg1) => Log(MessageLevel.Info, format, arg0, arg1);
 
         /// <summary>
         /// Logs an informational message with three arguments.
@@ -262,7 +262,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogInfo([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1, object arg2) => Log(MessageLevel.Info, format, arg0, arg1, arg2);
+            object? arg0, object? arg1, object? arg2) => Log(MessageLevel.Info, format, arg0, arg1, arg2);
 
         /// <summary>
         /// Logs an informational message with multiple arguments.
@@ -271,7 +271,7 @@ namespace AridityTeam.Logging
         /// <param name="args">The arguments to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> or <paramref name="args"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void LogInfo([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object[] args) =>
+        public void LogInfo([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object?[] args) =>
             Log(MessageLevel.Info, format, args);
 
         /// <summary>
@@ -289,7 +289,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogWarn([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0) => Log(MessageLevel.Warn, format, arg0);
+            object? arg0) => Log(MessageLevel.Warn, format, arg0);
 
         /// <summary>
         /// Logs a warning message with two arguments.
@@ -312,7 +312,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogWarn([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1, object arg2) => Log(MessageLevel.Warn, format, arg0, arg1, arg2);
+            object? arg0, object? arg1, object? arg2) => Log(MessageLevel.Warn, format, arg0, arg1, arg2);
 
         /// <summary>
         /// Logs a warning message with multiple arguments.
@@ -339,7 +339,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogErr([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0) => Log(MessageLevel.Err, format, arg0);
+            object? arg0) => Log(MessageLevel.Err, format, arg0);
 
         /// <summary>
         /// Logs an error message with two arguments.
@@ -350,7 +350,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogErr([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1) => Log(MessageLevel.Err, format, arg0, arg1);
+            object? arg0, object? arg1) => Log(MessageLevel.Err, format, arg0, arg1);
 
         /// <summary>
         /// Logs an error message with three arguments.
@@ -362,7 +362,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogErr([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1, object arg2) => Log(MessageLevel.Err, format, arg0, arg1, arg2);
+            object? arg0, object? arg1, object? arg2) => Log(MessageLevel.Err, format, arg0, arg1, arg2);
 
         /// <summary>
         /// Logs an error message with multiple arguments.
@@ -389,7 +389,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogCrit([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0) => Log(MessageLevel.Crit, format, arg0);
+            object? arg0) => Log(MessageLevel.Crit, format, arg0);
 
         /// <summary>
         /// Logs a critical message with two arguments.
@@ -400,7 +400,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogCrit([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1) => Log(MessageLevel.Crit, format, arg0, arg1);
+            object? arg0, object? arg1) => Log(MessageLevel.Crit, format, arg0, arg1);
 
         /// <summary>
         /// Logs a critical message with three arguments.
@@ -412,7 +412,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogCrit([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1, object arg2) => Log(MessageLevel.Crit, format, arg0, arg1, arg2);
+            object? arg0, object? arg1, object? arg2) => Log(MessageLevel.Crit, format, arg0, arg1, arg2);
 
         /// <summary>
         /// Logs a critical message with multiple arguments.
@@ -421,7 +421,7 @@ namespace AridityTeam.Logging
         /// <param name="args">The arguments to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> or <paramref name="args"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void LogCrit([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object[] args) =>
+        public void LogCrit([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object?[] args) =>
             Log(MessageLevel.Crit, format, args);
 
         /// <summary>
@@ -439,7 +439,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogFatal([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0) => Log(MessageLevel.Fatal, format, arg0);
+            object? arg0) => Log(MessageLevel.Fatal, format, arg0);
 
         /// <summary>
         /// Logs a fatal message with two arguments.
@@ -450,7 +450,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogFatal([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1) => Log(MessageLevel.Fatal, format, arg0, arg1);
+            object? arg0, object? arg1) => Log(MessageLevel.Fatal, format, arg0, arg1);
 
         /// <summary>
         /// Logs a fatal message with three arguments.
@@ -462,7 +462,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void LogFatal([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format,
-            object arg0, object arg1, object arg2) => Log(MessageLevel.Fatal, format, arg0, arg1, arg2);
+            object? arg0, object? arg1, object? arg2) => Log(MessageLevel.Fatal, format, arg0, arg1, arg2);
 
         /// <summary>
         /// Logs a fatal message with multiple arguments.
@@ -471,7 +471,7 @@ namespace AridityTeam.Logging
         /// <param name="args">The arguments to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> or <paramref name="args"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void LogFatal([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object[] args) =>
+        public void LogFatal([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object?[] args) =>
             Log(MessageLevel.Fatal, format, args);
 
         /// <summary>
@@ -488,7 +488,7 @@ namespace AridityTeam.Logging
         /// <param name="arg0">The first argument to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, object arg0) =>
+        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, object? arg0) =>
             Log(MessageLevel.Info, format, [arg0]);
 
         /// <summary>
@@ -499,7 +499,7 @@ namespace AridityTeam.Logging
         /// <param name="arg1">The second argument to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, object arg0, object arg1) =>
+        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, object? arg0, object? arg1) =>
             Log(MessageLevel.Info, format, [arg0, arg1]);
 
         /// <summary>
@@ -511,8 +511,8 @@ namespace AridityTeam.Logging
         /// <param name="arg2">The third argument to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, object arg0, object arg1,
-            object arg2) =>
+        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, object? arg0, object? arg1,
+            object? arg2) =>
             Log(MessageLevel.Info, format, [arg0, arg1, arg2]);
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace AridityTeam.Logging
         /// <param name="args">The arguments to format.</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="format"/> or <paramref name="args"/> is null.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
-        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object[] args) =>
+        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] string format, params object?[] args) =>
             Log(MessageLevel.Info, format, args);
 
         /// <summary>
@@ -675,7 +675,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentException">Thrown when <paramref name="level"/> is not a valid <see cref="MessageLevel"/> value.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] MessageLevel level, string format,
-            object arg0) => Log(level, format, [arg0]);
+            object? arg0) => Log(level, format, [arg0]);
 
         /// <summary>
         /// Logs a message at the specified level with two arguments.
@@ -688,7 +688,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentException">Thrown when <paramref name="level"/> is not a valid <see cref="MessageLevel"/> value.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] MessageLevel level, string format,
-            object arg0, object arg1) => Log(level, format, [arg0, arg1]);
+            object? arg0, object? arg1) => Log(level, format, [arg0, arg1]);
 
         /// <summary>
         /// Logs a message at the specified level with three arguments.
@@ -702,7 +702,7 @@ namespace AridityTeam.Logging
         /// <exception cref="ArgumentException">Thrown when <paramref name="level"/> is not a valid <see cref="MessageLevel"/> value.</exception>
         /// <exception cref="FormatException">Thrown when the format string is invalid.</exception>
         public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] MessageLevel level, string format,
-            object arg0, object arg1, object arg2) => Log(level, format, [arg0, arg1, arg2]);
+            object? arg0, object? arg1, object? arg2) => Log(level, format, [arg0, arg1, arg2]);
 
         /// <summary>
         /// Logs a message at the specified level with multiple arguments.
@@ -717,7 +717,7 @@ namespace AridityTeam.Logging
         /// This method analyzes the stack trace to find the calling method that is not part of the Logger class,
         /// then formats and writes the message to the appropriate output stream based on the message level.
         /// </remarks>
-        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] MessageLevel level, string format, params object[] args)
+        public void Log([StringSyntax(StringSyntaxAttribute.CompositeFormat)] MessageLevel level, string format, params object?[] args)
         {
             if (!((int)level >= (int)MinimumLevel))
                 return;

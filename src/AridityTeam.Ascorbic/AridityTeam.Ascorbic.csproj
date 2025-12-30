@@ -33,6 +33,13 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
+			Revision 2 changes:
+			- Modified: Overriden the "Dispose(bool)" method in MultiTextWriter
+			- Modified: Changed MultiTextWriter's XML documentation
+			- Modified: Made string format parameters in each Logger functions nullable
+			- Modified: Changed the package icon to differentiate this library from Aridity Cereon
+			
+			Revision 1 changes:
 			- Addition: MultiTextWriter.Writers
 			- Modified: Localized the default AridityTeam.Services.ServiceNotFoundException message
 			- Modified: Fixed MultiTextWriter.Write(string, object?, object?) not passing the "arg1" parameter into it's writers

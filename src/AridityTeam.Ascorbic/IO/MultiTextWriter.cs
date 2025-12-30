@@ -30,7 +30,7 @@ using System.Threading.Tasks;
 namespace AridityTeam.IO
 {
     /// <summary>
-    /// A <seealso cref="TextWriter"/> that can write to all outputs.
+    /// A <seealso cref="TextWriter"/> that can write to multiple outputs.
     /// </summary>
     public class MultiTextWriter : TextWriter
     {
@@ -392,6 +392,15 @@ namespace AridityTeam.IO
         {
             foreach (var writer in _writers)
                 writer.Close();
+
+            _writers.Clear();
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposing)
+        {
+            foreach (var writer in _writers)
+                writer.Dispose();
 
             _writers.Clear();
         }

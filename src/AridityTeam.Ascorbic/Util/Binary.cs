@@ -35,6 +35,7 @@ namespace AridityTeam.Util
     /// this class can be compared for equality using the <see cref="Equals(Binary?)"/> method.</remarks>
     [Serializable]
     [GenerateShape]
+    [DataContract]
     public partial class Binary : IEquatable<Binary>, IComparable<Binary>
     {
         private readonly string _binText;

@@ -31,6 +31,7 @@ namespace AridityTeam.Mathematics
     /// </summary>
     [GenerateShape]
     [Serializable]
+    [DataContract]
     public partial struct Matrix4x4
     {
         /// <summary>The matrix elements, indexed by [row, column].</summary>

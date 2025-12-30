@@ -33,6 +33,7 @@ namespace AridityTeam.Logging
     /// </summary>
     [Serializable]
     [GenerateShape]
+    [DataContract]
     public partial class LoggerSettings
     {
         /// <summary>

@@ -40,6 +40,7 @@ namespace AridityTeam.Diagnostics
     /// </param>
     [Serializable]
     [GenerateShape]
+    [DataContract]
     public partial record DiagnosticSample(
         [property: DataMember]
         string ScopeName,

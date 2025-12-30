@@ -31,6 +31,7 @@ namespace AridityTeam
     /// </summary>
     [Serializable]
     [GenerateShape]
+    [DataContract]
     public partial class Result : IResult<object, Exception>
     {
         #region Properties

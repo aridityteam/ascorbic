@@ -31,6 +31,7 @@ namespace AridityTeam.Mathematics
     /// </summary>
     [GenerateShape]
     [Serializable]
+    [DataContract]
     public partial struct Angle(double degrees)
     {
         /// <summary>The angle in degrees.</summary>

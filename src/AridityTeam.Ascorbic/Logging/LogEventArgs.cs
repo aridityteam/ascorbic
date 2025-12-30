@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.Runtime.Serialization;
 
 using PolyType;
 
@@ -32,6 +33,7 @@ namespace AridityTeam.Logging
     /// <param name="type">The value of what kind of event is this.</param>
     [Serializable]
     [GenerateShape]
+    [DataContract]
     public partial class LogEventArgs(ILogger logger, LogEventType type = LogEventType.None) : EventArgs
 	{
         /// <summary>
@@ -42,6 +44,7 @@ namespace AridityTeam.Logging
         /// <summary>
         /// The type of event sent to the listener.
         /// </summary>
+        [DataMember]
         public LogEventType Type { get; } = type;
     }
 }

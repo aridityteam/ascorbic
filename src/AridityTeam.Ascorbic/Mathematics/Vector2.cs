@@ -34,6 +34,7 @@ namespace AridityTeam.Mathematics
     [DebuggerDisplay("{" + nameof(DebuggerDisplay) + ",nq}")]
     [Serializable]
     [GenerateShape]
+    [DataContract]
     public partial struct Vector2 : IEquatable<Vector2>
     {
         /// <summary>

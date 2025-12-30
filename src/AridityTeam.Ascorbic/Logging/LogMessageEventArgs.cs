@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.Runtime.Serialization;
 
 using PolyType;
 
@@ -36,17 +37,20 @@ namespace AridityTeam.Logging
     /// <param name="level">The value of the log message's level.</param>
     [Serializable]
     [GenerateShape]
+    [DataContract]
     public partial class LogMessageEventArgs(ILogger logger, string message, MessageLevel level) : 
         LogEventArgs(logger, LogEventType.Message)
     {
         /// <summary>
         /// The value of the log message string.
         /// </summary>
+        [DataMember]
         public string Message { get; } = message;
 
         /// <summary>
         /// The value of the log message's level.
         /// </summary>
+        [DataMember]
         public MessageLevel Level { get; } = level;
     }
 }

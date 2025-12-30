@@ -28,6 +28,7 @@ namespace AridityTeam
     /// Represents an indicator that the operation was sucessful, or not.
     /// </summary>
     [Serializable]
+    [DataContract]
     public partial class Result<T, TException> : IResult<T, TException>
         where T : class
         where TException : Exception, new()

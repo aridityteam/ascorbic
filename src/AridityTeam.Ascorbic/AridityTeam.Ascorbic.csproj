@@ -34,6 +34,7 @@
 	<PropertyGroup>
 		<PackageReleaseNotes>
 			Revision 2 changes:
+			- Modified: Added missing "DataContract" attributes to serializable types
 			- Modified: Overriden the "Dispose(bool)" method in MultiTextWriter
 			- Modified: Changed MultiTextWriter's XML documentation
 			- Modified: Made string format parameters in each Logger functions nullable

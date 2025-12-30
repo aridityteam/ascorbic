@@ -31,6 +31,7 @@ namespace AridityTeam.Services
 	/// </summary>
 	[Serializable]
     [GenerateShape]
+    [DataContract]
     public partial class ServiceNotFoundException : Exception
     {
         /// <summary>

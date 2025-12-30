@@ -31,6 +31,7 @@ namespace AridityTeam.Mathematics
     /// </summary>
     [GenerateShape]
     [Serializable]
+    [DataContract]
     public partial struct Plane
     {
         /// <summary>Normal vector of the plane.</summary>

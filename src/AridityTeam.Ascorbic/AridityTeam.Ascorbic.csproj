@@ -4,7 +4,7 @@
 		<AssemblyTitle>The Aridity Team "Ascorbic" Library</AssemblyTitle>
 	    <RootNamespace>AridityTeam</RootNamespace>
 	    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	    <DocumentationFile>..\..\bin\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+	    <DocumentationFile>..\..\bin\$(Platform)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
 	    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
     </PropertyGroup>

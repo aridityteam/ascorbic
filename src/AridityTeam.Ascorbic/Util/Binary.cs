@@ -20,6 +20,7 @@
  */
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -36,6 +37,7 @@ namespace AridityTeam.Util
     [Serializable]
     [GenerateShape]
     [DataContract]
+    [TypeConverter(typeof(BinaryTypeConverter))]
     public partial class Binary : IEquatable<Binary>, IComparable<Binary>
     {
         private readonly string _binText;

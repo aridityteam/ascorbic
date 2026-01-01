@@ -33,6 +33,15 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
+			Revision 3 changes:
+			- Addition: DisposableObject.Disposing event
+			- Addition: AsyncDisposableObject.Disposing event
+			- Addition: BiDisposableObject.Disposing event
+			- Addition: DisposableObject.~DisposableObject
+			- Addition: AsyncDisposableObject.~AsyncDisposableObject
+			- Addition: BiDisposableObject.~BiDisposableObject
+			- Addition: Some type converters (even JSON) for the AridityTeam.Util.Binary class
+			
 			Revision 2 changes:
 			- Modified: Added missing "DataContract" attributes to serializable types
 			- Modified: Overriden the "Dispose(bool)" method in MultiTextWriter

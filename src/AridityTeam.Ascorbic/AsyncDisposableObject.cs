@@ -33,11 +33,30 @@ namespace AridityTeam
     public abstract class AsyncDisposableObject : IAsyncDisposable, IDisposableObservable
     {
         private bool _disposed;
+        private EventHandler? _disposing;
 
         /// <summary>
         /// Checks whether the object has been disposed or not.
         /// </summary>
         public bool IsDisposed => _disposed;
+
+        /// <summary>
+        /// Occurs when the <seealso cref="DisposeAsync()"/> method is called.
+        /// </summary>
+        public event EventHandler? Disposing
+        {
+            add
+            {
+                Verify.NotDisposed(this);
+                _disposing += value;
+            }
+            remove => _disposing -= value;
+        }
+
+        /// <summary>
+        /// This finalizer disposes only unmanaged resources used by this object.
+        /// </summary>
+        ~AsyncDisposableObject() => DisposeAsync(false).ConfigureAwait(false);
 
         /// <summary>
         /// Disposes and releases managed resources used by the object.
@@ -57,6 +76,7 @@ namespace AridityTeam
             {
                 if (disposing)
                 {
+                    _disposing?.Invoke(this, EventArgs.Empty);
                     await DisposeManagedResourcesAsync();
                 }
 

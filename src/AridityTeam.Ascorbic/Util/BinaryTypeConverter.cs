@@ -21,6 +21,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace AridityTeam.Util
@@ -28,6 +29,7 @@ namespace AridityTeam.Util
     /// <summary>
     /// Provides a type converter to convert <see cref="Binary"/> objects to and from <see cref="string"/>.
     /// </summary>
+    [Experimental("SYSLIB5007", Message = "The AridityTeam.Util.Binary converters are currently experimental at the moment.")]
     public class BinaryTypeConverter : TypeConverter
     {
         /// <inheritdoc/>

@@ -20,10 +20,11 @@
  */
 
 using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.Serialization;
 using System.Text;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 using PolyType;
 
@@ -37,7 +38,10 @@ namespace AridityTeam.Util
     [Serializable]
     [GenerateShape]
     [DataContract]
+#pragma warning disable SYSLIB5007 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     [TypeConverter(typeof(BinaryTypeConverter))]
+    [JsonConverter(typeof(BinarySystemTextJsonConverter))]
+#pragma warning restore SYSLIB5007 // Type is for evaluation purposes only and is subject to change or removal in future updates. Suppress this diagnostic to proceed.
     public partial class Binary : IEquatable<Binary>, IComparable<Binary>
     {
         private readonly string _binText;

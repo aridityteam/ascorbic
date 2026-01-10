@@ -33,6 +33,8 @@
 
 	<PropertyGroup>
 		<PackageReleaseNotes>
+			I was supposed to release this version back then before I fly to an island for an staycation, but oh well:
+			
 			- Addition: MultiTextWriter.Writers
 			- Addition: DisposableObject.Disposing event
 			- Addition: BiDisposableObject.Disposing event

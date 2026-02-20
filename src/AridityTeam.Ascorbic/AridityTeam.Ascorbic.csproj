@@ -25,7 +25,7 @@
 		<PackageProjectUrl>https://aridityteam.github.io/ascorbic</PackageProjectUrl>
 	    <RepositoryUrl>https://github.com/aridityteam/ascorbic</RepositoryUrl>
 	    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	    <Copyright>Copyright (c) 2025 The Aridity Team</Copyright>
+	    <Copyright>Copyright (c) 2026 The Aridity Team</Copyright>
 	    <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	    <IncludeSymbols>true</IncludeSymbols>
 	    <SymbolPackageFormat>snupkg</SymbolPackageFormat>

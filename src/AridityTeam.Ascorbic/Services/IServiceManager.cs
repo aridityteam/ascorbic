@@ -26,7 +26,7 @@ namespace AridityTeam.Services
     /// <summary>
     /// Manages registered application services.
     /// </summary>
-    public interface IServiceManager : IServiceProvider, IDisposable
+    public interface IServiceManager : IServiceProvider
     {
         /// <summary>
         /// Occurs when a service has been added into the manager.

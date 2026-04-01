@@ -50,6 +50,15 @@ jobs:
       - name: Build project
         run: dotnet build --no-restore -c ${{ env.Configuration }} /p:GITHUB_RUN_NUMBER=${{ github.run_number }}
 
+      - name: Prepare release notes
+        shell: pwsh
+        run: |
+          $notes = @"
+          ${{ github.event_name == 'workflow_dispatch' && 'Manual run – no release notes provided.' || github.event.release.body }}
+          "@
+          $escaped = $notes -replace '"', '\"' -replace "`r?`n", ' '
+          "PackageReleaseNotes=$escaped" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
       - name: Pack the NuGet package
         run: dotnet pack --no-build -c ${{ env.Configuration }} -o nupkgs
 

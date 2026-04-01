@@ -36,7 +36,7 @@ namespace AridityTeam.Ascorbic.Tests.Threading
             var mutex = new AsyncMutex();
             using (await mutex.LockAsync())
             {
-                var cts = new CancellationTokenSource(50);
+                using var cts = new CancellationTokenSource(50);
                 await Assert.ThrowsAsync<TaskCanceledException>(async () =>
                 {
                     await mutex.LockAsync(cts.Token);

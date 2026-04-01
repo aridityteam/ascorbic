@@ -68,7 +68,7 @@ namespace AridityTeam.Ascorbic.Tests.Threading
             var rw = new AsyncReaderWriterLock();
             using (await rw.AcquireWriterLockAsync())
             {
-                var cts = new CancellationTokenSource(50);
+                using var cts = new CancellationTokenSource(50);
                 await Assert.ThrowsAsync<TaskCanceledException>(async () =>
                 {
                     await rw.AcquireReaderLockAsync(cts.Token);

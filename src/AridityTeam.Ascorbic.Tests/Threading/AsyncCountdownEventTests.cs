@@ -29,7 +29,7 @@ namespace AridityTeam.Ascorbic.Tests.Threading
         public async Task CountdownEvent_Cancellation_Works()
         {
             var cde = new AsyncCountdownEvent(1);
-            var cts = new CancellationTokenSource(50);
+            using var cts = new CancellationTokenSource(50);
 
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {

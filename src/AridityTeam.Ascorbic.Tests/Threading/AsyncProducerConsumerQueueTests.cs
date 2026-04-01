@@ -28,7 +28,7 @@ namespace AridityTeam.Ascorbic.Tests.Threading
         public async Task Queue_DequeueAsync_Cancels_Correctly()
         {
             var queue = new AsyncProducerConsumerQueue<int>();
-            var cts = new CancellationTokenSource();
+            using var cts = new CancellationTokenSource();
             cts.Cancel();
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => queue.DequeueAsync(cts.Token));

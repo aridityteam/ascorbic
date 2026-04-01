@@ -56,7 +56,7 @@ namespace AridityTeam.Ascorbic.Tests.Threading
         public async Task EnqueueDequeue_CancellationWorks()
         {
             var queue = new AsyncQueue<int>();
-            var cts = new CancellationTokenSource();
+            using var cts = new CancellationTokenSource();
 
             var dequeueTask = queue.DequeueAsync(cts.Token);
             cts.Cancel();

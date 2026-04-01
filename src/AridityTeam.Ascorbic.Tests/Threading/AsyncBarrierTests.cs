@@ -28,7 +28,7 @@ namespace AridityTeam.Ascorbic.Tests.Threading
         public async Task Barrier_Cancellation_Works()
         {
             var barrier = new AsyncBarrier(2);
-            var cts = new CancellationTokenSource(50);
+            using var cts = new CancellationTokenSource(50);
 
             await Assert.ThrowsAsync<TaskCanceledException>(async () =>
             {

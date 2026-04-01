@@ -49,7 +49,7 @@ namespace AridityTeam.Ascorbic.Tests.Configuration
         {
             var tempFile = Path.GetTempFileName();
             var manager = new ConfigurationManager<TestConfig>(tempFile);
-            var cts = new CancellationTokenSource();
+            using var cts = new CancellationTokenSource();
             cts.Cancel();
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => manager.LoadConfigAsync(cts.Token));
@@ -61,7 +61,7 @@ namespace AridityTeam.Ascorbic.Tests.Configuration
             var tempFile = Path.GetTempFileName();
             var manager = new ConfigurationManager<TestConfig>(tempFile);
             var config = new TestConfig();
-            var cts = new CancellationTokenSource();
+            using var cts = new CancellationTokenSource();
             cts.Cancel();
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => manager.SaveConfigAsync(config, cts.Token));
@@ -118,7 +118,7 @@ namespace AridityTeam.Ascorbic.Tests.Configuration
             var tempFile = Path.GetTempFileName();
             var manager = new ConfigurationManager<TestConfig>(tempFile,
                 new XmlConfigurationSerializer<TestConfig>());
-            var cts = new CancellationTokenSource();
+            using var cts = new CancellationTokenSource();
             cts.Cancel();
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => manager.LoadConfigAsync(cts.Token));
@@ -131,7 +131,7 @@ namespace AridityTeam.Ascorbic.Tests.Configuration
             var manager = new ConfigurationManager<TestConfig>(tempFile,
                 new XmlConfigurationSerializer<TestConfig>());
             var config = new TestConfig();
-            var cts = new CancellationTokenSource();
+            using var cts = new CancellationTokenSource();
             cts.Cancel();
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => manager.SaveConfigAsync(config, cts.Token));

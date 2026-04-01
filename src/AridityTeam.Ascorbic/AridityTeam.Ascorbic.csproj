@@ -31,30 +31,6 @@
 	    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     </PropertyGroup>
 
-	<PropertyGroup>
-		<PackageReleaseNotes>
-			I was supposed to release this version back then before I fly to an island for an staycation, but oh well:
-			
-			- Addition: MultiTextWriter.Writers
-			- Addition: DisposableObject.Disposing event
-			- Addition: BiDisposableObject.Disposing event
-			- Addition: AsyncDisposableObject.Disposing event
-			- Addition: DisposableObject.~DisposableObject
-			- Addition: BiDisposableObject.~BiDisposableObject
-			- Addition: AsyncDisposableObject.~AsyncDisposableObject
-			- Addition: Some type converters (even JSON) for the AridityTeam.Util.Binary class
-			- Modified: Changed MultiTextWriter's XML documentation
-			- Modified: Overriden the "Dispose(bool)" method in MultiTextWriter
-			- Modified: Added missing "DataContract" attributes to serializable types
-			- Modified: Made string format parameters in each Logger functions nullable
-			- Modified: Used the default type converters for the AridityTeam.Util.Binary class
-			- Modified: Changed the package icon to differentiate this library from Aridity Cereon
-			- Modified: Localized the default AridityTeam.Services.ServiceNotFoundException message
-			- Modified: Made the IFormatProvider parameter in MultiTextWriter's constructor nullable
-			- Modified: Fixed MultiTextWriter.Write(string, object?, object?) not passing the "arg1" parameter into it's writers
-		</PackageReleaseNotes>
-	</PropertyGroup>
-
 	<ItemGroup>
 		<None Include="..\..\assets\ascorbic_icon.png" Pack="true" PackagePath="assets\" />
 	</ItemGroup>

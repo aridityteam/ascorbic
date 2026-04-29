@@ -23,7 +23,7 @@ jobs:
               uses: JetBrains/qodana-action@v2026.1
               with:
                   args: |
-                      --linter <qodana-linter>
+                      --linter qodana-cdnet
                       --within-docker false
               env:
                   QODANA_TOKEN: ${{ secrets.QODANA_TOKEN_830154828 }}

@@ -1,5 +1,9 @@
 # AridityTeam.Ascorbic
 
+> [!WARNING]
+> Ascorbic is no longer in development as I am focused with C/C++ projects and this project is considered as finished since
+> there is nothing much to add or fix into the Ascorbic library. Thanks for downloading AridityTeam.Ascorbic!
+
 The main platform core library for The Aridity Team projects.
 
 This library contains the core functionalities and abstractions that are shared across various projects within The Aridity Team ecosystem. 
